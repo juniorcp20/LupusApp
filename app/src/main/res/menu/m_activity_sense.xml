@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.umb.cs682.projectlupus.InitActivitySense" >
+
+    <item
+        android:id="@+id/action_next"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:title="@string/m_next_action"
+        android:icon="@drawable/ic_action_next_item"/>
+
+</menu>

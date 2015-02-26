@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.umb.cs682.projectlupus"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="16"
+        android:targetSdkVersion="21" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+
+        <!-- COMMON -->
+        <activity
+            android:name=".activities.common.Welcome"
+            android:label="@string/title_activity_welcome" >
+        </activity>
+
+        <activity
+            android:name=".activities.main.Home"
+            android:label="@string/title_activity_home" >
+        </activity>
+
+        <activity
+            android:name=".activities.common.Profile"
+            android:label="@string/title_activity_init_profile"
+            android:parentActivityName=".activities.common.Welcome">
+        </activity>
+
+        <activity
+            android:name=".activities.common.ShareInfo"
+            android:label="@string/title_activity_share_info">
+        </activity>
+
+        <activity
+            android:name=".activities.common.Settings"
+            android:label="@string/title_activity_settings">
+        </activity>
+
+        <activity
+            android:name=".activities.common.Help"
+            android:label="@string/title_activity_help">
+        </activity>
+
+        <activity
+            android:name=".activities.common.About"
+            android:label="@string/title_activity_about"
+            android:parentActivityName=".activities.main.Home" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.umb.cs682.projectlupus.activities.main.Home" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- ACTIVITY SENSE -->
+        <activity
+            android:name=".activities.activitySense.ActivitySense">
+        </activity>
+
+        <!-- MOOD ALERT -->
+        <activity
+            android:name=".activities.moodAlert.MoodAlert"
+            android:label="@string/title_activity_init_mood_alert">
+        </activity>
+
+        <!-- MEDICINE ALERT -->
+        <activity
+            android:name=".activities.medicineAlert.MedicineAlert"
+            android:label="@string/title_activity_init_medicine_alert">
+        </activity>
+
+        <activity
+            android:name="com.umb.cs682.projectlupus.activities.medicineAlert.AddMedicine"
+            android:label="@string/title_activity_add_medicine" >
+        </activity>
+    </application>
+</manifest>

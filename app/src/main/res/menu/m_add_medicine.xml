@@ -3,9 +3,10 @@
     tools:context="com.umb.cs682.projectlupus.AddMedicine" >
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_next"
         android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="@string/action_settings"/>
+        android:showAsAction="always"
+        android:title="@string/m_save_action"
+        android:icon="@drawable/ic_action_save"/>
 
 </menu>

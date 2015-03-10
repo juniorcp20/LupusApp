@@ -1,29 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- COMMON -->
-    <string name="welcome_hello">Hello!!</string>
-    <string name="welcome_msg">It is recommended to complete the initial setup. Or setup later using the settings menu in the home page.</string>
-    <string name="welcome_button">Go!</string>
+    <!-- ACTIONS -->
     <string name="m_next_action">Next</string>
     <string name="m_skip_action">Skip</string>
     <string name="m_save_action">Save</string>
+    <string name="m_finish_action">Finish</string>
+
+    <!-- WELCOME -->
+    <string name="welcome_hello">Hello!!</string>
+    <string name="welcome_msg">It is recommended to complete the initial setup. Or setup later using the settings menu in the home page.</string>
+    <string name="welcome_button">Go!</string>
+
+    <!-- PROFILE -->
+    <string name="title_init_profile">Step 1 of 4</string>
+    <string name="title_profile">Profile</string>
+
+    <!-- MOOD ALERT -->
+    <string name="title_init_mood_alert">Step 2 of 4</string>
+    <string name="title_mood_alert">Mood Alerts</string>
+
+    <!-- ACTIVITY SENSING -->
+    <string name="title_init_activity_sense">Step 3 of 4</string>
+    <string name="title_activity_sense">Activity Sensing</string>
+    <string name="a_activity_sense_desc">Turn on activity sensing if you wish the \'app\' to count the number of steps you take.</string>
 
     <!-- MEDICINE ALERT -->
+    <string name="title_init_medicine_alert">Step 4 of 4</string>
+    <string name="title_medicine_alert">Activity Sensing</string>
+
     <string name="title_activity_add_medicine">Medicine Details</string>
-    <string name="a_add_medicine_name">Medicine Name</string>
+    <string name="a_add_medicine_name">Name and Dosage</string>
     <string name="a_add_medicine_reminder">Set Reminders</string>
     <string name="a_add_medicine_instructions">Instructions</string>
     <string name="a_add_medicine_optional">(Optional)</string>
+    <string name="a_add_medicine_instruction_hint">Type your own instructions</string>
+    <string name="a_add_medicine_dosage_hint">Eg. 10</string>
+    <string name="a_add_medicine_name_hint">Eg. Prednisone</string>
 
 
-    <!-- MOOD ALERT -->
 
 
-    <!-- ACTIVITY SENSING -->
-    <string name="title_activity_sense">Activity Sensing</string>
-    <string name="title_init_activity_sense">Step 2 of 3</string>
-    <string name="a_activity_sense_label">Activity Sensing</string>
-    <string name="a_activity_sense_desc">Turn on activity sensing if you wish the \'app\' to count the number of steps you take.</string>
+
 
 
     <string name="app_name">ProjectLupus</string>

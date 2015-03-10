@@ -14,19 +14,63 @@
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
-        <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <item name="android:actionBarStyle">@style/ActionBarAppTheme</item>
+        <item name="android:actionBarTabBarStyle">@style/TabBarAppTheme</item>
+        <item name="android:selectableItemBackground">@color/lightGreen</item>
+        <item name="android:actionBarTabStyle">@style/TabsAppTheme</item>
+        <item name="android:editTextStyle">@style/EditTextAppTheme</item>
+        <item name="android:textColorHighlight">#99bbd87d</item>
+        <item name="android:radioButtonStyle">@style/RadioButtonAppTheme</item>
+        <item name="android:spinnerStyle">@style/SpinnerAppTheme</item>
+        <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItemAppTheme</item>
     </style>
 
     <!-- ActionBar styles -->
-    <style name="MyActionBar"
+    <style name="ActionBarAppTheme"
            parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
         <item name="android:background">@drawable/actionbar_background</item>
+    </style>
+    <style name="TabsAppTheme"
+        parent="android:style/Widget.Holo.Light.ActionBar.TabView.Inverse">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:paddingLeft">16dip</item>
+        <item name="android:paddingRight">16dip</item>
+        <item name="android:background">@drawable/apptheme_tab_indicator_holo</item>
+        <item name="android:layout_width">0dip</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:minWidth">80dip</item>
+    </style>
+    <style name="TabBarAppTheme"
+        parent="@android:style/Widget.Holo.Light.ActionBar.TabBar.Inverse">
+        <item name="android:background">@color/darkGreen</item>
+    </style>
+
+    <!-- Widget Styles -->
+    <style name="EditTextAppTheme" parent="android:Widget.EditText">
+        <item name="android:background">@drawable/apptheme_edit_text_holo_light</item>
+        <item name="android:textColor">@color/grey</item>
+    </style>
+
+    <style name="RadioButtonAppTheme" parent="android:Widget.CompoundButton.RadioButton">
+        <item name="android:button">@drawable/apptheme_btn_radio_holo_light</item>
+    </style>
+
+    <style name="SpinnerAppTheme" parent="android:Widget.Spinner">
+        <item name="android:background">@drawable/apptheme_spinner_background_holo_light</item>
+        <item name="android:dropDownSelector">@drawable/apptheme_list_selector_holo_light</item>
+    </style>
+
+    <style name="SpinnerDropDownItemAppTheme" parent="android:Widget.DropDownItem.Spinner">
+        <item name="android:checkMark">@drawable/apptheme_btn_radio_holo_light</item>
     </style>
 
     <!-- Font styles-->
     <style name="GreenFont">
-        <item name="android:textColor">#FF8ebf3f</item>
+        <item name="android:textColor">@color/darkGreen</item>
         <item name="android:fontFamily">sans-serif</item>
     </style>
-
+    <style name="GreyFont">
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
 </resources>

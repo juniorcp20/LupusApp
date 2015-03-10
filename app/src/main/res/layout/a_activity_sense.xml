@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/a_activity_sense_label"
+            android:text="@string/title_activity_sense"
             android:id="@+id/switch1"
             android:layout_alignBottom="@+id/frameLayout"
             android:layout_gravity="center"

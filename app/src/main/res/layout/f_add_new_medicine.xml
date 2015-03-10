@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:padding="@dimen/main_layout_padding">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/a_add_medicine_name"
+        android:id="@+id/textView3"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        style="@style/GreenFont"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20px"
+        android:layout_below="@+id/textView3"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/space" />
+
+    <GridLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/panel_background"
+        android:padding="@dimen/panel_padding_compact"
+        android:layout_below="@+id/space"
+        android:layout_alignLeft="@+id/space"
+        android:layout_alignStart="@+id/space"
+        android:id="@+id/frameLayout2">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText3"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_columnSpan="2"
+            android:text="@string/a_add_medicine_name_hint"
+            style="@style/GreyFont" />
+
+        <EditText
+            android:layout_width="168dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/editText"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:text="@string/a_add_medicine_dosage_hint"
+            style="@style/GreyFont" />
+
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner2"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:layout_gravity="fill_horizontal" />
+    </GridLayout>
+
+    <Space
+        android:layout_width="fill_parent"
+        android:layout_height="20px"
+        android:layout_below="@+id/frameLayout2"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/space2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/a_add_medicine_reminder"
+        android:id="@+id/textView4"
+        android:layout_below="@+id/space2"
+        android:layout_alignLeft="@+id/space2"
+        android:layout_alignStart="@+id/space2"
+        style="@style/GreenFont"/>
+
+    <Space
+        android:layout_width="fill_parent"
+        android:layout_height="20px"
+        android:layout_below="@+id/textView4"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/space3" />
+
+    <FrameLayout
+        android:id="@+id/frameLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/space3"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/panel_background"
+        android:padding="@dimen/panel_padding_compact">
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/listView"
+            android:layout_gravity="center_horizontal|top" />
+    </FrameLayout>
+
+</RelativeLayout>

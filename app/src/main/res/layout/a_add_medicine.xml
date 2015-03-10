@@ -8,59 +8,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.umb.cs682.projectlupus.activities.medicineAlert.AddMedicine" >
 
-    TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/a_add_medicine_name"
-        android:id="@+id/textView3"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/a_add_medicine_reminder"
-        android:id="@+id/textView4"
-        android:layout_above="@+id/textView5"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="131dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/a_add_medicine_instructions"
-        android:id="@+id/textView5"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="134dp" />
-
-    <GridLayout
+    <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/textView3"
-        android:layout_above="@+id/textView4"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true">
-
-        <Spinner
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:id="@+id/spinner"
-            android:layout_row="0"
-            android:layout_column="0"
-            android:layout_gravity="fill_horizontal" />
-    </GridLayout>
-
-
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/tabContainer"></FrameLayout>
 </RelativeLayout>

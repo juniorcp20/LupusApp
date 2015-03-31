@@ -64,4 +64,14 @@
     <string name="title_activity_share_info">ShareInfo</string>
     <string name="title_activity_help">Help</string>
     <string name="title_activity_about">About</string>
+    
+    <string-array name="age">
+        <item>20-30</item>
+        <item>30-40</item>
+        <item>40-50</item>
+    </string-array>
+    <string-array name="ethnicity">
+        <item>I don／‘t want to answer</item>
+        <item>I can answer</item>
+    </string-array>
 </resources>

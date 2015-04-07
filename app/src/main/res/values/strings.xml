@@ -22,11 +22,18 @@
     <!-- ACTIVITY SENSING -->
     <string name="title_init_activity_sense">Step 3 of 4</string>
     <string name="title_activity_sense">Activity Sensing</string>
-    <string name="a_activity_sense_desc">Turn on activity sensing if you wish the \'app\' to count the number of steps you take.</string>
+    <string name="a_activity_sense_desc">Turn on activity sensing if you wish LupusMate to count the number of steps you take.</string>
+    <string name="set_sensitivity_button">Set Sensitivity</string>
+    <string name="a_activity_sense_toggle_on">Stop Activity Sensing</string>
+    <string name="a_activity_sense_toggle_off">Start Activity Sensing</string>
+
+
+    <string name="a_activity_sense_desc1">Adjust the sensitivity. And walk to test the setting.</string>
+    <string name="a_activity_sense_tip">Tip: Turn off the screen and walk then check if the steps got updated.</string>
 
     <!-- MEDICINE ALERT -->
     <string name="title_init_medicine_alert">Step 4 of 4</string>
-    <string name="title_medicine_alert">Activity Sensing</string>
+    <string name="title_medicine_alert">Medicine Reminders</string>
 
     <string name="title_activity_add_medicine">Medicine Details</string>
     <string name="a_add_medicine_name">Name and Dosage</string>
@@ -64,4 +71,5 @@
     <string name="title_activity_share_info">ShareInfo</string>
     <string name="title_activity_help">Help</string>
     <string name="title_activity_about">About</string>
+
 </resources>

@@ -13,9 +13,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Please fill in below information"
+        android:text="@string/Profile"
         android:id="@+id/textView5"
-        android:layout_below="@+id/space5"
         android:layout_alignLeft="@+id/space2"
         android:layout_alignStart="@+id/space3"
         style="@style/GreenFont"/>
@@ -49,10 +48,11 @@
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:id="@+id/editText4"
                 android:layout_column="1"
-                android:text="Enter your name here" />
+                />
+
+
         </TableRow>
 
         <TableRow
@@ -92,28 +92,26 @@
                 android:id="@+id/textView6"
                 android:layout_column="0" />
 
-            <RadioButton
+            <Spinner
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Male"
-                android:id="@+id/radioButton3"
+                android:id="@+id/spinner3"
                 android:layout_column="1"
-                android:checked="false" />
+                android:spinnerMode="dropdown"
+                android:entries="@array/gender"/>
+
         </TableRow>
 
         <TableRow
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
 
-            <RadioButton
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Female"
-                android:id="@+id/radioButton4"
-                android:layout_column="1"
-                android:checked="false" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
         </TableRow>
 
         <TableRow
@@ -140,6 +138,10 @@
         </TableRow>
 
     </TableLayout>
+
+
+
+
 
 </RelativeLayout>
 

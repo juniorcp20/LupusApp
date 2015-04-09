@@ -2,32 +2,39 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\Nithya Kiran\AndroidStudioWorkspace\ProjectLupus\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
-        <dex dex="C:\Users\Nithya Kiran\AndroidStudioWorkspace\ProjectLupus\app\build\intermediates\pre-dexed\debug\classes-9ae8cf053d52499ab363659455a571ed54994b71.jar" />
-    </item>
-    <item
-        jar="C:\Users\Nithya Kiran\AndroidStudioWorkspace\ProjectLupus\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="C:\Users\Nithya Kiran\AndroidStudioWorkspace\ProjectLupus\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-49ca823fff244372181559820efd98565c2b6881.jar" />
-    </item>
-    <item
-        jar="C:\Users\Nithya Kiran\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
+        jar="D:\Users\Quynh\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
-        <dex dex="C:\Users\Nithya Kiran\AndroidStudioWorkspace\ProjectLupus\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-95ba876060a3e7bbdba868079342404f1f99cde4.jar" />
+        <dex dex="D:\Dropbox\AndroidStudioProjects\LupusApp\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-e9dbcb27b5fbe21f72165524383bf2b839ced94c.jar" />
     </item>
     <item
-        jar="C:\Users\Nithya Kiran\AndroidStudioWorkspace\ProjectLupus\app\libs\greendao-1.3.7.jar"
+        jar="D:\Dropbox\AndroidStudioProjects\LupusApp\app\libs\greendao-1.3.7.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="dda08161d004c4df96938da6909f1c2b96cd33c8">
-        <dex dex="C:\Users\Nithya Kiran\AndroidStudioWorkspace\ProjectLupus\app\build\intermediates\pre-dexed\debug\greendao-1.3.7-f026180469a17e1d42c9a8db3058a91600fab4ce.jar" />
+        <dex dex="D:\Dropbox\AndroidStudioProjects\LupusApp\app\build\intermediates\pre-dexed\debug\greendao-1.3.7-65be489bf1bf598a576b53d0168afdcf8c84f0cb.jar" />
+    </item>
+    <item
+        jar="D:\Dropbox\AndroidStudioProjects\LupusApp\app\build\intermediates\exploded-aar\com.db.williamchart\library\1.7.0\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="5ce8f1287abdaf51bcf217f2115eaa35db8583f7">
+        <dex dex="D:\Dropbox\AndroidStudioProjects\LupusApp\app\build\intermediates\pre-dexed\debug\classes-57da02e7cafab4afcec1ad30723258b0e81c4bba.jar" />
+    </item>
+    <item
+        jar="D:\Dropbox\AndroidStudioProjects\LupusApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="D:\Dropbox\AndroidStudioProjects\LupusApp\app\build\intermediates\pre-dexed\debug\classes-0a1687a452bcd4630a6dc360bc19482c16937397.jar" />
+    </item>
+    <item
+        jar="D:\Dropbox\AndroidStudioProjects\LupusApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="D:\Dropbox\AndroidStudioProjects\LupusApp\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-1f8dfa0c9769c3394bb6a888ae506e537f47a201.jar" />
     </item>
 
 </items>

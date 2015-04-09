@@ -1,5 +1,8 @@
 package com.umb.cs682.projectlupus.activities.main;
 
+import com.db.chart.model.LineSet;
+import com.db.chart.model.Point;
+import com.db.chart.view.LineChartView;
 import com.umb.cs682.projectlupus.R;
 
 import android.app.Activity;
@@ -42,6 +45,16 @@ public class Home extends Activity implements
 		// Set up the drawer.
 		mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
 				(DrawerLayout) findViewById(R.id.drawer_layout));
+
+        /*LineChartView tempView = (LineChartView) findViewById(R.id.chart_test);
+        LineSet tempSet = new LineSet();
+        tempSet.addPoint(new Point("1",1f));
+        tempSet.addPoint(new Point("2",2f));
+        tempSet.addPoint(new Point("3",3f));
+        tempSet.addPoint(new Point("4",4f));
+        tempSet.addPoint(new Point("5",5f));
+        tempView.addData(tempSet);
+        tempView.show();*/
 	}
 
 	@Override

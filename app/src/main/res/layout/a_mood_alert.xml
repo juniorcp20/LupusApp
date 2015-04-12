@@ -9,8 +9,72 @@
     tools:context="com.umb.cs682.projectlupus.activities.moodAlert.MoodAlert" >
 
     <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/a_mood_alert_desc"
+        android:id="@+id/a_mood_alert_desc1"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textColor="@color/darkGreen"/>
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/a_mood_alert_note"
+        android:id="@+id/a_mood_alert_desc2"
+        android:textColor="@color/darkGreen"
+        android:layout_below="@+id/a_mood_alert_desc1"
+        android:layout_alignRight="@+id/space6"
+        android:layout_alignEnd="@+id/space6" />
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_action_add_alarm"
+        android:id="@+id/mood_alert_button"
+        android:text="Add Alert"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/round_corner_button"
+        android:textColor="#ffffffff"
+        android:layout_below="@+id/space7" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mood_alert_listview"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textColor="@color/darkGreen"
+        android:layout_below="@+id/space8"
+        android:background="@drawable/panel_background"
+        android:padding="20dp"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20px"
+        android:id="@+id/space6"
+        android:layout_below="@+id/a_mood_alert_desc1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20px"
+        android:id="@+id/space7"
+        android:layout_below="@+id/a_mood_alert_desc2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20px"
+        android:layout_below="@+id/mood_alert_button"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/space8" />
+
 
 </RelativeLayout>

@@ -132,17 +132,6 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
         return null;
     }
 
-   /* @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.action_icon:
-                displayToast();
-                break;
-            default:
-                break;
-        }
-    }*/
-
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         isNew = false;
@@ -206,6 +195,9 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
                 @Override
                 public void onClick(View v) {
                     strArr.remove(position);
+                    if(strArr.isEmpty()){
+                        alertsList.setVisibility(View.INVISIBLE);
+                    }
                     notifyDataSetChanged();
                 }
             });

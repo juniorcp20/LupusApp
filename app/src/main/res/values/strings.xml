@@ -18,17 +18,22 @@
     <!-- MOOD ALERT -->
     <string name="title_init_mood_alert">Step 2 of 4</string>
     <string name="title_mood_alert">Mood Alerts</string>
-    <string name="a_mood_alert_desc">LupusMate keeps track of how you feel everyday. Setup the frequency and time when you wish to be asked for your feedback.</string>
-    <string name="a_mood_alert_note">Note: Recommended to set up two reminders, one after getting up in the morning and another before going to bed.</string>
 
     <!-- ACTIVITY SENSING -->
     <string name="title_init_activity_sense">Step 3 of 4</string>
     <string name="title_activity_sense">Activity Sensing</string>
-    <string name="a_activity_sense_desc">Turn on activity sensing if you wish the \'app\' to count the number of steps you take.</string>
+    <string name="a_activity_sense_desc">Turn on activity sensing if you wish LupusMate to count the number of steps you take.</string>
+    <string name="set_sensitivity_button">Set Sensitivity</string>
+    <string name="a_activity_sense_toggle_on">Stop Activity Sensing</string>
+    <string name="a_activity_sense_toggle_off">Start Activity Sensing</string>
+
+
+    <string name="a_activity_sense_desc1">Adjust the sensitivity. And walk to test the setting.</string>
+    <string name="a_activity_sense_tip">Tip: Turn off the screen and walk then check if the steps got updated.</string>
 
     <!-- MEDICINE ALERT -->
     <string name="title_init_medicine_alert">Step 4 of 4</string>
-    <string name="title_medicine_alert">Activity Sensing</string>
+    <string name="title_medicine_alert">Medicine Reminders</string>
 
     <string name="title_activity_add_medicine">Medicine Details</string>
     <string name="a_add_medicine_name">Name and Dosage</string>
@@ -53,7 +58,6 @@
     <string name="title_activity_init_mood_alert">InitMoodAlert</string>
     <string name="title_activity_init_medicine_alert">InitMedicineAlert</string>
     <string name="title_activity_home">Home</string>
-    <string name="title_activity_init_main">Android Alarm </string>
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
@@ -67,4 +71,5 @@
     <string name="title_activity_share_info">ShareInfo</string>
     <string name="title_activity_help">Help</string>
     <string name="title_activity_about">About</string>
+
 </resources>

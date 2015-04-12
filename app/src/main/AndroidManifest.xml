@@ -8,13 +8,6 @@
         android:minSdkVersion="16"
         android:targetSdkVersion="21" />
 
-    <android:uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <android:uses-permission
-        android:name="android.permission.READ_PHONE_STATE"/>
-    <android:uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -27,22 +20,24 @@
             android:label="@string/title_activity_welcome" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activities.main.Home"
             android:label="@string/title_activity_home" >
         </activity>
+
         <activity
             android:name=".activities.common.Profile"
             android:label="@string/title_activity_init_profile"
-            android:parentActivityName=".activities.common.Welcome" >
+            android:parentActivityName=".activities.common.Welcome">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.umb.cs682.projectlupus.activities.common.Welcome" />
         </activity>
+
         <activity
             android:name=".activities.common.ShareInfo"
             android:label="@string/title_activity_share_info"
@@ -51,6 +46,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.umb.cs682.projectlupus.activities.main.Home" />
         </activity>
+
         <activity
             android:name=".activities.common.Settings"
             android:label="@string/title_activity_settings"
@@ -59,6 +55,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.umb.cs682.projectlupus.activities.main.Home" />
         </activity>
+
         <activity
             android:name=".activities.common.Help"
             android:label="@string/title_activity_help"
@@ -67,6 +64,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.umb.cs682.projectlupus.activities.main.Home" />
         </activity>
+
         <activity
             android:name=".activities.common.About"
             android:label="@string/title_activity_about"
@@ -77,30 +75,25 @@
         </activity>
 
         <!-- ACTIVITY SENSE -->
-        <activity android:name=".activities.activitySense.ActivitySense" >
+        <activity
+            android:name=".activities.activitySense.ActivitySense">
         </activity>
 
         <!-- MOOD ALERT -->
         <activity
             android:name=".activities.moodAlert.MoodAlert"
-            android:label="@string/title_activity_init_mood_alert" >
+            android:label="@string/title_activity_init_mood_alert">
         </activity>
 
         <!-- MEDICINE ALERT -->
         <activity
             android:name=".activities.medicineAlert.MedicineAlert"
-            android:label="@string/title_activity_init_medicine_alert" >
+            android:label="@string/title_activity_init_medicine_alert">
         </activity>
+
         <activity
-            android:name=".activities.medicineAlert.AddMedicine"
-            android:label="@string/title_activity_add_medicine" >
+            android:name="com.umb.cs682.projectlupus.activities.medicineAlert.AddMedicine"
+            android:label="@string/title_activity_add_medicine">
         </activity>
-
-        <service
-            android:name=".service.PedometerService"
-            android:enabled="true"
-            android:exported="true" >
-        </service>
     </application>
-
 </manifest>

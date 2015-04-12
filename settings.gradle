@@ -1,1 +1,1 @@
-include ':androidPedometer', ':app'
+include ':app', ':circleButton'

@@ -18,6 +18,8 @@
     <!-- MOOD ALERT -->
     <string name="title_init_mood_alert">Step 2 of 4</string>
     <string name="title_mood_alert">Mood Alerts</string>
+    <string name="a_mood_alert_desc">LupusMate keeps track of how you feel everyday. Setup the frequency and time when you wish to be asked for your feedback.</string>
+    <string name="a_mood_alert_note">Note: Recommended to set up two reminders, one after getting up in the morning and another before going to bed.</string>
 
     <!-- ACTIVITY SENSING -->
     <string name="title_init_activity_sense">Step 3 of 4</string>
@@ -58,6 +60,7 @@
     <string name="title_activity_init_mood_alert">InitMoodAlert</string>
     <string name="title_activity_init_medicine_alert">InitMedicineAlert</string>
     <string name="title_activity_home">Home</string>
+    <string name="title_activity_init_main">Android Alarm </string>
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>

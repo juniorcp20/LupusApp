@@ -17,11 +17,11 @@ public final class R {
         public static int icon=0x7f020000;
     }
     public static final class id {
-        public static int StartStopButton=0x7f060004;
-        public static int buttons=0x7f060000;
-        public static int input_sensitivity_spinner=0x7f060003;
-        public static int input_sensitivity_text=0x7f060002;
-        public static int text=0x7f060001;
+        public static int StartStopButtonAP=0x7f060004;
+        public static int buttonsAP=0x7f060000;
+        public static int input_sensitivity_spinnerAP=0x7f060003;
+        public static int input_sensitivity_textAP=0x7f060002;
+        public static int textAP=0x7f060001;
     }
     public static final class layout {
         public static int main=0x7f030000;

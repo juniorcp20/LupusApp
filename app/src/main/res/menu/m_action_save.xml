@@ -3,7 +3,7 @@
     tools:context="com.umb.cs682.projectlupus.AddMedicine" >
 
     <item
-        android:id="@+id/action_next"
+        android:id="@+id/action_save"
         android:orderInCategory="100"
         android:showAsAction="always"
         android:title="@string/m_save_action"

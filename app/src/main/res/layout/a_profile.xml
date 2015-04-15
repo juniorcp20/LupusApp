@@ -148,7 +148,7 @@
                 android:layout_gravity="center"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Ethnicity"
-                android:id="@+id/textView7"
+                android:id="@+id/ethnicity"
                 android:layout_column="0"
                 android:layout_marginStart="@dimen/main_layout_padding"
                 android:layout_marginLeft="@dimen/main_layout_padding"/>

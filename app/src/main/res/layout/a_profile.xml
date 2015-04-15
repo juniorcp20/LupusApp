@@ -51,6 +51,9 @@
                 android:layout_column="0"/>
 
             <EditText
+                android:layout_marginStart="@dimen/main_layout_padding"
+                android:layout_marginLeft="@dimen/main_layout_padding"
+                android:layout_marginRight="@dimen/main_layout_padding"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
@@ -108,7 +111,8 @@
             <RadioGroup
                 android:layout_marginStart="@dimen/main_layout_padding"
                 android:layout_marginLeft="@dimen/main_layout_padding"
-                android:layout_marginRight="@dimen/main_layout_padding">
+                android:layout_marginRight="@dimen/main_layout_padding"
+                android:orientation='horizontal'>>
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

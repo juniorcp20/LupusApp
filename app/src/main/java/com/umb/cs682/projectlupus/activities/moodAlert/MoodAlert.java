@@ -3,6 +3,7 @@ package com.umb.cs682.projectlupus.activities.moodAlert;
 import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.activities.activitySense.ActivitySense;
 import com.umb.cs682.projectlupus.util.Constants;
+import com.umb.cs682.projectlupus.util.SharedPreferenceManager;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -32,7 +33,8 @@ import java.util.Calendar;
 
 public class MoodAlert extends Activity implements AdapterView.OnItemClickListener{
     private static final int TIME_DIALOG_ID = 10;
-    private String parent = null;
+    //private String parent = null;
+    private boolean isInit = SharedPreferenceManager.getBooleanPref(Constants.IS_FIRST_RUN);
 
     private int selHour;
     private int selMin;
@@ -56,11 +58,12 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.a_mood_alert);
-        parent = getIntent().getStringExtra(Constants.PARENT_ACTIVITY_NAME);
-        Log.i(Constants.MOOD_ALERT, parent);
+        /*parent = getIntent().getStringExtra(Constants.PARENT_ACTIVITY_NAME);
+        Log.i(Constants.MOOD_ALERT, parent);*/
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        if(parent.equals(Constants.PROFILE)){
+        //if(parent.equals(Constants.PROFILE)){
+        if(isInit){
             actionBar.setTitle(R.string.title_init_mood_alert);
         }else {
             actionBar.setTitle(R.string.title_mood_alert);
@@ -97,7 +100,8 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        if(parent.equals(Constants.PROFILE)) {
+        //if(parent.equals(Constants.PROFILE)) {
+        if(isInit){
             getMenuInflater().inflate(R.menu.m_action_next, menu);
         }
         return true;

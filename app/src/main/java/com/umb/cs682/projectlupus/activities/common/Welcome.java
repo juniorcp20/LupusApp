@@ -20,6 +20,7 @@ import static com.umb.cs682.projectlupus.config.AppConfig.*;
 
 public class Welcome extends Activity {
     private final String TAG = "projectlupus.activities";
+    private boolean isInit = false;
     Button go;
 
 	@Override
@@ -37,7 +38,8 @@ public class Welcome extends Activity {
         try {
             setAppContext(getApplicationContext());
             configureServices();
-            Log.i(TAG, Boolean.toString(SharedPreferenceManager.contains(Constants.IS_FIRST_RUN)));
+            SharedPreferenceManager.initPrefs();
+            Log.i(TAG, "Contains IS_FIRST_RUN key :"+Boolean.toString(SharedPreferenceManager.contains(Constants.IS_FIRST_RUN)));
             if(!SharedPreferenceManager.contains(Constants.IS_FIRST_RUN)) {
                 SharedPreferenceManager.setBooleanPref(TAG, Constants.IS_FIRST_RUN, true);
             }
@@ -69,7 +71,7 @@ public class Welcome extends Activity {
     }
 
     public void skip(){
-        Intent intent = new Intent();
-        startActivity(intent.setClass(this, Home.class));
+        Intent intent = new Intent(this, Home.class);
+        startActivity(intent);
     }
 }

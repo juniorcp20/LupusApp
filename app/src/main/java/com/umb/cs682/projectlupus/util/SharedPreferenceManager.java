@@ -15,6 +15,15 @@ public class SharedPreferenceManager {
     private static SharedPreferences prefs;
     private static Context context = AppConfig.getAppContext();
 
+    //todo remove when done
+    public static void initPrefs(){
+        prefs = context.getSharedPreferences(PREFS_FILE, 0);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.remove(Constants.IS_FIRST_RUN);
+        editor.putBoolean(Constants.ACTIVITY_SENSE_SETTING,false);
+        editor.commit();
+    }
+
     public static boolean contains(String prefKey){
         prefs = context.getSharedPreferences(PREFS_FILE, 0);
         return prefs.contains(prefKey);

@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="nav_drawer_list">
+        <item>Mood Alerts</item>
+        <item>Activity Sensing</item>
+        <item>Medication Reminder</item>
+        <item>Edit Profile</item>
+        <item>Share Information</item>
+        <item>Settings</item>
+        <item>Help</item>
+        <item>About</item>
+    </string-array>
     <string-array name="sensitivity">
     	<item>1</item>
         <item>2</item>
@@ -7,4 +17,5 @@
         <item>4</item>
         <item>5</item>
     </string-array>
+
 </resources>

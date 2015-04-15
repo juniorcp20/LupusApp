@@ -1,6 +1,8 @@
 package com.umb.cs682.projectlupus.activities.main;
 
 import com.umb.cs682.projectlupus.R;
+import com.umb.cs682.projectlupus.activities.moodAlert.MoodAlert;
+import com.umb.cs682.projectlupus.activities.activitySense.ActivitySense;
 import com.umb.cs682.projectlupus.util.Constants;
 import com.umb.cs682.projectlupus.util.SharedPreferenceManager;
 
@@ -55,17 +57,17 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
 				.beginTransaction()
 				.replace(R.id.container,
 						PlaceholderFragment.newInstance(position + 1)).commit();
-        /*Intent intent;
+        Intent intent;
         switch (position){
-            case 1:
+            case 0:
                 intent = new Intent(this, MoodAlert.class);
                 startActivity(intent);
                 break;
-            case 2:
+            case 1:
                 intent = new Intent(this, ActivitySense.class);
                 startActivity(intent);
                 break;
-        }*/
+        }
 	}
 
 	public void onSectionAttached(int number) {

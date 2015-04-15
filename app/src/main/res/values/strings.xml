@@ -52,7 +52,7 @@
 
 
 
-    <string name="app_name">ProjectLupus</string>
+    <string name="app_name">LupusMate</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>

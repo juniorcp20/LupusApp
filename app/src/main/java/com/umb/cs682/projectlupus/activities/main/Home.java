@@ -1,6 +1,12 @@
 package com.umb.cs682.projectlupus.activities.main;
 
 import com.umb.cs682.projectlupus.R;
+import com.umb.cs682.projectlupus.activities.common.About;
+import com.umb.cs682.projectlupus.activities.common.Help;
+import com.umb.cs682.projectlupus.activities.common.Profile;
+import com.umb.cs682.projectlupus.activities.common.Settings;
+import com.umb.cs682.projectlupus.activities.common.ShareInfo;
+import com.umb.cs682.projectlupus.activities.medicineAlert.AddMedicine;
 import com.umb.cs682.projectlupus.activities.moodAlert.MoodAlert;
 import com.umb.cs682.projectlupus.activities.activitySense.ActivitySense;
 import com.umb.cs682.projectlupus.util.Constants;
@@ -22,6 +28,8 @@ import android.support.v4.widget.DrawerLayout;
 
 public class Home extends Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks{
     private static final String TAG = ".activities.main";
+
+    private boolean firstRun = true;
 
 	/**
 	 * Fragment managing the behaviors, interactions and presentation of the
@@ -52,25 +60,47 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
     @Override
 	public void onNavigationDrawerItemSelected(int position) {
 		// update the main content by replacing fragments
-		FragmentManager fragmentManager = getFragmentManager();
+		/*FragmentManager fragmentManager = getFragmentManager();
 		fragmentManager
 				.beginTransaction()
 				.replace(R.id.container,
-						PlaceholderFragment.newInstance(position + 1)).commit();
-        Intent intent;
+						PlaceholderFragment.newInstance(position + 1)).commit();*/
+
+        if(firstRun == true){
+            firstRun = false;
+            return;
+        }
+        Intent intent = new Intent();
         switch (position){
             case 0:
                 intent = new Intent(this, MoodAlert.class);
-                startActivity(intent);
                 break;
             case 1:
                 intent = new Intent(this, ActivitySense.class);
-                startActivity(intent);
+                break;
+            case 2:
+                intent = new Intent(this, AddMedicine.class);
+                break;
+            case 3:
+                intent = new Intent(this, Profile.class);
+                break;
+            case 4:
+                intent = new Intent(this, ShareInfo.class);
+                break;
+            case 5:
+                intent = new Intent(this, Settings.class);
+                break;
+            case 6:
+                intent = new Intent(this, Help.class);
+                break;
+            case 7:
+                intent = new Intent(this, About.class);
                 break;
         }
+        startActivity(intent);
 	}
 
-	public void onSectionAttached(int number) {
+	/*public void onSectionAttached(int number) {
 		switch (number) {
 		case 1:
 			mTitle = getString(R.string.title_section1);
@@ -82,7 +112,7 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
 			mTitle = getString(R.string.title_section3);
 			break;
 		}
-	}
+	}*/
 
 	public void restoreActionBar() {
 		ActionBar actionBar = getActionBar();
@@ -119,17 +149,17 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
 	/**
 	 * A placeholder fragment containing a simple view.
 	 */
-	public static class PlaceholderFragment extends Fragment {
+	//public static class PlaceholderFragment extends Fragment {
 		/**
 		 * The fragment argument representing the section number for this
 		 * fragment.
 		 */
-		private static final String ARG_SECTION_NUMBER = "section_number";
+		//private static final String ARG_SECTION_NUMBER = "section_number";
 
 		/**
 		 * Returns a new instance of this fragment for the given section number.
 		 */
-		public static PlaceholderFragment newInstance(int sectionNumber) {
+		/*public static PlaceholderFragment newInstance(int sectionNumber) {
 			PlaceholderFragment fragment = new PlaceholderFragment();
 			Bundle args = new Bundle();
 			args.putInt(ARG_SECTION_NUMBER, sectionNumber);
@@ -154,6 +184,6 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
 			((Home) activity).onSectionAttached(getArguments().getInt(
 					ARG_SECTION_NUMBER));
 		}
-	}
+	}*/
 
 }

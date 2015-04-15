@@ -3,6 +3,7 @@ package com.umb.cs682.projectlupus.activities.common;
 import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.activities.moodAlert.MoodAlert;
 import com.umb.cs682.projectlupus.util.Constants;
+import com.umb.cs682.projectlupus.util.SharedPreferenceManager;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -13,17 +14,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class Profile extends Activity {
-    private String parent = null;
+    //private String parent = null;
+    private boolean isInit = SharedPreferenceManager.getBooleanPref(Constants.IS_FIRST_RUN);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.a_profile);
-        parent = getIntent().getStringExtra(Constants.PARENT_ACTIVITY_NAME);
-        Log.i(Constants.PROFILE, parent);
+        /*parent = getIntent().getStringExtra(Constants.PARENT_ACTIVITY_NAME);
+        Log.i(Constants.PROFILE, parent);*/
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        if(parent.equals(Constants.WELCOME)){
+       // if(parent.equals(Constants.WELCOME)){
+        if(isInit){
             actionBar.setTitle(R.string.title_init_profile);
         }else {
             actionBar.setTitle(R.string.title_profile);
@@ -33,7 +36,8 @@ public class Profile extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-        if(parent.equals(Constants.WELCOME)) {
+       // if(parent.equals(Constants.WELCOME)) {
+        if(isInit){
             getMenuInflater().inflate(R.menu.m_action_next, menu);
         }
 		return true;

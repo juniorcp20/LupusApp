@@ -61,6 +61,8 @@ public class AppConfig {
     public static void configureServices() throws Exception{
         try {
             //Initialize DAOs
+            DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(appContext, null);
+            db = helper.getWritableDatabase();
             daoMaster = new DaoMaster(db);
             daoSession = daoMaster.newSession();
             activitySenseDao = daoSession.getActivitySenseDao();

@@ -70,6 +70,7 @@ public class PedometerService extends Service {
         if (wakeLock.isHeld()){
             wakeLock.release();
         }
+        unsetHandler();
         unbindStepService();
     }
     public void startStopPedometer(boolean startStop){
@@ -169,9 +170,11 @@ public class PedometerService extends Service {
         public void stepsChanged(int value) throws RemoteException {
             Log.i(TAG, "Steps=" + value);
             stepCount = value;
-            Message msg = handler.obtainMessage();
-            msg.arg1 = value;
-            handler.sendMessage(msg);
+            if(handler != null) {
+                Message msg = handler.obtainMessage();
+                msg.arg1 = value;
+                handler.sendMessage(msg);
+            }
         }
     };
 

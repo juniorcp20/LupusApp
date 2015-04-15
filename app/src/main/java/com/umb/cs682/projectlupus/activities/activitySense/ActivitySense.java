@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
@@ -29,6 +30,7 @@ import com.umb.cs682.projectlupus.util.SharedPreferenceManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 public class ActivitySense extends Activity {
     private static final String TAG = "projectlupus.activities";
@@ -46,6 +48,10 @@ public class ActivitySense extends Activity {
     private ActivitySenseService service = AppConfig.getActivitySenseService();
     private static Handler handler = null;
 
+    private TextView stepCountText = null;
+    private Button save = null;
+    private Button show = null;
+    private Button delete = null;
 
     /**
      * {@inheritDoc}
@@ -84,6 +90,34 @@ public class ActivitySense extends Activity {
 
         text = (TextView) this.findViewById(R.id.tv_steps);
         setHandler();
+
+        stepCountText = (TextView) findViewById(R.id.stepcount);
+        save = (Button) findViewById(R.id.save);
+        show = (Button) findViewById(R.id.show);
+        delete = (Button) findViewById(R.id.delete);
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveData();
+            }
+        });
+
+        show.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showData();
+            }
+        });
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteRows();
+            }
+        });
+
+        service.setupAlarm();
     }
 
     @Override
@@ -98,9 +132,6 @@ public class ActivitySense extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_next) {
-            SharedPreferenceManager.setBooleanPref(TAG,Constants.ACTIVITY_SENSE_SETTING,isOn);
-            if(isOn)
-                SharedPreferenceManager.setIntPref(TAG, Constants.SENSITIVITY_VALUE, service.getSensitivity());
             next();
         }
         return super.onOptionsItemSelected(item);
@@ -155,7 +186,14 @@ public class ActivitySense extends Activity {
     private OnCheckedChangeListener startStopListener = new OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            isOn = isChecked;
+
+            SharedPreferenceManager.setBooleanPref(TAG,Constants.ACTIVITY_SENSE_SETTING,isChecked);
+            if(isChecked) {
+                SharedPreferenceManager.setIntPref(TAG, Constants.SENSITIVITY_VALUE, service.getSensitivity());
+                service.startAlarm();
+            }else{
+                service.stopAlarm();
+            }
             service.startStopPedometer(isChecked);
         }
     };
@@ -182,5 +220,17 @@ public class ActivitySense extends Activity {
         Intent intent = new Intent();
         //intent.putExtra(Constants.PARENT_ACTIVITY_NAME, Constants.ACTIVITY_SENSE);
         startActivity(intent.setClass(this, MedicineAlert.class));
+    }
+
+    public void saveData(){
+        service.addActSenseData(new Date());
+    }
+
+    public void showData(){
+        stepCountText.setText(String.valueOf(service.getStoredStepCount(new Date())));
+    }
+
+    public void deleteRows(){
+        service.deleteData(new Date());
     }
 }

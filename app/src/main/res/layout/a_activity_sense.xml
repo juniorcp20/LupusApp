@@ -77,4 +77,45 @@
         android:layout_below="@+id/linearLayout"
         android:layout_centerHorizontal="true"
         android:id="@+id/space7" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:id="@+id/save"
+        android:layout_below="@+id/tb_start_stop"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show"
+        android:id="@+id/show"
+        android:layout_alignBottom="@+id/save"
+        android:layout_toRightOf="@+id/save"
+        android:layout_toEndOf="@+id/save" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete"
+        android:id="@+id/delete"
+        android:layout_below="@+id/tb_start_stop"
+        android:layout_toRightOf="@+id/show"
+        android:layout_toEndOf="@+id/show" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/stepcount"
+        android:layout_below="@+id/save"
+        android:layout_toRightOf="@+id/save"
+        android:layout_toEndOf="@+id/save" />
+
 </RelativeLayout>

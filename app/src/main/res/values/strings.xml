@@ -75,4 +75,25 @@
     <string name="title_activity_help">Help</string>
     <string name="title_activity_about">About</string>
 
+    <string-array name="age">
+        <item>select your age</item>
+        <item>under 18</item>
+        <item>18--30</item>
+        <item>30--40</item>
+        <item>40--50</item>
+        <item>50--60</item>
+        <item>older than 60</item>
+    </string-array>
+    <string-array name="gender">
+        <item>select your gender</item>
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+    <string-array name="ethnicity">
+        <item>select your ethnicity</item>
+        <item>Yellow</item>
+        <item>Black</item>
+        <item>white</item>
+        <item>I don not want to answer</item>
+    </string-array>
 </resources>

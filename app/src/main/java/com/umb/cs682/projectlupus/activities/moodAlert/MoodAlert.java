@@ -11,6 +11,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,8 +28,9 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
-public class MoodAlert extends Activity implements AdapterView.OnItemClickListener{//, View.OnClickListener{
+public class MoodAlert extends Activity implements AdapterView.OnItemClickListener{
     private static final int TIME_DIALOG_ID = 10;
     private String parent = null;
 
@@ -37,11 +39,14 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
     private StringBuilder selectedTime;
     private ArrayList<String> strArr;
     private boolean isNew = false;
+    private boolean is24hrFormat = false;
     private int selTimePos;
 
 
     private Button addAlertbtn;
     private ListView alertsList;
+
+    private TimePickerDialog timePicker;
 
     private MoodAlertAdapter adapter;
 
@@ -77,6 +82,16 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
         alertsList.setAdapter(adapter);
 
         alertsList.setOnItemClickListener(this);
+
+        setupTimePicker();
+    }
+
+    private void setupTimePicker() {
+        Calendar cal = Calendar.getInstance();
+        if(DateFormat.is24HourFormat(this)){
+            is24hrFormat = true;
+        }
+        timePicker = new TimePickerDialog(this, mTimeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), is24hrFormat);
     }
 
     @Override
@@ -105,10 +120,25 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
     private TimePickerDialog.OnTimeSetListener mTimeSetListener =
             new TimePickerDialog.OnTimeSetListener() {
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                    selHour = hourOfDay;
                     selMin = minute;
+                    String am_pm = null;
+                    if(!is24hrFormat) {
+                        if (hourOfDay > 12)         //hourofDay =13
+                        {
+                            selHour = hourOfDay - 12;     //hour=1
+                            am_pm = "PM";                   //PM
+                        } else {
+                            selHour = hourOfDay;
+                            am_pm = "AM";
+                        }
+                    }else{
+                        selHour = hourOfDay;
+                    }
                     selectedTime = new StringBuilder();
                     selectedTime.append(pad(selHour)).append(":").append(pad(selMin));
+                    if(am_pm != null){
+                        selectedTime.append(" ").append(am_pm);
+                    }
                     if(isNew){
                         strArr.add(selectedTime.toString());
                     }else{
@@ -119,7 +149,6 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
                     displayToast();
                 }
             };
-
     /** Create a new dialog for time picker */
 
     @Override

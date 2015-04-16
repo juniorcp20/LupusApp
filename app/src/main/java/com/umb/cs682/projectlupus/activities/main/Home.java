@@ -48,6 +48,9 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.a_home);
         SharedPreferenceManager.setBooleanPref(TAG,Constants.IS_FIRST_RUN, false);
+        ActionBar mActionBar = getActionBar();
+        mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+        mActionBar.setSelectedNavigationItem(-1);
 		mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.navigation_drawer);
 		mTitle = getTitle();
 

@@ -90,7 +90,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_action_add_alarm"
-        android:id="@+id/set_reminder_button1"
+        android:id="@+id/set_reminder_button2"
         android:text="@string/a_add_medicine_reminder"
         android:layout_centerHorizontal="true"
         android:background="@drawable/round_corner_button"
@@ -117,7 +117,15 @@
         android:textColor="@color/darkGreen"
         android:background="@drawable/panel_background"
         android:padding="20dp"
-        android:layout_below="@+id/set_reminder_button1" />
+        android:layout_below="@+id/space9" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20px"
+        android:layout_below="@+id/set_reminder_button2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/space9" />
 
     <!--</FrameLayout>-->
 </RelativeLayout>

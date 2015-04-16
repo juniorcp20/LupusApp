@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class MoodAlert extends Activity implements AdapterView.OnItemClickListener{
-    private static final int TIME_DIALOG_ID = 10;
     //private String parent = null;
     private boolean isInit = SharedPreferenceManager.getBooleanPref(Constants.IS_FIRST_RUN);
 
@@ -73,7 +72,7 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
             @Override
             public void onClick(View v) {
                 isNew = true;
-                showDialog(TIME_DIALOG_ID);
+                timePicker.show();
             }
         });
 
@@ -153,23 +152,12 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
                     displayToast();
                 }
             };
-    /** Create a new dialog for time picker */
-
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        switch (id) {
-            case TIME_DIALOG_ID:
-                return new TimePickerDialog(this,
-                        mTimeSetListener, selHour, selMin, false);
-        }
-        return null;
-    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         isNew = false;
         selTimePos = position;
-        showDialog(TIME_DIALOG_ID);
+        timePicker.show();
         ImageView del = (ImageView) view.findViewById(R.id.delete_icon);
         del.setOnClickListener(new View.OnClickListener() {
             @Override

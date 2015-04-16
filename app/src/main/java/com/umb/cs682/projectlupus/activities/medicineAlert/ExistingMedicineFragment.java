@@ -6,6 +6,8 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,19 +23,20 @@ import android.widget.Toast;
 import com.umb.cs682.projectlupus.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class ExistingMedicineFragment extends Fragment implements AdapterView.OnItemClickListener {
-
-    private static final int TIME_DIALOG_ID = 30;
     private int selHour;
     private int selMin;
     private StringBuilder selectedTime;
     private ArrayList<String> strArr;
     private boolean isNew = false;
+    private boolean is24hrFormat = false;
     private int selTimePos;
 
     private Button addAlertbtn;
     private ListView alertsList;
+    private TimePickerDialog timePicker;
 
     private AddMedicineAdapter adapter;
 
@@ -50,19 +53,23 @@ public class ExistingMedicineFragment extends Fragment implements AdapterView.On
         adapter = new AddMedicineAdapter(getActivity().getApplicationContext(),strArr);
         alertsList.setAdapter(adapter);
         alertsList.setOnItemClickListener(this);
-
+        setupTimePicker();
         addAlertbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 isNew = true;
-                getActivity().showDialog(TIME_DIALOG_ID);
+                timePicker.show();
             }
-
-
         });
-
-
         return view;
+    }
+
+    private void setupTimePicker() {
+        Calendar cal = Calendar.getInstance();
+        if(DateFormat.is24HourFormat(getActivity())){
+            is24hrFormat = true;
+        }
+        timePicker = new TimePickerDialog(getActivity(), mTimeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), is24hrFormat);
     }
 
     /** Callback received when the user "picks" a time in the dialog */
@@ -91,25 +98,11 @@ public class ExistingMedicineFragment extends Fragment implements AdapterView.On
             return "0" + String.valueOf(c);
     }
 
-    /** Create a new dialog for time picker */
-
-
-    protected Dialog onCreateDialog(int id) {
-        switch (id) {
-            case TIME_DIALOG_ID:
-                return new TimePickerDialog(getActivity().getApplicationContext(),
-                        mTimeSetListener, selHour, selMin, false);
-        }
-        return null;
-    }
-
-
-
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         isNew = false;
         selTimePos = position;
-        getActivity().showDialog(TIME_DIALOG_ID);
+        timePicker.show();
         ImageView del = (ImageView) view.findViewById(R.id.delete_icon);
         del.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,6 +134,9 @@ public class ExistingMedicineFragment extends Fragment implements AdapterView.On
                 @Override
                 public void onClick(View v) {
                     strArr.remove(position);
+                    if(strArr.isEmpty()){
+                        alertsList.setVisibility(View.INVISIBLE);
+                    }
                     notifyDataSetChanged();
                 }
             });

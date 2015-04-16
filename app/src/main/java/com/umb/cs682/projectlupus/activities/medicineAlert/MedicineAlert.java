@@ -3,6 +3,7 @@ package com.umb.cs682.projectlupus.activities.medicineAlert;
 import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.activities.main.Home;
 import com.umb.cs682.projectlupus.util.Constants;
+import com.umb.cs682.projectlupus.util.SharedPreferenceManager;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -15,8 +16,8 @@ import android.view.View;
 import android.widget.Button;
 
 public class MedicineAlert extends Activity {
-    private String parent = null;
-    private boolean isInit;
+    //private String parent = null;
+    private boolean isInit = SharedPreferenceManager.getBooleanPref(Constants.IS_FIRST_RUN);
     Button addMed;
 
     @Override
@@ -32,23 +33,23 @@ public class MedicineAlert extends Activity {
         });
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        parent = getIntent().getStringExtra(Constants.PARENT_ACTIVITY_NAME);
-        isInit = getIntent().getBooleanExtra(Constants.IS_INIT, false);
-        if(parent != null) {
-            Log.i(Constants.ACTIVITY_SENSE, parent);
-            if (parent.equals(Constants.ACTIVITY_SENSE)|| isInit) {
+        //parent = getIntent().getStringExtra(Constants.PARENT_ACTIVITY_NAME);
+        //isInit = getIntent().getBooleanExtra(Constants.IS_INIT, false);
+       // if(parent != null) {
+            //Log.i(Constants.ACTIVITY_SENSE, parent);
+            if (isInit) {
                 actionBar.setTitle(R.string.title_init_medicine_alert);
                 isInit = true;
             } else {
                 actionBar.setTitle(R.string.title_medicine_alert);
             }
-        }
+        //}
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        if(parent!=null && parent.equals(Constants.ACTIVITY_SENSE)) {
+        if(isInit) {
             getMenuInflater().inflate(R.menu.m_action_finish, menu);
         }
         return true;
@@ -81,7 +82,7 @@ public class MedicineAlert extends Activity {
 
     public void addMedicine(){
         Intent intent = new Intent();
-        intent.putExtra(Constants.IS_INIT, isInit);
+        //intent.putExtra(Constants.IS_INIT, isInit);
         startActivity(intent.setClass(this, AddMedicine.class));
     }
 }

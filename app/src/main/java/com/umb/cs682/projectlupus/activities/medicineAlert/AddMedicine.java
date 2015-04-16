@@ -2,6 +2,7 @@ package com.umb.cs682.projectlupus.activities.medicineAlert;
 
 import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.util.Constants;
+import com.umb.cs682.projectlupus.util.SharedPreferenceManager;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -13,13 +14,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class AddMedicine extends Activity {
-    private boolean isInit;
+    private boolean isInit = SharedPreferenceManager.getBooleanPref(Constants.IS_FIRST_RUN);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.a_add_medicine);
-        isInit = getIntent().getBooleanExtra(Constants.IS_INIT, false);
+        //isInit = getIntent().getBooleanExtra(Constants.IS_INIT, false);
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -55,7 +56,8 @@ public class AddMedicine extends Activity {
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		if (id == R.id.action_save) {
+            //todo save to DB
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -66,7 +68,6 @@ public class AddMedicine extends Activity {
     public Intent getParentActivityIntent(){
         Intent newIntent = null;
         newIntent = new Intent(this, getIntent().getClass());
-        newIntent.putExtra(Constants.IS_INIT, isInit);
         return newIntent;
     }
 

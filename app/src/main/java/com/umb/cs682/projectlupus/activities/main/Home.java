@@ -7,6 +7,7 @@ import com.umb.cs682.projectlupus.activities.common.Profile;
 import com.umb.cs682.projectlupus.activities.common.Settings;
 import com.umb.cs682.projectlupus.activities.common.ShareInfo;
 import com.umb.cs682.projectlupus.activities.medicineAlert.AddMedicine;
+import com.umb.cs682.projectlupus.activities.medicineAlert.MedicineAlert;
 import com.umb.cs682.projectlupus.activities.moodAlert.MoodAlert;
 import com.umb.cs682.projectlupus.activities.activitySense.ActivitySense;
 import com.umb.cs682.projectlupus.util.Constants;
@@ -47,7 +48,7 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.a_home);
-        SharedPreferenceManager.setBooleanPref(TAG,Constants.IS_FIRST_RUN, false);
+        SharedPreferenceManager.setBooleanPref(TAG, Constants.IS_FIRST_RUN, false);
         ActionBar mActionBar = getActionBar();
         mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         mActionBar.setSelectedNavigationItem(-1);
@@ -82,7 +83,7 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
                 intent = new Intent(this, ActivitySense.class);
                 break;
             case 2:
-                intent = new Intent(this, AddMedicine.class);
+                intent = new Intent(this, MedicineAlert.class);
                 break;
             case 3:
                 intent = new Intent(this, Profile.class);

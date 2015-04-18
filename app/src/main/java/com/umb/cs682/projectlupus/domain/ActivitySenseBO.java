@@ -4,21 +4,21 @@ package com.umb.cs682.projectlupus.domain;
 /**
  * Entity mapped to table ACTIVITY_SENSE.
  */
-public class ActivitySense {
+public class ActivitySenseBO {
 
     private Long id;
     private int stepCount;
     /** Not-null value. */
     private java.util.Date date;
 
-    public ActivitySense() {
+    public ActivitySenseBO() {
     }
 
-    public ActivitySense(Long id) {
+    public ActivitySenseBO(Long id) {
         this.id = id;
     }
 
-    public ActivitySense(Long id, int stepCount, java.util.Date date) {
+    public ActivitySenseBO(Long id, int stepCount, java.util.Date date) {
         this.id = id;
         this.stepCount = stepCount;
         this.date = date;

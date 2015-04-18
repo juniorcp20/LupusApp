@@ -2,20 +2,34 @@ package com.umb.cs682.projectlupus.activities.common;
 
 import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.activities.moodAlert.MoodAlert;
+import com.umb.cs682.projectlupus.config.AppConfig;
+import com.umb.cs682.projectlupus.domain.ProfileBO;
+import com.umb.cs682.projectlupus.service.ProfileService;
 import com.umb.cs682.projectlupus.util.Constants;
+import com.umb.cs682.projectlupus.util.Utils;
 import com.umb.cs682.projectlupus.util.SharedPreferenceManager;
 
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
 
 public class Profile extends Activity {
     //private String parent = null;
     private boolean isInit = SharedPreferenceManager.getBooleanPref(Constants.IS_FIRST_RUN);
+
+    private ProfileService service = AppConfig.getProfileService();
+
+    private EditText etUsername;
+    private Spinner spAge;
+    private RadioGroup rgGender;
+    private Spinner spEthnicity;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +37,12 @@ public class Profile extends Activity {
 		setContentView(R.layout.a_profile);
         /*parent = getIntent().getStringExtra(Constants.PARENT_ACTIVITY_NAME);
         Log.i(Constants.PROFILE, parent);*/
+
+        etUsername = (EditText) findViewById(R.id.et_username);
+        spAge = (Spinner) findViewById(R.id.sp_age);
+        rgGender = (RadioGroup) findViewById(R.id.rg_gender);
+        spEthnicity = (Spinner) findViewById(R.id.sp_ethnicity);
+
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
        // if(parent.equals(Constants.WELCOME)){
@@ -30,15 +50,18 @@ public class Profile extends Activity {
             actionBar.setTitle(R.string.title_init_profile);
         }else {
             actionBar.setTitle(R.string.title_profile);
+            populateData();
         }
 	}
 
-	@Override
+    @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
        // if(parent.equals(Constants.WELCOME)) {
         if(isInit){
             getMenuInflater().inflate(R.menu.m_action_next, menu);
+        }else{
+            getMenuInflater().inflate(R.menu.m_action_save, menu);
         }
 		return true;
 	}
@@ -50,8 +73,14 @@ public class Profile extends Activity {
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_next) {
+            if(!etUsername.getText().toString().isEmpty()){
+                save();
+            }
 			next();
 		}
+        if(id == R.id.action_save){
+            save();
+        }
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -63,10 +92,35 @@ public class Profile extends Activity {
         return newIntent;
     }
 
+    private void populateData() {
+        ProfileBO data = service.getProfileData();
+        etUsername.setText(data.getUserName());
+        spAge.setSelection(Utils.getSpinnerIndex(spAge, data.getAge()));
+        if(data.getGender() != "Male"){
+            rgGender.check(R.id.rb_female);
+        }
+        spEthnicity.setSelection(Utils.getSpinnerIndex(spEthnicity, data.getEthnicity()));
+    }
+
     public void next(){
         Intent intent = new Intent();
         intent.putExtra(Constants.PARENT_ACTIVITY_NAME, Constants.PROFILE);
         startActivity(intent.setClass(this, MoodAlert.class));
     }
 
+    public void save(){
+        boolean isSuccess;
+        String username = etUsername.getText().toString();
+        String age = spAge.getSelectedItem().toString();
+        String ethnicity = spEthnicity.getSelectedItem().toString();
+
+        RadioButton rbGender = (RadioButton) findViewById(rgGender.getCheckedRadioButtonId());
+        String gender = rbGender.getText().toString();
+        isSuccess = service.addProfileData(username, age, gender, ethnicity);
+        if(isSuccess){
+            Utils.displayToast(this, "Saved");
+        }else{
+            Utils.displayToast(this, "Failed, Try Again!");
+        }
+    }
 }

@@ -4,7 +4,7 @@ package com.umb.cs682.projectlupus.domain;
 /**
  * Entity mapped to table MOOD_LEVEL.
  */
-public class MoodLevel {
+public class MoodLevelBO {
 
     private Long id;
     private long reminderId;
@@ -12,14 +12,14 @@ public class MoodLevel {
     private java.util.Date date;
     private int moodLevel;
 
-    public MoodLevel() {
+    public MoodLevelBO() {
     }
 
-    public MoodLevel(Long id) {
+    public MoodLevelBO(Long id) {
         this.id = id;
     }
 
-    public MoodLevel(Long id, long reminderId, java.util.Date date, int moodLevel) {
+    public MoodLevelBO(Long id, long reminderId, java.util.Date date, int moodLevel) {
         this.id = id;
         this.reminderId = reminderId;
         this.date = date;

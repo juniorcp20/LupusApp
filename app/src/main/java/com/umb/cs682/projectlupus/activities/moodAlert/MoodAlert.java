@@ -2,18 +2,19 @@ package com.umb.cs682.projectlupus.activities.moodAlert;
 
 import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.activities.activitySense.ActivitySense;
+import com.umb.cs682.projectlupus.config.AppConfig;
+import com.umb.cs682.projectlupus.service.ReminderService;
 import com.umb.cs682.projectlupus.util.Constants;
+import com.umb.cs682.projectlupus.util.DateUtil;
 import com.umb.cs682.projectlupus.util.SharedPreferenceManager;
+import com.umb.cs682.projectlupus.util.Utils;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,18 +32,20 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import de.greenrobot.dao.DaoException;
+
 public class MoodAlert extends Activity implements AdapterView.OnItemClickListener{
+    private static final String TAG = "activities.moodAlert";
     //private String parent = null;
     private boolean isInit = SharedPreferenceManager.getBooleanPref(Constants.IS_FIRST_RUN);
 
     private int selHour;
     private int selMin;
     private StringBuilder selectedTime;
-    private ArrayList<String> strArr;
+    private ArrayList<Long> remIDs;
     private boolean isNew = false;
-    private boolean is24hrFormat = false;
-    private int selTimePos;
-
+    //private int selTimePos;
+    private long selID;
 
     private Button addAlertbtn;
     private ListView alertsList;
@@ -50,6 +53,8 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
     private TimePickerDialog timePicker;
 
     private MoodAlertAdapter adapter;
+
+    private ReminderService service = AppConfig.getReminderService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,10 +82,12 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
         });
 
         alertsList = (ListView)findViewById(R.id.mood_alert_listview);
-        alertsList.setVisibility(View.INVISIBLE);
-        strArr = new ArrayList<String>();
+        remIDs = service.getAllMoodReminderIDs();
+        if(remIDs.size()==0){
+            alertsList.setVisibility(View.INVISIBLE);
+        }
 
-        adapter = new MoodAlertAdapter(this,strArr);
+        adapter = new MoodAlertAdapter(this, remIDs);
         alertsList.setAdapter(adapter);
 
         alertsList.setOnItemClickListener(this);
@@ -90,10 +97,7 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
 
     private void setupTimePicker() {
         Calendar cal = Calendar.getInstance();
-        if(DateFormat.is24HourFormat(this)){
-            is24hrFormat = true;
-        }
-        timePicker = new TimePickerDialog(this, mTimeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), is24hrFormat);
+        timePicker = new TimePickerDialog(this, mTimeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), DateUtil.is24HourFormat());
     }
 
     @Override
@@ -125,7 +129,7 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                     selMin = minute;
                     String am_pm = null;
-                    if(!is24hrFormat) {
+                    if(!DateUtil.is24HourFormat()) {
                         if (hourOfDay > 12)         //hourofDay =13
                         {
                             selHour = hourOfDay - 12;     //hour=1
@@ -143,10 +147,15 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
                         selectedTime.append(" ").append(am_pm);
                     }
                     if(isNew){
-                        strArr.add(selectedTime.toString());
+                        try {
+                            remIDs.add(service.addMoodReminder(selectedTime.toString()));
+                        }catch (DaoException e){
+                            Utils.displayToast(getApplicationContext(), e.getMessage());
+                        }
                     }else{
-                        strArr.set(selTimePos,selectedTime.toString());
+                        service.editMoodReminder(selID,selectedTime.toString());
                     }
+
                     adapter.notifyDataSetChanged();
                     alertsList.setVisibility(View.VISIBLE);
                     displayToast();
@@ -156,17 +165,8 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         isNew = false;
-        selTimePos = position;
+        selID = remIDs.get(position);
         timePicker.show();
-        ImageView del = (ImageView) view.findViewById(R.id.delete_icon);
-        del.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                strArr.remove(selTimePos);
-                adapter.notifyDataSetChanged();
-                Toast.makeText(getApplicationContext(), "Alert Removed",Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     private void displayToast() {
@@ -200,8 +200,8 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
             return "0" + String.valueOf(c);
     }
 
-    public class MoodAlertAdapter extends ArrayAdapter<String> {
-        public MoodAlertAdapter(Context context, ArrayList<String> times) {
+    public class MoodAlertAdapter extends ArrayAdapter<Long> {
+        public MoodAlertAdapter(Context context, ArrayList<Long> times) {
             super(context, R.layout.li_reminder_item, times);
         }
 
@@ -209,14 +209,15 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
         public View getView(final int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             View customView = inflater.inflate(R.layout.li_reminder_item, parent, false);
-            String time = getItem(position);
+            String time = DateUtil.toTimeString(service.getReminderTimeByID(getItem(position)));
             TextView displayTime = (TextView) customView.findViewById(R.id.display_time);
             ImageView actionIcon = (ImageView) customView.findViewById(R.id.delete_icon);
             actionIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    strArr.remove(position);
-                    if(strArr.isEmpty()){
+                    service.deleteMoodReminder(remIDs.get(position));
+                    remIDs.remove(position);
+                    if(remIDs.isEmpty()){
                         alertsList.setVisibility(View.INVISIBLE);
                     }
                     notifyDataSetChanged();

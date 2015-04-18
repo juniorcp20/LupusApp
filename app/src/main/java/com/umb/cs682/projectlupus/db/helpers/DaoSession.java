@@ -9,11 +9,11 @@ import de.greenrobot.dao.AbstractDaoSession;
 import de.greenrobot.dao.identityscope.IdentityScopeType;
 import de.greenrobot.dao.internal.DaoConfig;
 
-import com.umb.cs682.projectlupus.domain.ActivitySense;
-import com.umb.cs682.projectlupus.domain.Profile;
-import com.umb.cs682.projectlupus.domain.MoodLevel;
-import com.umb.cs682.projectlupus.domain.Reminder;
-import com.umb.cs682.projectlupus.domain.Medicine;
+import com.umb.cs682.projectlupus.domain.ActivitySenseBO;
+import com.umb.cs682.projectlupus.domain.ProfileBO;
+import com.umb.cs682.projectlupus.domain.MoodLevelBO;
+import com.umb.cs682.projectlupus.domain.ReminderBO;
+import com.umb.cs682.projectlupus.domain.MedicineBO;
 
 import com.umb.cs682.projectlupus.db.dao.ActivitySenseDao;
 import com.umb.cs682.projectlupus.db.dao.MedicineDao;
@@ -67,11 +67,11 @@ public class DaoSession extends AbstractDaoSession {
         reminderDao = new ReminderDao(reminderDaoConfig, this);
         medicineDao = new MedicineDao(medicineDaoConfig, this);
 
-        registerDao(ActivitySense.class, activitySenseDao);
-        registerDao(Profile.class, profileDao);
-        registerDao(MoodLevel.class, moodLevelDao);
-        registerDao(Reminder.class, reminderDao);
-        registerDao(Medicine.class, medicineDao);
+        registerDao(ActivitySenseBO.class, activitySenseDao);
+        registerDao(ProfileBO.class, profileDao);
+        registerDao(MoodLevelBO.class, moodLevelDao);
+        registerDao(ReminderBO.class, reminderDao);
+        registerDao(MedicineBO.class, medicineDao);
     }
     
     public void clear() {

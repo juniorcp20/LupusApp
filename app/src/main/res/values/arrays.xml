@@ -1,5 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="arr_age">
+        <item>Select your age</item>
+        <item>Under 18</item>
+        <item>18 - 30</item>
+        <item>30 - 40</item>
+        <item>40 - 50</item>
+        <item>50 - 60</item>
+        <item>Over 60</item>
+    </string-array>
+
+    <string-array name="arr_gender">
+        <item>select your gender</item>
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+
+    <string-array name="arr_ethnicity">
+        <item>Select your ethnicity</item>
+        <item>Yellow</item>
+        <item>Black</item>
+        <item>white</item>
+        <item>I don not want to answer</item>
+    </string-array>
+
+    <string-array name="arr_sensitivity">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
     <string-array name="nav_drawer_list">
         <item>Mood Alerts</item>
         <item>Activity Sensing</item>
@@ -9,13 +41,6 @@
         <item>Settings</item>
         <item>Help</item>
         <item>About</item>
-    </string-array>
-    <string-array name="sensitivity">
-    	<item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
     </string-array>
 
 </resources>

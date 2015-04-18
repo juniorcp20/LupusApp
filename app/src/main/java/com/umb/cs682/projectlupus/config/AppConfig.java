@@ -15,6 +15,7 @@ import com.umb.cs682.projectlupus.service.ActivitySenseService;
 import com.umb.cs682.projectlupus.service.HomeService;
 import com.umb.cs682.projectlupus.service.MedicineService;
 import com.umb.cs682.projectlupus.service.MoodLevelService;
+import com.umb.cs682.projectlupus.service.ProfileService;
 import com.umb.cs682.projectlupus.service.ReminderService;
 
 /**
@@ -27,6 +28,7 @@ public class AppConfig {
     private static DaoSession daoSession;
 
     //Service Objects
+    private static ProfileService profileService;
     private static ActivitySenseService activitySenseService;
     private static HomeService homeService;
     private static MedicineService medicineService;
@@ -72,10 +74,13 @@ public class AppConfig {
             reminderDao = daoSession.getReminderDao();
 
             //Initialize services
-            activitySenseService = new ActivitySenseService(activitySenseDao, appContext);
+            profileService = new ProfileService(appContext, profileDao);
+            moodLevelService = new MoodLevelService(appContext, moodLevelDao);
+            activitySenseService = new ActivitySenseService(appContext, activitySenseDao);
             if(activitySenseService != null) {
                 Log.d("Config", "Initialized Activity Sensing Service");
             }
+            reminderService = new ReminderService(appContext, reminderDao);
         }catch (Exception e){
             Log.e("Config", e.getMessage());
         }
@@ -84,9 +89,13 @@ public class AppConfig {
     public static Context getAppContext(){
         return appContext;
     }
+    public static ProfileService getProfileService(){
+        return profileService;
+    }
+    public static MoodLevelService getMoodLevelService(){ return moodLevelService;}
     public static ActivitySenseService getActivitySenseService(){
         return activitySenseService;
     }
-
+    public static ReminderService getReminderService(){return reminderService;}
 
 }

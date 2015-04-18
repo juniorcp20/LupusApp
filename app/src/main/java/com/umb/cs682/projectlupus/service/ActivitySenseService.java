@@ -1,6 +1,5 @@
 package com.umb.cs682.projectlupus.service;
 
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -17,7 +16,7 @@ import android.widget.Toast;
 
 
 import com.umb.cs682.projectlupus.db.dao.ActivitySenseDao;
-import com.umb.cs682.projectlupus.domain.ActivitySense;
+import com.umb.cs682.projectlupus.domain.ActivitySenseBO;
 import com.umb.cs682.projectlupus.util.DateUtil;
 
 import java.util.Date;
@@ -26,21 +25,20 @@ import de.greenrobot.dao.query.CountQuery;
 import de.greenrobot.dao.query.DeleteQuery;
 
 public class ActivitySenseService {
-    private static final String TAG = "projectlupus.service";
+    private static final String TAG = "service.activitySense";
     private static final String INTENT_FILTER = "com.umb.cs682.projectlupus.service.ActivitySense";
+    private static int stepCount;
+    private boolean isBound;
 
     private Context context;
-    private PedometerService pedometerService;
-
     private ActivitySenseDao activitySenseDao;
-    private boolean isBound;
-    private static int stepCount;
 
+    private PedometerService pedometerService;
     private BroadcastReceiver receiver;
     private PendingIntent pendingIntent;
     private AlarmManager alarmManager;
 
-    public ActivitySenseService(ActivitySenseDao activitySenseDao, Context context){
+    public ActivitySenseService(Context context, ActivitySenseDao activitySenseDao){
         this.activitySenseDao = activitySenseDao;
         this.context = context;
         Intent intent = new Intent(context, PedometerService.class);
@@ -153,7 +151,7 @@ public class ActivitySenseService {
     }
 
     public void addActSenseData(Date date){
-        ActivitySense bo;
+        ActivitySenseBO bo;
         Log.i(TAG, "Saved to DB");
         CountQuery query = activitySenseDao.queryBuilder().where(ActivitySenseDao.Properties.Date.eq(DateUtil.toDate(date))).buildCount();
         if(!(query.count() == 0)) {
@@ -161,14 +159,14 @@ public class ActivitySenseService {
             bo.setStepCount(getCurrentStepCount());
             activitySenseDao.update(bo);
         }else{
-            bo = new ActivitySense(null, getCurrentStepCount(), DateUtil.toDate(date));
+            bo = new ActivitySenseBO(null, getCurrentStepCount(), DateUtil.toDate(date));
             activitySenseDao.insert(bo);
         }
     }
 
-    public ActivitySense getActSenseDatabyDate(Date date){
+    public ActivitySenseBO getActSenseDatabyDate(Date date){
         Log.i(TAG, "Retrieving from DB");
-        ActivitySense bo = activitySenseDao.queryBuilder().where(ActivitySenseDao.Properties.Date.eq(DateUtil.toDate(date))).uniqueOrThrow();
+        ActivitySenseBO bo = activitySenseDao.queryBuilder().where(ActivitySenseDao.Properties.Date.eq(DateUtil.toDate(date))).uniqueOrThrow();
         return bo;
     }
 

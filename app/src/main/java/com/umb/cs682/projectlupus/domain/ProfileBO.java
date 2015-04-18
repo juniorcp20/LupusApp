@@ -4,23 +4,23 @@ package com.umb.cs682.projectlupus.domain;
 /**
  * Entity mapped to table PROFILE.
  */
-public class Profile {
+public class ProfileBO {
 
     private Long id;
     /** Not-null value. */
     private String userName;
-    private Integer age;
+    private String age; //NK
     private String gender;
     private String ethnicity;
 
-    public Profile() {
+    public ProfileBO() {
     }
 
-    public Profile(Long id) {
+    public ProfileBO(Long id) {
         this.id = id;
     }
 
-    public Profile(Long id, String userName, Integer age, String gender, String ethnicity) {
+    public ProfileBO(Long id, String userName, String age, String gender, String ethnicity) { //NK
         this.id = id;
         this.userName = userName;
         this.age = age;
@@ -46,13 +46,13 @@ public class Profile {
         this.userName = userName;
     }
 
-    public Integer getAge() {
+    public String getAge() {
         return age;
-    }
+    } //NK
 
-    public void setAge(Integer age) {
+    public void setAge(String age) {
         this.age = age;
-    }
+    } //NK
 
     public String getGender() {
         return gender;

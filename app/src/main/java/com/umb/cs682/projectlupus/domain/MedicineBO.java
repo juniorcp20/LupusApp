@@ -12,7 +12,7 @@ import de.greenrobot.dao.DaoException;
 /**
  * Entity mapped to table MEDICINE.
  */
-public class Medicine {
+public class MedicineBO {
 
     private Long id;
     /** Not-null value. */
@@ -28,16 +28,16 @@ public class Medicine {
     /** Used for active entity operations. */
     private transient MedicineDao myDao;
 
-    private List<Reminder> medReminders;
+    private List<ReminderBO> medReminders;
 
-    public Medicine() {
+    public MedicineBO() {
     }
 
-    public Medicine(Long id) {
+    public MedicineBO(Long id) {
         this.id = id;
     }
 
-    public Medicine(Long id, String medName, int dosage, String units, String notes) {
+    public MedicineBO(Long id, String medName, int dosage, String units, String notes) {
         this.id = id;
         this.medName = medName;
         this.dosage = dosage;
@@ -96,13 +96,13 @@ public class Medicine {
     }
 
     /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */
-    public List<Reminder> getMedReminders() {
+    public List<ReminderBO> getMedReminders() {
         if (medReminders == null) {
             if (daoSession == null) {
                 throw new DaoException("Entity is detached from DAO context");
             }
             ReminderDao targetDao = daoSession.getReminderDao();
-            List<Reminder> medRemindersNew = targetDao._queryMedicine_MedReminders(id);
+            List<ReminderBO> medRemindersNew = targetDao._queryMedicine_MedReminders(id);
             synchronized (this) {
                 if(medReminders == null) {
                     medReminders = medRemindersNew;

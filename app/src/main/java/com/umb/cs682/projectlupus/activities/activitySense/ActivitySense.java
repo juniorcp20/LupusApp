@@ -33,7 +33,7 @@ import java.util.Arrays;
 import java.util.Date;
 
 public class ActivitySense extends Activity {
-    private static final String TAG = "projectlupus.activities";
+    private static final String TAG = "activities.actSense";
 
     private boolean isInit = SharedPreferenceManager.getBooleanPref(Constants.IS_FIRST_RUN);
     private String DEFAULT_SENSITIVITY = "1";
@@ -74,7 +74,7 @@ public class ActivitySense extends Activity {
         int idx = 0;
 
         if (sensArrayList == null) {
-            String[] sensArray = getResources().getStringArray(R.array.sensitivity);
+            String[] sensArray = getResources().getStringArray(R.array.arr_sensitivity);
             sensArrayList = new ArrayList<String>(Arrays.asList(sensArray));
         }
         if (sensArrayList.contains(sensStr)) {
@@ -82,7 +82,7 @@ public class ActivitySense extends Activity {
         }
 
         Spinner sensSpinner = (Spinner) findViewById(R.id.sp_sensitivity);
-        modesAdapter = ArrayAdapter.createFromResource(this, R.array.sensitivity, android.R.layout.simple_spinner_item);
+        modesAdapter = ArrayAdapter.createFromResource(this, R.array.arr_sensitivity, android.R.layout.simple_spinner_item);
         modesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sensSpinner.setOnItemSelectedListener(sensListener);
         sensSpinner.setAdapter(modesAdapter);

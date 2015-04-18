@@ -12,7 +12,7 @@ import de.greenrobot.dao.DaoException;
 /**
  * Entity mapped to table REMINDER.
  */
-public class Reminder {
+public class ReminderBO {
 
     private Long id;
     private Integer typeId;
@@ -29,16 +29,16 @@ public class Reminder {
     /** Used for active entity operations. */
     private transient ReminderDao myDao;
 
-    private List<MoodLevel> moodReminders;
+    private List<MoodLevelBO> moodReminders;
 
-    public Reminder() {
+    public ReminderBO() {
     }
 
-    public Reminder(Long id) {
+    public ReminderBO(Long id) {
         this.id = id;
     }
 
-    public Reminder(Long id, Integer typeId, long medId, String reminderName, java.util.Date reminderTime, String status) {
+    public ReminderBO(Long id, Integer typeId, long medId, String reminderName, java.util.Date reminderTime, String status) {
         this.id = id;
         this.typeId = typeId;
         this.medId = medId;
@@ -106,13 +106,13 @@ public class Reminder {
     }
 
     /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */
-    public List<MoodLevel> getMoodReminders() {
+    public List<MoodLevelBO> getMoodReminders() {
         if (moodReminders == null) {
             if (daoSession == null) {
                 throw new DaoException("Entity is detached from DAO context");
             }
             MoodLevelDao targetDao = daoSession.getMoodLevelDao();
-            List<MoodLevel> moodRemindersNew = targetDao._queryReminder_MoodReminders(id);
+            List<MoodLevelBO> moodRemindersNew = targetDao._queryReminder_MoodReminders(id);
             synchronized (this) {
                 if(moodReminders == null) {
                     moodReminders = moodRemindersNew;

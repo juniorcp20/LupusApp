@@ -80,6 +80,7 @@ public class AppConfig {
             if(activitySenseService != null) {
                 Log.d("Config", "Initialized Activity Sensing Service");
             }
+            medicineService = new MedicineService(appContext, medicineDao);
             reminderService = new ReminderService(appContext, reminderDao);
         }catch (Exception e){
             Log.e("Config", e.getMessage());
@@ -96,6 +97,7 @@ public class AppConfig {
     public static ActivitySenseService getActivitySenseService(){
         return activitySenseService;
     }
+    public static MedicineService getMedicineService(){return medicineService;}
     public static ReminderService getReminderService(){return reminderService;}
 
 }

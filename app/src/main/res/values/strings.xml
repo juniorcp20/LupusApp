@@ -39,13 +39,16 @@
     <string name="title_medicine_alert">Medicine Reminders</string>
 
     <string name="title_activity_add_medicine">Medicine Details</string>
-    <string name="a_add_medicine_name">Name and Dosage</string>
+    <string name="a_add_medicine_name">Select medicine from the list or add new if not present in the list by clicking the add button.</string>
+    <string name="a_add_medicine_dosage">Enter dosage and interval</string>
+    <string name="a_add_medicine_dosage_hint">Eg. 10</string>
+    <string name="a_add_medicine_unit">Mg</string>
     <string name="a_add_medicine_reminder">Set Reminders</string>
     <string name="a_add_medicine_instructions">Instructions</string>
     <string name="a_add_medicine_optional">(Optional)</string>
     <string name="a_add_medicine_instruction_hint">Type your own instructions</string>
-    <string name="a_add_medicine_dosage_hint">Eg. 10</string>
     <string name="a_add_medicine_name_hint">Eg. Prednisone</string>
+    <string name="d_add_new_medicine_title">Add New Medicine</string>
 
 
 

@@ -2,6 +2,8 @@ package com.umb.cs682.projectlupus.activities.medicineAlert;
 
 import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.activities.main.Home;
+import com.umb.cs682.projectlupus.config.AppConfig;
+import com.umb.cs682.projectlupus.service.MedicineService;
 import com.umb.cs682.projectlupus.util.Constants;
 import com.umb.cs682.projectlupus.util.SharedPreferenceManager;
 
@@ -20,6 +22,7 @@ public class MedicineAlert extends Activity {
     private boolean isInit = SharedPreferenceManager.getBooleanPref(Constants.IS_FIRST_RUN);
     Button addMed;
 
+    private MedicineService medService = AppConfig.getMedicineService();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +42,9 @@ public class MedicineAlert extends Activity {
             //Log.i(Constants.ACTIVITY_SENSE, parent);
             if (isInit) {
                 actionBar.setTitle(R.string.title_init_medicine_alert);
-                isInit = true;
+                medService.initMedicineDB();
+
+                //isInit = true;**
             } else {
                 actionBar.setTitle(R.string.title_medicine_alert);
             }

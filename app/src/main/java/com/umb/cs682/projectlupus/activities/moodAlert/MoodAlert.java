@@ -38,14 +38,15 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
     private static final String TAG = "activities.moodAlert";
     //private String parent = null;
     private boolean isInit = SharedPreferenceManager.getBooleanPref(Constants.IS_FIRST_RUN);
+    private boolean isNew = false;
 
     private int selHour;
     private int selMin;
+    private long selID;
+    
     private StringBuilder selectedTime;
     private ArrayList<Long> remIDs;
-    private boolean isNew = false;
     //private int selTimePos;
-    private long selID;
 
     private Button addAlertbtn;
     private ListView alertsList;
@@ -97,7 +98,7 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
 
     private void setupTimePicker() {
         Calendar cal = Calendar.getInstance();
-        timePicker = new TimePickerDialog(this, mTimeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), DateUtil.is24HourFormat());
+        timePicker = new TimePickerDialog(this, mTimeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), DateUtil.is24hrFormat);
     }
 
     @Override
@@ -129,7 +130,7 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                     selMin = minute;
                     String am_pm = null;
-                    if(!DateUtil.is24HourFormat()) {
+                    if(!DateUtil.is24hrFormat) {
                         if (hourOfDay > 12)         //hourofDay =13
                         {
                             selHour = hourOfDay - 12;     //hour=1

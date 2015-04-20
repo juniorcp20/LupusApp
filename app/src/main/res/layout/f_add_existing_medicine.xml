@@ -34,30 +34,32 @@
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/spinner"
+            android:id="@+id/sp_medname"
             android:layout_gravity="center_horizontal|top"
             android:layout_column="0"
             android:layout_row="0"
-            android:layout_columnSpan="2"/>
+            android:layout_columnSpan="2"
+            android:spinnerMode="dialog"/>
 
         <EditText
             android:layout_width="168dp"
             android:layout_height="wrap_content"
             android:inputType="number"
             android:ems="10"
-            android:id="@+id/editText"
+            android:id="@+id/et_dosage1"
             android:layout_row="1"
             android:layout_column="0"
-            android:text="@string/a_add_medicine_dosage_hint"
+            android:hint="@string/a_add_medicine_dosage_hint"
             style="@style/GreyFont" />
 
         <Spinner
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/spinner2"
+            android:id="@+id/sp_units_exist"
             android:layout_row="1"
             android:layout_column="1"
-            android:layout_gravity="fill_horizontal" />
+            android:layout_gravity="fill_horizontal"
+            android:spinnerMode="dialog"/>
     </GridLayout>
 
     <Space

@@ -15,10 +15,10 @@ public class DateUtil {
     private static final String TIME_FORMAT_24 = "HH:mm";
     private static final String TIME_FORMAT_12 = "hh:mm a";
 
-    private static boolean is24hrFormat = is24HourFormat();
+    public static boolean is24hrFormat = is24HourFormat();
 
 
-    public static boolean is24HourFormat(){
+    private static boolean is24HourFormat(){
         if(DateFormat.is24HourFormat(AppConfig.getAppContext())){
             is24hrFormat = true;
         }else{

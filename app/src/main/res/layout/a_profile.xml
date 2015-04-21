@@ -21,7 +21,7 @@
 
 
     <TableLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:background="@drawable/panel_background"
@@ -48,20 +48,20 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Name"
                 android:id="@+id/textView"
-                android:layout_column="0"/>
+                android:layout_column="0"
+                />
 
             <EditText
                 android:layout_marginStart="@dimen/main_layout_padding"
                 android:layout_marginLeft="@dimen/main_layout_padding"
-                android:layout_marginRight="@dimen/main_layout_padding"
-                android:layout_width="wrap_content"
+                android:layout_width="177dp"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
-                android:ems="10"
                 android:id="@+id/et_username"
                 android:layout_column="1"
                 android:hint="@string/a_profile_name_hint"
-                android:backgroundTint="@color/darkPurple"/>
+                android:backgroundTint="@color/darkPurple"
+                android:layout_marginRight="169dp"/>
 
 
         </TableRow>
@@ -172,7 +172,7 @@
                 android:id="@+id/sp_ethnicity"
                 android:layout_column="1"
                 android:spinnerMode="dialog"
-                android:entries="@array/arr_ethnicity"
+                android:entries="@array/ethnicity"
                 android:layout_marginStart="@dimen/main_layout_padding"
                 android:layout_marginLeft="@dimen/main_layout_padding"
                 android:layout_marginRight="@dimen/main_layout_padding"/>

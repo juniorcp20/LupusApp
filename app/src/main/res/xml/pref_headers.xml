@@ -9,7 +9,7 @@
         android:fragment="com.umb.cs682.projectlupus.activities.common.Settings$NotificationPreferenceFragment"
         android:title="@string/pref_header_notifications" />
     <header
-        android:fragment="com.umb.cs682.projectlupus.activities.common.Settings$DataSyncPreferenceFragment"
-        android:title="@string/pref_header_data_sync" />
+        android:fragment="com.umb.cs682.projectlupus.activities.common.Settings$DataSyncPreferenceFragment"/>
+        <!--android:title="@string/pref_header_data_sync"-->
 
 </preference-headers>

@@ -11,7 +11,6 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +19,7 @@ import android.widget.Button;
 public class MedicineAlert extends Activity {
     //private String parent = null;
     private boolean isInit = SharedPreferenceManager.getBooleanPref(Constants.IS_FIRST_RUN);
+
     Button addMed;
 
     private MedicineService medService = AppConfig.getMedicineService();
@@ -27,7 +27,7 @@ public class MedicineAlert extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.a_medicine_alert);
-        addMed = (Button) findViewById(R.id.button3);
+        addMed = (Button) findViewById(R.id.med_alert_button);
         addMed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

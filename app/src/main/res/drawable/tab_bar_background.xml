@@ -4,7 +4,7 @@
         android:state_focused="false"
         android:state_selected="false"
         android:state_pressed="false"
-        android:drawable="@color/lightGreen"/>
+        android:drawable="@color/lightPurple"/>
     <!--<item
         android:state_focused="false"
         android:state_selected="true"
@@ -17,5 +17,5 @@
     <item
         android:state_selected="true"
         android:state_pressed="true"
-        android:drawable="@color/darkGreen"/>
+        android:drawable="@color/darkPurple"/>
 </selector>

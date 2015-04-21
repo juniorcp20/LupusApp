@@ -18,13 +18,13 @@
             android:paddingLeft="2dip" android:paddingRight="2dip"
             android:text="@string/default_text"
             android:textSize="20dip"
-            style="@style/GreenFont">
+            style="@style/PurpleFont">
         </TextView>
         <TextView android:id="@+id/tv_sensitivity_text"
             android:layout_width="fill_parent" android:layout_height="wrap_content"
             android:text="@string/sensitivity_text"
             android:textSize="20dip"
-            style="@style/GreenFont">
+            style="@style/PurpleFont">
         </TextView>
         <Spinner android:id="@+id/sp_sensitivity"
             android:layout_width="fill_parent" android:layout_height="wrap_content"
@@ -48,14 +48,14 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/a_activity_sense_desc"
         android:id="@+id/a_activity_sense_desc"
-        style="@style/GreenFont"/>
+        style="@style/PurpleFont"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/a_activity_sense_desc1"
         android:id="@+id/textView6"
-        style="@style/GreenFont"
+        style="@style/PurpleFont"
         android:layout_below="@+id/a_activity_sense_desc"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -66,7 +66,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/a_activity_sense_tip"
         android:id="@+id/textView7"
-        style="@style/GreenFont"
+        style="@style/PurpleFont"
         android:layout_below="@+id/textView6"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />

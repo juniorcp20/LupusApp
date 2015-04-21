@@ -6,7 +6,6 @@
     <Space
         android:layout_width="fill_parent"
         android:layout_height="20px"
-        android:layout_below="@+id/frameLayout1"
         android:layout_centerHorizontal="true"
         android:id="@+id/space4" />
 
@@ -19,7 +18,7 @@
         android:layout_below="@+id/space4"
         android:layout_alignLeft="@+id/space4"
         android:layout_alignStart="@+id/space4"
-        style="@style/GreenFont"/>
+        style="@style/PurpleFont"/>
 
     <Space
         android:layout_width="fill_parent"

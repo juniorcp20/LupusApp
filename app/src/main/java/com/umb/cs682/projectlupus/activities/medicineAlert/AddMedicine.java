@@ -5,6 +5,7 @@ import com.umb.cs682.projectlupus.config.AppConfig;
 import com.umb.cs682.projectlupus.service.MedicineService;
 import com.umb.cs682.projectlupus.service.ReminderService;
 import com.umb.cs682.projectlupus.util.Constants;
+import com.umb.cs682.projectlupus.util.DateUtil;
 import com.umb.cs682.projectlupus.util.SharedPreferenceManager;
 import com.umb.cs682.projectlupus.util.Utils;
 
@@ -14,24 +15,32 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,6 +57,20 @@ public class AddMedicine extends Activity {
     private String selDate = "1";
 
     private boolean isInit = SharedPreferenceManager.getBooleanPref(Constants.IS_FIRST_RUN);
+
+    private int selHour;
+    private int selMin;
+    private StringBuilder selectedTime;
+    private ArrayList<String> strArr;
+    private boolean isNew = false;
+    private boolean is24hrFormat = false;
+    private int selTimePos;
+
+    private Button addMedAlertBtn;
+    private ListView alertsList;
+    private TimePickerDialog timePicker;
+
+    private AddMedicineAdapter adapter;
 
     private ArrayList<String> medNames;
     private List<String> listDataHeader;
@@ -116,8 +139,123 @@ public class AddMedicine extends Activity {
         actionBar.addTab(newMedTab);
         actionBar.addTab(instTab);*/
 
+        addMedAlertBtn = (Button)findViewById(R.id.bt_set_rem);
+        alertsList = (ListView)findViewById(R.id.lv_med_rems);
+        alertsList.setVisibility(View.INVISIBLE);
+        strArr = new ArrayList<String>();
+
+        adapter = new AddMedicineAdapter(this,strArr);
+        alertsList.setAdapter(adapter);
+        alertsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                isNew = false;
+                selTimePos = position;
+                timePicker.show();
+                ImageView del = (ImageView) view.findViewById(R.id.delete_icon);
+                del.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        strArr.remove(selTimePos);
+                        adapter.notifyDataSetChanged();
+                        Toast.makeText(getApplicationContext(), "Alert Removed", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+        setupTimePicker();
+        addMedAlertBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isNew = true;
+                timePicker.show();
+            }
+        });
+
 	}
 
+    private void setupTimePicker() {
+        Calendar cal = Calendar.getInstance();
+        if(DateFormat.is24HourFormat(this)){
+            is24hrFormat = true;
+        }
+        timePicker = new TimePickerDialog(this, mTimeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), is24hrFormat);
+    }
+
+    /** Callback received when the user "picks" a time in the dialog */
+    private TimePickerDialog.OnTimeSetListener mTimeSetListener =
+            new TimePickerDialog.OnTimeSetListener() {
+                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                    selMin = minute;
+                    String am_pm = null;
+                    if(!DateUtil.is24hrFormat) {
+                        if (hourOfDay > 12)         //hourofDay =13
+                        {
+                            selHour = hourOfDay - 12;     //hour=1
+                            am_pm = "PM";                   //PM
+                        } else {
+                            selHour = hourOfDay;
+                            am_pm = "AM";
+                        }
+                    }else{
+                        selHour = hourOfDay;
+                    }
+                    selectedTime = new StringBuilder();
+                    selectedTime.append(pad(selHour)).append(":").append(pad(selMin));
+                    if(am_pm != null){
+                        selectedTime.append(" ").append(am_pm);
+                    }
+                    if(isNew){
+                        strArr.add(selectedTime.toString());
+                    }else{
+                        strArr.set(selTimePos,selectedTime.toString());
+                    }
+                    adapter.notifyDataSetChanged();
+                    alertsList.setVisibility(View.VISIBLE);
+                    displayToast();
+                }
+            };
+
+    private static String pad(int c) {
+        if (c >= 10)
+            return String.valueOf(c);
+        else
+            return "0" + String.valueOf(c);
+    }
+
+    private void displayToast() {
+        Toast.makeText(this.getApplicationContext(), new StringBuilder().append("Alert set at ").append(selectedTime), Toast.LENGTH_SHORT).show();
+    }
+
+    public class AddMedicineAdapter extends ArrayAdapter<String> {
+        public AddMedicineAdapter(Context context, ArrayList<String> times) {
+            super(context, R.layout.li_reminder_item, times);
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            View customView = inflater.inflate(R.layout.li_reminder_item, parent, false);
+            String time = getItem(position);
+            TextView displayTime = (TextView) customView.findViewById(R.id.display_time);
+            ImageView actionIcon = (ImageView) customView.findViewById(R.id.delete_icon);
+            actionIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    strArr.remove(position);
+                    if(strArr.isEmpty()){
+                        alertsList.setVisibility(View.INVISIBLE);
+                    }
+                    notifyDataSetChanged();
+                }
+            });
+            displayTime.setText(time);
+            actionIcon.setImageResource(R.drawable.ic_action_discard);
+            return customView;
+        }
+
+
+    }
 
     private void addRadioButtonEventHandlers() {
         intervalGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -173,21 +311,21 @@ public class AddMedicine extends Activity {
         LayoutInflater inflater = LayoutInflater.from(this);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setTitle("Pick a day")
-                          .setSingleChoiceItems(R.array.arr_days, 0,new DialogInterface.OnClickListener(){
-                             public void onClick(DialogInterface dialog,int position){
-                                 ListView lv = ((AlertDialog)dialog).getListView();
-                                 selDay = lv.getAdapter().getItem(position).toString();
-                             }
-                          }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    //todo add to db and set selection of spinner
-                                    Utils.displayToast(getApplicationContext(), "Reminder set at "+selDay+" of every week.");
-                                }
-                            }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                }
-                            });
+                .setSingleChoiceItems(R.array.arr_days, 0,new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog,int position){
+                        ListView lv = ((AlertDialog)dialog).getListView();
+                        selDay = lv.getAdapter().getItem(position).toString();
+                    }
+                }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                //todo add to db and set selection of spinner
+                Utils.displayToast(getApplicationContext(), "Reminder set at "+selDay+" of every week.");
+            }
+        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
 
         pickDayDialog = alertDialogBuilder.create();
     }
@@ -200,19 +338,18 @@ public class AddMedicine extends Activity {
 
         final EditText newMedName = (EditText) dialogView.findViewById(R.id.et_new_med);
 
-        alertDialogBuilder.setPositiveButton("Add", new DialogInterface.OnClickListener(){
-                                public void onClick(DialogInterface dialog, int id){
-                                    //todo add to db and set selection of spinner
-                                }
-                            }).setNegativeButton("Reset",new DialogInterface.OnClickListener(){
-                                public void onClick(DialogInterface dialog, int id){
-                                    newMedName.setText("");
-                                }
-                            });
+        alertDialogBuilder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                //todo add to db and set selection of spinner
+            }
+        }).setNegativeButton("Reset", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                newMedName.setText("");
+            }
+        });
 
         newMedDialog = alertDialogBuilder.create();
     }
-
 
     private void initMedNameSpinner() {
         medNameSpinner = (Spinner) findViewById(R.id.sp_med_name);
@@ -235,7 +372,9 @@ public class AddMedicine extends Activity {
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_save) {
-            //todo save to DB
+            //todo create a new intent
+            // start medicinealert activity
+            //intent.put(medcine name)
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

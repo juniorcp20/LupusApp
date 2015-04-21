@@ -9,7 +9,7 @@
     tools:context="com.umb.cs682.projectlupus.activities.medicineAlert.MedicineAlert"
     android:id="@+id/drawer_layout">
 
-    TextView
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -19,23 +19,45 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
+    <Space
+        android:layout_width="20px"
+        android:layout_height="20px"
+        android:id="@+id/space23"
+        android:layout_below="@id/textView"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_action_add_alarm"
+        android:text="Add Medicine"
+        android:id="@+id/med_alert_button"
+        android:background="@drawable/round_corner_button"
+        android:textColor="#ffffffff"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+    <Space
+        android:layout_width="fill_parent"
+        android:layout_height="20px"
+        android:id="@+id/space24"
+        android:layout_below="@id/med_alert_button"/>
+
+
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/medicialalart"
+        android:id="@+id/med_alert_listview"
         android:choiceMode="singleChoice"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/space24"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="96dp" />
+        android:layout_alignParentStart="true"/>
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Med"
-        android:id="@+id/button3"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+
+
+
+
+
 </RelativeLayout>

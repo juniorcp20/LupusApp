@@ -1,6 +1,7 @@
 package com.umb.cs682.projectlupus.activities.medicineAlert;
 
 import com.umb.cs682.projectlupus.R;
+import com.umb.cs682.projectlupus.activities.common.Profile;
 import com.umb.cs682.projectlupus.config.AppConfig;
 import com.umb.cs682.projectlupus.service.MedicineService;
 import com.umb.cs682.projectlupus.service.ReminderService;
@@ -372,9 +373,9 @@ public class AddMedicine extends Activity {
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_save) {
-            //todo create a new intent
-            // start medicinealert activity
-            //intent.put(medcine name)
+            Intent intent = new Intent();
+            intent.putExtra("Medicine Name",medNames.get(medNameSpinner.getSelectedItemPosition()));
+            startActivity(intent.setClass(this, MedicineAlert.class));
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -435,4 +436,7 @@ public class AddMedicine extends Activity {
             alertDialog.show();
         }
     };
+
+
+
 }

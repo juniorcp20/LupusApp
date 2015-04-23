@@ -17,15 +17,14 @@
         android:id="@+id/textView"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        style="@style/PurpleFont"/>
 
     <Space
-        android:layout_width="20px"
+        android:layout_width="fill_parent"
         android:layout_height="20px"
         android:id="@+id/space23"
-        android:layout_below="@id/textView"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@id/textView" />
 
     <Button
         android:layout_width="match_parent"
@@ -35,7 +34,7 @@
         android:id="@+id/med_alert_button"
         android:background="@drawable/round_corner_button"
         android:textColor="#ffffffff"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/space23"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"/>
 
@@ -53,7 +52,8 @@
         android:choiceMode="singleChoice"
         android:layout_below="@+id/space24"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
+        android:layout_alignParentStart="true"
+        android:background="@drawable/panel_background"/>
 
 
 

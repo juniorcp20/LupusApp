@@ -4,6 +4,7 @@ import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.activities.main.Home;
 import com.umb.cs682.projectlupus.config.AppConfig;
 import com.umb.cs682.projectlupus.service.MedicineService;
+import com.umb.cs682.projectlupus.service.ReminderService;
 import com.umb.cs682.projectlupus.util.Constants;
 import com.umb.cs682.projectlupus.util.SharedPreferenceManager;
 import com.umb.cs682.projectlupus.util.Utils;
@@ -24,75 +25,54 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class MedicineAlert extends Activity {
-    private String medName = null;
+    private static final String TAG = "activities.medAlert";
     private boolean isInit = SharedPreferenceManager.getBooleanPref(Constants.IS_FIRST_RUN);
 
     Button addMed;
+    private ListView medNamesListView;
+
+    private ArrayList<String> medNames;
+    private boolean isNew = false;
+    private int currMed;
+    private String medName = null;
+
+    private AddMedicineNameAdapter adapter;
 
     private MedicineService medService = AppConfig.getMedicineService();
-    private ArrayList<String> strArr;
-    private AddMedicineNameAdapter adapter;
-    private ListView alertsList;
-    private boolean isNew = false;
-    private int selTimePos;
-
-
+    private ReminderService reminderService = AppConfig.getReminderService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.a_medicine_alert);
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         addMed = (Button) findViewById(R.id.med_alert_button);
+        medNamesListView = (ListView)findViewById(R.id.add_medname_listview);
+
         addMed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addMedicine();
             }
         });
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
 
+        initMedNamesListView();
+        checkIntent();
 
-        alertsList = (ListView)findViewById(R.id.add_medname_listview);
-        alertsList.setVisibility(View.INVISIBLE);
-        strArr = new ArrayList<String>();
+        if (isInit) {
+            actionBar.setTitle(R.string.title_init_medicine_alert);
+            medService.initMedicineDB();
 
-        adapter = new AddMedicineNameAdapter(getApplicationContext(),strArr);
-        alertsList.setAdapter(adapter);
-        alertsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent();
-               // intent.putExtra("Medicine Name",medNames.get(medNameSpinner.getSelectedItemPosition()));
-                startActivity(intent.setClass(getApplicationContext(), AddMedicine.class));            }
-        });
-
-        medName = getIntent().getStringExtra("Medicine Name");
-        if (medName != null){
-
-            adapter.notifyDataSetChanged();
-            alertsList.setVisibility(View.VISIBLE);
-            Utils.displayToast(this,medName);
-
+            //isInit = true;**
+        } else {
+            actionBar.setTitle(R.string.title_medicine_alert);
         }
-
-        //isInit = getIntent().getBooleanExtra(Constants.IS_INIT, false);
-       // if(medName != null) {
-            //Log.i(Constants.ACTIVITY_SENSE, medName);
-            if (isInit) {
-                actionBar.setTitle(R.string.title_init_medicine_alert);
-                medService.initMedicineDB();
-
-                //isInit = true;**
-            } else {
-                actionBar.setTitle(R.string.title_medicine_alert);
-            }
-        //}
     }
 
     @Override
@@ -130,9 +110,48 @@ public class MedicineAlert extends Activity {
     }
 
     public void addMedicine(){
+        isNew = true;
         Intent intent = new Intent();
-        //intent.putExtra(Constants.IS_INIT, isInit);
+        intent.putExtra(Constants.IS_NEW_MED, isNew);
         startActivity(intent.setClass(this, AddMedicine.class));
+    }
+
+    private void initMedNamesListView(){
+        medNames = reminderService.getMedicinesWithReminders();
+        if(medNames.size() == 0){
+            medNamesListView.setVisibility(View.INVISIBLE);
+        }
+
+        adapter = new AddMedicineNameAdapter(getApplicationContext(), medNames);
+        medNamesListView.setAdapter(adapter);
+        medNamesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                isNew = false;
+                currMed = position;
+                Intent intent = new Intent();
+                intent.putExtra(Constants.IS_NEW_MED, isNew);
+                intent.putExtra(Constants.MED_NAME, medNames.get(position));
+                startActivity(intent.setClass(getApplicationContext(), AddMedicine.class));
+            }
+        });
+    }
+
+    private void checkIntent(){
+        medName = getIntent().getStringExtra(Constants.MED_NAME);
+        if (medName != null){
+            isNew = getIntent().getBooleanExtra(Constants.IS_NEW_MED, true);
+            if(isNew) {
+               /* medNames.add(medName);
+                adapter.notifyDataSetChanged();
+                medNamesListView.setVisibility(View.VISIBLE);*/
+                Utils.displayToast(this, "Added "+medName);
+            }else{
+                medNames.set(currMed, medName);
+                adapter.notifyDataSetChanged();
+                Utils.displayToast(this, "Updated "+medName);
+            }
+        }
     }
 
     public class AddMedicineNameAdapter extends ArrayAdapter<String> {
@@ -145,24 +164,23 @@ public class MedicineAlert extends Activity {
         public View getView(final int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
             View customView = inflater.inflate(R.layout.li_reminder_item, parent, false);
-
-            TextView displayTime = (TextView) customView.findViewById(R.id.display_time);
+            String name = medNames.get(position);
+            TextView displayName = (TextView) customView.findViewById(R.id.display_time);
             ImageView actionIcon = (ImageView) customView.findViewById(R.id.delete_icon);
             actionIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    strArr.remove(position);
-                    if (strArr.isEmpty()) {
-                        alertsList.setVisibility(View.INVISIBLE);
+                    reminderService.deleteMedReminderByMedId(medService.getMedicine(medName).getId());
+                    medNames.remove(position);
+                    if (medNames.isEmpty()) {
+                        medNamesListView.setVisibility(View.INVISIBLE);
                     }
 
                     notifyDataSetChanged();
 
                 }
             });
-            if (medName != null) {
-                displayTime.setText(medName);
-            }
+            displayName.setText(name);
             actionIcon.setImageResource(R.drawable.ic_action_discard);
             return customView;
         }

@@ -4,14 +4,19 @@ import android.content.Context;
 
 import com.umb.cs682.projectlupus.db.dao.MedicineDao;
 import com.umb.cs682.projectlupus.domain.MedicineBO;
+import com.umb.cs682.projectlupus.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import de.greenrobot.dao.DaoException;
+import de.greenrobot.dao.query.CountQuery;
 import de.greenrobot.dao.query.Query;
-import de.greenrobot.dao.query.QueryBuilder;
 
 public class MedicineService {
+    public static final String DAILY = Constants.DAILY;
+    public static final String WEEKLY = Constants.WEEKLY;
+    public static final String MONTHLY = Constants.MONTHLY;
     private Context context;
     private MedicineDao medicineDao;
 
@@ -25,27 +30,36 @@ public class MedicineService {
     }
 
     public void initMedicineDB(){
-        if(medicineDao.count()>0){
-            medicineDao.deleteAll();
+        if(medicineDao.count() == 0) {
+            medicineDao.insert(new MedicineBO(null, "Prednisone/Prednisolone", -1, DAILY, null));
+            medicineDao.insert(new MedicineBO(null, "Mycophenolate", -1, DAILY, null));
+            medicineDao.insert(new MedicineBO(null, "Methotrexate", -1, WEEKLY, null));
+            medicineDao.insert(new MedicineBO(null, "Cyclophosphamide", -1, DAILY, null));
+            medicineDao.insert(new MedicineBO(null, "Belimumab", -1, MONTHLY, null));
+            medicineDao.insert(new MedicineBO(null, "Tacrolimus", -1, DAILY, null));
+            medicineDao.insert(new MedicineBO(null, "Rituximab", -1, MONTHLY, null));
         }
-
-        medicineDao.insert(new MedicineBO(null,"Prednisone/Prednisolone",-1,"mg/day",null));
-        medicineDao.insert(new MedicineBO(null,"Mycophenolate",-1,"mg/day",null));
-        medicineDao.insert(new MedicineBO(null,"Methotrexate",-1,"mg/week",null));
-        medicineDao.insert(new MedicineBO(null,"Cyclophosphamide",-1,"mg/day",null));
-        medicineDao.insert(new MedicineBO(null,"Belimumab",-1,"mg/month",null));
-        medicineDao.insert(new MedicineBO(null,"Tacrolimus",-1,"mg/day",null));
-        medicineDao.insert(new MedicineBO(null,"Rituximab",-1,"mg/month",null));
     }
 
-    public void addMedicine(String name, int dosage, String units, String notes){
-        bo = new MedicineBO(null, name, dosage, units, notes);
-        medicineDao.insert(bo);
+    public String addMedicine(String name, int dosage, String interval, String notes){
+        String newMed = null;
+        bo = new MedicineBO(null, name, dosage, interval, notes);
+        long countBeforeAdd = getRowCount();
+        if(getRowCount(name) == 0){
+            medicineDao.insert(bo);
+        }else{
+            throw new DaoException("Medicine already exists, select from the available list!");
+        }
+        if(getRowCount() > countBeforeAdd){
+            newMed = getMedicine(name).getMedName();
+        }
+        return newMed;
     }
 
-    public void updateDosage(long id, int dosage){
+    public void editDosage(long id, int dosage, String interval){
         bo = getMedicine(id);
         bo.setDosage(dosage);
+        bo.setInterval(interval);
         bo.update();
     }
 
@@ -65,8 +79,27 @@ public class MedicineService {
         return medicineDao.queryBuilder().where(MedicineDao.Properties.Id.eq(id)).build().uniqueOrThrow();
     }
 
-    public String getUnitOfMedicine(long id){
+    public MedicineBO getMedicine(String name){
+        return medicineDao.queryBuilder().where(MedicineDao.Properties.MedName.eq(name)).build().uniqueOrThrow();
+    }
+
+    public int getMedicineDosage(long id){
         bo = getMedicine(id);
-        return bo.getUnits();
+        return bo.getDosage();
+    }
+
+    public String getMedicineInterval(long id){
+        bo = getMedicine(id);
+        return bo.getInterval();
+    }
+
+    private long getRowCount(){
+        CountQuery query = medicineDao.queryBuilder().buildCount();
+        return query.count();
+    }
+
+    private long getRowCount(String medName){
+        CountQuery query = medicineDao.queryBuilder().where(MedicineDao.Properties.MedName.eq(medName)).buildCount();
+        return query.count();
     }
 }

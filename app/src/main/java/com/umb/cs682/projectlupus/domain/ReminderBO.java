@@ -17,7 +17,7 @@ public class ReminderBO {
     private Long id;
     private Integer typeId;
     private long medId;
-    private String reminderName;
+    private String reminderDayOrDate;
     /** Not-null value. */
     private java.util.Date reminderTime;
     /** Not-null value. */
@@ -38,11 +38,11 @@ public class ReminderBO {
         this.id = id;
     }
 
-    public ReminderBO(Long id, Integer typeId, long medId, String reminderName, java.util.Date reminderTime, String status) {
+    public ReminderBO(Long id, Integer typeId, long medId, String reminderDayOrDate, java.util.Date reminderTime, String status) {
         this.id = id;
         this.typeId = typeId;
         this.medId = medId;
-        this.reminderName = reminderName;
+        this.reminderDayOrDate = reminderDayOrDate;
         this.reminderTime = reminderTime;
         this.status = status;
     }
@@ -77,12 +77,12 @@ public class ReminderBO {
         this.medId = medId;
     }
 
-    public String getReminderName() {
-        return reminderName;
+    public String getReminderDayOrDate() {
+        return reminderDayOrDate;
     }
 
-    public void setReminderName(String reminderName) {
-        this.reminderName = reminderName;
+    public void setReminderDayOrDate(String reminderDayOrDate) {
+        this.reminderDayOrDate = reminderDayOrDate;
     }
 
     /** Not-null value. */

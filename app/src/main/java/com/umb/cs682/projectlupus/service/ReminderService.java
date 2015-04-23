@@ -2,6 +2,7 @@ package com.umb.cs682.projectlupus.service;
 
 import android.content.Context;
 
+import com.umb.cs682.projectlupus.config.AppConfig;
 import com.umb.cs682.projectlupus.db.dao.ReminderDao;
 import com.umb.cs682.projectlupus.domain.ReminderBO;
 import com.umb.cs682.projectlupus.util.Constants;
@@ -15,7 +16,6 @@ import de.greenrobot.dao.DaoException;
 import de.greenrobot.dao.query.CountQuery;
 import de.greenrobot.dao.query.DeleteQuery;
 import de.greenrobot.dao.query.Query;
-import de.greenrobot.dao.query.QueryBuilder;
 
 public class ReminderService {
     public static final String TAG = "service.reminder";
@@ -31,6 +31,8 @@ public class ReminderService {
 
     private Query getMoodRemindersQuery;
     private Query getMedRemindersQuery;
+
+    private MedicineService medicineService = AppConfig.getMedicineService();
 
     public ReminderService(Context context, ReminderDao reminderDao){
         this.context = context;
@@ -48,7 +50,7 @@ public class ReminderService {
 
     public long addMoodReminder(String time){
         long id = -1;
-        bo = new ReminderBO(null, MOOD_REMINDER, -1,getReminderName(MOOD_REMINDER),
+        bo = new ReminderBO(null, MOOD_REMINDER, -1,null,
         DateUtil.toTime(time),Constants.REM_STATUS_ACTIVE);
         long countBeforeAdd = getRowCount(MOOD_REMINDER);
         if(getRowCount(MOOD_REMINDER, time) == 0) {
@@ -101,9 +103,9 @@ public class ReminderService {
 
     /* Medicine Reminders*/
 
-    public long addMedReminder(long medID, String time){
+    public long addMedReminder(long medID, String dayOrDate, String time){
         long id = -1;
-        bo = new ReminderBO(null, MED_REMINDER, medID,getReminderName(MED_REMINDER),
+        bo = new ReminderBO(null, MED_REMINDER, medID,dayOrDate,
                 DateUtil.toTime(time),Constants.REM_STATUS_ACTIVE);
         long countBeforeAdd = getRowCount(MED_REMINDER);
         if(getRowCount(MED_REMINDER, medID, time) == 0) {
@@ -123,8 +125,20 @@ public class ReminderService {
         reminderDao.update(bo);
     }
 
+    public void editMedReminder(long id, long medID, String dayOrDate){
+        bo = getMedReminder(id);
+        bo.setMedId(medID);
+        bo.setReminderDayOrDate(dayOrDate);
+        reminderDao.update(bo);
+    }
+
     public void deleteMedReminder(long id){
         DeleteQuery query = reminderDao.queryBuilder().where(ReminderDao.Properties.Id.eq(id)).buildDelete();
+        query.executeDeleteWithoutDetachingEntities();
+    }
+
+    public void deleteMedReminderByMedId(long medID){
+        DeleteQuery query = reminderDao.queryBuilder().where(ReminderDao.Properties.MedId.eq(medID)).buildDelete();
         query.executeDeleteWithoutDetachingEntities();
     }
 
@@ -140,6 +154,11 @@ public class ReminderService {
         return getMedRemindersQuery.list();
     }
 
+    public List<ReminderBO> getMedReminders(long medID){
+        Query query = reminderDao.queryBuilder().where(ReminderDao.Properties.TypeId.eq(MED_REMINDER), ReminderDao.Properties.MedId.eq(medID)).build();
+        return query.list();
+    }
+
     public ArrayList<Long> getAllMedReminderIDs(){
         ArrayList<Long> ids = new ArrayList<>();
         for(ReminderBO currBO : getMedReminders()){
@@ -148,23 +167,23 @@ public class ReminderService {
         return ids;
     }
 
-    /* Private methods */
-
-    private String getReminderName(int type_id) {
-        StringBuilder name = null;
-        if(type_id == MOOD_REMINDER){
-            name = new StringBuilder("MOOD_ALERT");
-            name.append(getRowCount(type_id));
-        }else{
-            name = new StringBuilder("MED_ALERT");
-            name.append(getRowCount(type_id));
+    public ArrayList<Long> getAllMedReminderIDs(long medID){
+        ArrayList<Long> ids = new ArrayList<>();
+        for(ReminderBO currBO : getMedReminders(medID)){
+            ids.add(currBO.getId());
         }
-        CountQuery query = reminderDao.queryBuilder().where(ReminderDao.Properties.ReminderName.eq(name)).buildCount();
-        if(query.count() != 0){
-            name.replace(name.length()-1, name.length(),String.valueOf(query.count()+1));
-        }
-        return name.toString();
+        return ids;
     }
+
+    public ArrayList<String> getMedicinesWithReminders(){
+        ArrayList<String> medNames = new ArrayList<>();
+        for(ReminderBO currBO : getMedReminders()){
+            medNames.add(medicineService.getMedicine(currBO.getMedId()).getMedName());
+        }
+        return medNames;
+    }
+
+    /* Private methods */
 
     private long getRowCount(int type_id){
         CountQuery query = reminderDao.queryBuilder().where(ReminderDao.Properties.TypeId.eq(type_id)).buildCount();

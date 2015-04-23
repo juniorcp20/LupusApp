@@ -27,7 +27,7 @@ public class MedicineDao extends AbstractDao<MedicineBO, Long> {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property MedName = new Property(1, String.class, "medName", false, "MED_NAME");
         public final static Property Dosage = new Property(2, int.class, "dosage", false, "DOSAGE");
-        public final static Property Units = new Property(3, String.class, "units", false, "UNITS");
+        public final static Property Interval = new Property(3, String.class, "interval", false, "INTERVAL");
         public final static Property Notes = new Property(4, String.class, "notes", false, "NOTES");
     };
 
@@ -50,7 +50,7 @@ public class MedicineDao extends AbstractDao<MedicineBO, Long> {
                 "'_id' INTEGER PRIMARY KEY ," + // 0: id
                 "'MED_NAME' TEXT NOT NULL ," + // 1: medName
                 "'DOSAGE' INTEGER NOT NULL ," + // 2: dosage
-                "'UNITS' TEXT NOT NULL ," + // 3: units
+                "'INTERVAL' TEXT NOT NULL ," + // 3: interval
                 "'NOTES' TEXT);"); // 4: notes
     }
 
@@ -71,7 +71,7 @@ public class MedicineDao extends AbstractDao<MedicineBO, Long> {
         }
         stmt.bindString(2, entity.getMedName());
         stmt.bindLong(3, entity.getDosage());
-        stmt.bindString(4, entity.getUnits());
+        stmt.bindString(4, entity.getInterval());
  
         String notes = entity.getNotes();
         if (notes != null) {
@@ -98,7 +98,7 @@ public class MedicineDao extends AbstractDao<MedicineBO, Long> {
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.getString(offset + 1), // medName
             cursor.getInt(offset + 2), // dosage
-            cursor.getString(offset + 3), // units
+            cursor.getString(offset + 3), // interval
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4) // notes
         );
         return entity;
@@ -110,7 +110,7 @@ public class MedicineDao extends AbstractDao<MedicineBO, Long> {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setMedName(cursor.getString(offset + 1));
         entity.setDosage(cursor.getInt(offset + 2));
-        entity.setUnits(cursor.getString(offset + 3));
+        entity.setInterval(cursor.getString(offset + 3));
         entity.setNotes(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
      }
     

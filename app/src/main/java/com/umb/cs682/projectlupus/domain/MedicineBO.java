@@ -19,7 +19,7 @@ public class MedicineBO {
     private String medName;
     private int dosage;
     /** Not-null value. */
-    private String units;
+    private String interval;
     private String notes;
 
     /** Used to resolve relations */
@@ -37,11 +37,11 @@ public class MedicineBO {
         this.id = id;
     }
 
-    public MedicineBO(Long id, String medName, int dosage, String units, String notes) {
+    public MedicineBO(Long id, String medName, int dosage, String interval, String notes) {
         this.id = id;
         this.medName = medName;
         this.dosage = dosage;
-        this.units = units;
+        this.interval = interval;
         this.notes = notes;
     }
 
@@ -78,13 +78,13 @@ public class MedicineBO {
     }
 
     /** Not-null value. */
-    public String getUnits() {
-        return units;
+    public String getInterval() {
+        return interval;
     }
 
     /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setUnits(String units) {
-        this.units = units;
+    public void setInterval(String interval) {
+        this.interval = interval;
     }
 
     public String getNotes() {

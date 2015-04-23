@@ -30,7 +30,7 @@ public class ReminderDao extends AbstractDao<ReminderBO, Long> {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property TypeId = new Property(1, Integer.class, "typeId", false, "TYPE_ID");
         public final static Property MedId = new Property(2, long.class, "medId", false, "MED_ID");
-        public final static Property ReminderName = new Property(3, String.class, "reminderName", false, "REMINDER_NAME");
+        public final static Property ReminderDayOrDate = new Property(3, String.class, "reminderDayOrDate", false, "REMINDER_DAY_DATE");
         public final static Property ReminderTime = new Property(4, java.util.Date.class, "reminderTime", false, "REMINDER_TIME");
         public final static Property Status = new Property(5, String.class, "status", false, "STATUS");
     };
@@ -55,7 +55,7 @@ public class ReminderDao extends AbstractDao<ReminderBO, Long> {
                 "'_id' INTEGER PRIMARY KEY ," + // 0: id
                 "'TYPE_ID' INTEGER," + // 1: typeId
                 "'MED_ID' INTEGER NOT NULL ," + // 2: medId
-                "'REMINDER_NAME' TEXT," + // 3: reminderName
+                "'REMINDER_DAY_DATE' TEXT," + // 3: reminderDayOrDate
                 "'REMINDER_TIME' INTEGER NOT NULL ," + // 4: reminderTime
                 "'STATUS' TEXT NOT NULL );"); // 5: status
     }
@@ -82,9 +82,9 @@ public class ReminderDao extends AbstractDao<ReminderBO, Long> {
         }
         stmt.bindLong(3, entity.getMedId());
  
-        String reminderName = entity.getReminderName();
-        if (reminderName != null) {
-            stmt.bindString(4, reminderName);
+        String reminderDayOrDate = entity.getReminderDayOrDate();
+        if (reminderDayOrDate != null) {
+            stmt.bindString(4, reminderDayOrDate);
         }
         stmt.bindLong(5, entity.getReminderTime().getTime());
         stmt.bindString(6, entity.getStatus());
@@ -109,7 +109,7 @@ public class ReminderDao extends AbstractDao<ReminderBO, Long> {
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getInt(offset + 1), // typeId
             cursor.getLong(offset + 2), // medId
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // reminderName
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // reminderDayOrDate
             new java.util.Date(cursor.getLong(offset + 4)), // reminderTime
             cursor.getString(offset + 5) // status
         );
@@ -122,7 +122,7 @@ public class ReminderDao extends AbstractDao<ReminderBO, Long> {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setTypeId(cursor.isNull(offset + 1) ? null : cursor.getInt(offset + 1));
         entity.setMedId(cursor.getLong(offset + 2));
-        entity.setReminderName(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setReminderDayOrDate(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setReminderTime(new java.util.Date(cursor.getLong(offset + 4)));
         entity.setStatus(cursor.getString(offset + 5));
      }

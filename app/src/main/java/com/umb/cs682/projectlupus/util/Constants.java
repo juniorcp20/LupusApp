@@ -31,4 +31,16 @@ public final class Constants {
     public static final String REM_STATUS_DONE = "Done";       // user selected done on notification
     public static final String REM_STATUS_SKIP = "Skip";       // user selected skip on notification
     public static final String REM_STATUS_SNOOZE= "Snooze";    // user selected snooze on notification
+
+    //Medicine Reminder Intervals
+    public static final String DAILY = "Daily";
+    public static final String WEEKLY = "Weekly";
+    public static final String MONTHLY = "Monthly";
+
+    //Database
+    public static final String STR_DEFAULT = "None";
+
+    //Add Medicine
+    public static final String IS_NEW_MED = "Is New Medicine";
+    public static final String MED_NAME = "Medicine Name";
 }

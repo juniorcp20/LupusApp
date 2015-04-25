@@ -37,7 +37,6 @@
     <!-- MEDICINE ALERT -->
     <string name="title_init_medicine_alert">Step 4 of 4</string>
     <string name="title_medicine_alert">Medicine Reminders</string>
-
     <string name="title_activity_add_medicine">Medicine Details</string>
     <string name="a_add_medicine_name">Select medicine from the list or add new if not present in the list by clicking the add button.</string>
     <string name="a_add_medicine_dosage">Enter dosage and interval</string>
@@ -65,9 +64,6 @@
     <string name="title_activity_init_medicine_alert">InitMedicineAlert</string>
     <string name="title_activity_home">Home</string>
     <string name="title_activity_init_main">Android Alarm </string>
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
@@ -78,32 +74,4 @@
     <string name="title_activity_share_info">ShareInfo</string>
     <string name="title_activity_help">Help</string>
     <string name="title_activity_about">About</string>
-
-    <string-array name="age">
-        <item>Select your age</item>
-        <item>Under 18</item>
-        <item>18--30</item>
-        <item>30--40</item>
-        <item>40--50</item>
-        <item>50--60</item>
-        <item>Older than 60</item>
-    </string-array>
-
-    <string-array name="ethnicity">
-        <item>Select your ethnicity</item>
-        <item>Black</item>
-        <item>Latino</item>
-        <item>Hispanic</item>
-        <item>Caucasian</item>
-        <item>Asian</item>
-        <item>Oriental</item>
-        <item>Polynesian</item>
-        <item>Middle Eastern</item>
-        <item>Jewish</item>
-        <item>Hapa</item>
-        <item>Mixed</item>
-        <item>I do not want to answer</item>
-
-
-    </string-array>
 </resources>

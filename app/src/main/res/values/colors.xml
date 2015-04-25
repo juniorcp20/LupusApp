@@ -2,8 +2,7 @@
 <resources>
     <color name="lightPurple">#eebbff</color>
     <color name="darkPurple">#cc88ff</color>
-    <color name="panelBackground">#ddccee</color>
+    <color name="dullPurple">#ddccee</color>
+    <color name="white">#ffffff</color>
     <color name="grey">#ffb4bfbe</color>
-    <color name="transparent">#00000000</color>
-    <color name="tab_highlight">#FFbbd87d</color>
 </resources>

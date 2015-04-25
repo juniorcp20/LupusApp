@@ -52,7 +52,9 @@
         style="@style/PurpleFont"
         android:layout_below="@+id/space8"
         android:background="@drawable/panel_background"
-        android:padding="20dp"/>
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="5dp"/>
 
     <Space
         android:layout_width="match_parent"

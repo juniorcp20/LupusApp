@@ -5,5 +5,5 @@
         android:orderInCategory="100"
         android:showAsAction="always"
         android:title="@string/m_finish_action"
-        android:icon="@drawable/ic_action_accept"/>
+        android:icon="@drawable/ic_action_finish"/>
 </menu>

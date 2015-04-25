@@ -2,6 +2,7 @@ package com.umb.cs682.projectlupus.activities.common;
 
 import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.activities.moodAlert.MoodAlert;
+import com.umb.cs682.projectlupus.adapters.SpinnerAdapter;
 import com.umb.cs682.projectlupus.config.AppConfig;
 import com.umb.cs682.projectlupus.domain.ProfileBO;
 import com.umb.cs682.projectlupus.service.ProfileService;
@@ -15,10 +16,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Profile extends Activity {
     //private String parent = null;
@@ -35,17 +40,18 @@ public class Profile extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.a_profile);
-        /*parent = getIntent().getStringExtra(Constants.PARENT_ACTIVITY_NAME);
-        Log.i(Constants.PROFILE, parent);*/
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         etUsername = (EditText) findViewById(R.id.et_username);
         spAge = (Spinner) findViewById(R.id.sp_age);
         rgGender = (RadioGroup) findViewById(R.id.rg_gender);
         spEthnicity = (Spinner) findViewById(R.id.sp_ethnicity);
 
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-       // if(parent.equals(Constants.WELCOME)){
+        initAgeSpinner();
+        initEthnicitySpinner();
+
         if(isInit){
             actionBar.setTitle(R.string.title_init_profile);
         }else {
@@ -90,6 +96,18 @@ public class Profile extends Activity {
         Intent newIntent = null;
         newIntent = new Intent(this, getIntent().getClass());
         return newIntent;
+    }
+
+    private void initAgeSpinner(){
+        ArrayList<String> ages = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.arr_age)));
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.li_spinner, ages);
+        spAge.setAdapter(adapter);
+    }
+
+    private void initEthnicitySpinner(){
+        ArrayList<String> ethnicity = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.arr_ethnicity)));
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.li_spinner, ethnicity);
+        spEthnicity.setAdapter(adapter);
     }
 
     private void populateData() {

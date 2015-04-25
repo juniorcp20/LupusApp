@@ -2,7 +2,6 @@ package com.umb.cs682.projectlupus.activities.common;
 
 import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.activities.moodAlert.MoodAlert;
-import com.umb.cs682.projectlupus.adapters.SpinnerAdapter;
 import com.umb.cs682.projectlupus.config.AppConfig;
 import com.umb.cs682.projectlupus.domain.ProfileBO;
 import com.umb.cs682.projectlupus.service.ProfileService;

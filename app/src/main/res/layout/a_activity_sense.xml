@@ -34,7 +34,6 @@
         <ToggleButton android:id="@+id/tb_start_stop"
             android:layout_width="fill_parent"	android:layout_height="wrap_content"
             android:textOn="@string/a_activity_sense_toggle_on" android:textOff="@string/a_activity_sense_toggle_off"
-            android:minHeight="64dip" android:minWidth="96dip"
             android:layout_gravity="center_vertical"
             android:background="@drawable/round_corner_button"
             android:layout_below="@+id/space7"

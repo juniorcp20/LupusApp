@@ -33,17 +33,21 @@
             android:ems="10"
             android:textColor="@color/darkPurple"
             android:gravity="center_vertical"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp">
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp">
         </TextView>
 
         <ImageView
             android:id="@+id/delete_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxWidth="30dp"
+            android:maxHeight="30dp"
+            android:gravity="center_vertical"
             android:layout_weight="1"
             android:src="@drawable/ic_action_discard"
             android:layout_toRightOf="@+id/display_time"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginTop="10dp"
+            android:adjustViewBounds="true"
+            />
     </LinearLayout>

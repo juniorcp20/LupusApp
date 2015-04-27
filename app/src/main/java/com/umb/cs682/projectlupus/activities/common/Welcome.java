@@ -42,6 +42,7 @@ public class Welcome extends Activity {
             Log.i(TAG, "Contains IS_FIRST_RUN key :"+Boolean.toString(SharedPreferenceManager.contains(Constants.IS_FIRST_RUN)));
             if(!SharedPreferenceManager.contains(Constants.IS_FIRST_RUN)) {
                 SharedPreferenceManager.setBooleanPref(TAG, Constants.IS_FIRST_RUN, true);
+                AppConfig.clearTables();
             }
         }catch (Exception e){
             Log.e("Welcome", e.getMessage());

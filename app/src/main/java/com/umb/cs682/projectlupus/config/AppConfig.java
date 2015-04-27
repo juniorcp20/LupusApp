@@ -99,5 +99,10 @@ public class AppConfig {
     }
     public static MedicineService getMedicineService(){return medicineService;}
     public static ReminderService getReminderService(){return reminderService;}
-
+    public static void clearTables(){
+        profileDao.deleteAll();
+        moodLevelDao.deleteAll();
+        activitySenseDao.deleteAll();
+        reminderDao.deleteAll();
+    }
 }

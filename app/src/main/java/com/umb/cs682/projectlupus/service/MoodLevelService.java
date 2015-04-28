@@ -4,11 +4,14 @@ import android.content.Context;
 
 import com.umb.cs682.projectlupus.db.dao.MoodLevelDao;
 import com.umb.cs682.projectlupus.domain.MoodLevelBO;
+import com.umb.cs682.projectlupus.util.DateUtil;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import de.greenrobot.dao.query.CountQuery;
 import de.greenrobot.dao.query.Query;
 
 public class MoodLevelService {
@@ -24,6 +27,17 @@ public class MoodLevelService {
         this.moodLevelDao = moodLevelDao;
     }
 
+    public void loadDummyData(){
+        if(getCount() == 0) {
+            Calendar cal = Calendar.getInstance();
+            for (int i = 1; i < 5; i++) {
+                cal.set(2015, 4, i);
+                bo = new MoodLevelBO(null, 1, DateUtil.toDateTime(new Date(cal.getTimeInMillis())), i);
+                moodLevelDao.insert(bo);
+            }
+        }
+    }
+
     public List<MoodLevelBO> getAllData(){
         Query query = moodLevelDao.queryBuilder().build();
         return query.list();
@@ -35,5 +49,10 @@ public class MoodLevelService {
             timeVsMoodLevelMap.put(currBO.getDate(), currBO.getMoodLevel());
         }
         return timeVsMoodLevelMap;
+    }
+
+    private long getCount(){
+        CountQuery query = moodLevelDao.queryBuilder().buildCount();
+        return query.count();
     }
 }

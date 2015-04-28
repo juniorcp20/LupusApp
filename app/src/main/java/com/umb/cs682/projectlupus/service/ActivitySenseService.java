@@ -19,6 +19,7 @@ import com.umb.cs682.projectlupus.db.dao.ActivitySenseDao;
 import com.umb.cs682.projectlupus.domain.ActivitySenseBO;
 import com.umb.cs682.projectlupus.util.DateUtil;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import de.greenrobot.dao.query.CountQuery;
@@ -145,6 +146,17 @@ public class ActivitySenseService {
 
 
     /* Database Operations*/
+    public void loadDummyData(){
+        ActivitySenseBO bo;
+        if(getCount() == 0) {
+            Calendar cal = Calendar.getInstance();
+            for (int i = 1; i < 5; i++) {
+                cal.set(2015, 4, i);
+                bo = new ActivitySenseBO(null, 100 * i, DateUtil.toDate(new Date(cal.getTimeInMillis())));
+                activitySenseDao.insert(bo);
+            }
+        }
+    }
 
     public int getStoredStepCount(Date date){
         return getActSenseDatabyDate(date).getStepCount();
@@ -174,5 +186,10 @@ public class ActivitySenseService {
         Log.i(TAG, "Deleting Data");
         DeleteQuery query = activitySenseDao.queryBuilder().where(ActivitySenseDao.Properties.Date.eq(DateUtil.toDate(date))).buildDelete();
         query.executeDeleteWithoutDetachingEntities();
+    }
+
+    private long getCount(){
+        CountQuery query = activitySenseDao.queryBuilder().buildCount();
+        return query.count();
     }
 }

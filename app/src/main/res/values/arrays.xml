@@ -19,14 +19,8 @@
         <item>I do not wish to answer</item>
         <item>Black</item>
         <item>Latino</item>
-        <item>Hispanic</item>
-        <item>Caucasian</item>
         <item>Asian</item>
-        <item>Oriental</item>
-        <item>Polynesian</item>
         <item>Middle Eastern</item>
-        <item>Jewish</item>
-        <item>Hapa</item>
         <item>Mixed</item>
     </string-array>
 
@@ -90,6 +84,13 @@
         <item>Settings</item>
         <item>Help</item>
         <item>About</item>
+    </string-array>
+
+    <string-array name="minute">
+        <item>5 minutes</item>
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
     </string-array>
 
 </resources>

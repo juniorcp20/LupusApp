@@ -2,7 +2,9 @@ package com.umb.cs682.projectlupus.activities.common;
 
 import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.activities.activitySense.ActivitySense;
+import com.umb.cs682.projectlupus.activities.medicineAlert.MedicinePopUp;
 import com.umb.cs682.projectlupus.activities.moodAlert.MoodAlert;
+import com.umb.cs682.projectlupus.activities.moodAlert.MoodPopUp;
 import com.umb.cs682.projectlupus.util.Constants;
 
 import android.app.Activity;
@@ -11,13 +13,35 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 public class About extends Activity {
+    Button moodButton;
+    Button medButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.a_about);
+
+        moodButton = (Button) findViewById(R.id.b_mood);
+        medButton = (Button) findViewById(R.id.b_med);
+
+        moodButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                startActivity(intent.setClass(getApplicationContext(), MoodPopUp.class));
+            }
+        });
+
+        medButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                startActivity(intent.setClass(getApplicationContext(), MedicinePopUp.class));
+            }
+        });
 	}
 
 	@Override

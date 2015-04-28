@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Hey!"
+        android:id="@+id/hello"
+        android:textSize="30dp"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="20dp"
+        style="@style/PurpleFont"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="It's time to take your medicine"
+        android:id="@+id/takeMedicine"
+        android:layout_gravity="center_horizontal"
+        android:textSize="23dp"
+        android:paddingTop="20dp"
+
+        style="@style/PurpleFont"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/drugxxx"
+        android:gravity="center"
+        style="@style/PurpleFont"
+        android:textSize="23dp"/>
+
+    <View android:layout_width="300dp"
+        android:layout_height="2dp"
+        android:layout_gravity="center_horizontal"
+        android:background="#cc33ff"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"/>
+    <Spinner
+        android:paddingTop="20dp"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/later"
+        android:entries="@array/minute"
+        android:paddingLeft="60dp"
+
+        />
+    <View android:layout_width="300dp"
+        android:layout_height="2dp"
+        android:layout_gravity="center_horizontal"
+        android:background="#cc33ff"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="20dp"
+        />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        >
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="take"
+        android:id="@+id/take"
+        android:src="@drawable/ic_action_accept"
+        android:paddingLeft="60dp"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Snooze"
+        android:id="@+id/snooze"
+        android:layout_gravity="right"
+        android:src="@drawable/ic_action_snooze"
+        android:paddingLeft="60dp"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Skip"
+        android:id="@+id/skipbtn"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/ic_action_skip"
+        android:paddingLeft="60dp"
+        />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Take"
+        android:id="@+id/textView15"
+        style="@style/PurpleFont"
+        android:paddingLeft="60dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Snooze"
+        android:id="@+id/textView16"
+        android:layout_gravity="center_horizontal"
+        style="@style/PurpleFont"
+        android:paddingLeft="52dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Skip"
+        android:id="@+id/textView17"
+        android:layout_gravity="right"
+        style="@style/PurpleFont"
+        android:paddingLeft="50dp"/>
+    </LinearLayout>
+
+
+</LinearLayout>

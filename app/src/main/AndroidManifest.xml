@@ -8,12 +8,9 @@
         android:minSdkVersion="16"
         android:targetSdkVersion="21" />
 
-    <android:uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <android:uses-permission
-        android:name="android.permission.READ_PHONE_STATE"/>
-    <android:uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -27,7 +24,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.default" />
             </intent-filter>
         </activity>
         <activity
@@ -94,12 +91,32 @@
             android:name=".activities.medicineAlert.AddMedicine"
             android:label="@string/title_activity_add_medicine" >
         </activity>
+        <!-- splash page -->
+        <activity android:name=".activities.main.Splash" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <service
             android:name=".service.PedometerService"
             android:enabled="true"
             android:exported="true" >
         </service>
+
+        <activity
+            android:name=".activities.medicineAlert.MedicinePopUp"
+            android:label="@string/title_activity_medicine_pop_up"
+            android:parentActivityName=".activities.common.About" >
+
+        </activity>
+        <activity
+            android:name=".activities.moodAlert.MoodPopUp"
+            android:label="@string/title_activity_mood_pop_up"
+            android:parentActivityName=".activities.common.About" >>
+        </activity>
     </application>
 
 </manifest>

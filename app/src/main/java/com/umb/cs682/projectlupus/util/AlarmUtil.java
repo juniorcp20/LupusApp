@@ -62,7 +62,7 @@ public class AlarmUtil {
             intent.putExtra(Constants.ALARM_INTERVAL, Constants.DAILY);
         }
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 10*1000, pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         Log.i(TAG, "Set Repeating Alarm - Successful");
     }
 

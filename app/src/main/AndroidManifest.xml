@@ -8,9 +8,10 @@
         android:minSdkVersion="16"
         android:targetSdkVersion="21" />
 
-    <android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.andorid.alarm.permission.SET_ALARM"/>
 
     <application
         android:allowBackup="true"
@@ -110,13 +111,24 @@
             android:name=".activities.medicineAlert.MedicinePopUp"
             android:label="@string/title_activity_medicine_pop_up"
             android:parentActivityName=".activities.common.About" >
-
         </activity>
         <activity
             android:name=".activities.moodAlert.MoodPopUp"
             android:label="@string/title_activity_mood_pop_up"
-            android:parentActivityName=".activities.common.About" >>
+            android:parentActivityName=".activities.common.About" >
+>
         </activity>
+
+        <receiver
+            android:name=".alarms.MoodAlarmReceiver"
+            android:enabled="true"
+            android:exported="true" >
+        </receiver>
+        <receiver
+            android:name=".alarms.MedicineAlarmReceiver"
+            android:enabled="true"
+            android:exported="true" >
+        </receiver>
     </application>
 
 </manifest>

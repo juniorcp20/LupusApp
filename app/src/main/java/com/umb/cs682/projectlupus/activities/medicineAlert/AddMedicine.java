@@ -5,8 +5,9 @@ import com.umb.cs682.projectlupus.config.AppConfig;
 import com.umb.cs682.projectlupus.domain.MedicineBO;
 import com.umb.cs682.projectlupus.service.MedicineService;
 import com.umb.cs682.projectlupus.service.ReminderService;
+import com.umb.cs682.projectlupus.util.AlarmUtil;
 import com.umb.cs682.projectlupus.util.Constants;
-import com.umb.cs682.projectlupus.util.DateUtil;
+import com.umb.cs682.projectlupus.util.DateTimeUtil;
 import com.umb.cs682.projectlupus.util.Utils;
 
 import android.app.ActionBar;
@@ -18,6 +19,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,6 +39,8 @@ import android.widget.TimePicker;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 import de.greenrobot.dao.DaoException;
 
@@ -87,8 +91,8 @@ public class AddMedicine extends Activity {
     private StringBuilder selectedTime;
     private long currRemID;
     private MedicineBO currMed;
-    private String selDay = "Sunday";
-    private String selDate = "1";
+    private String selDayOfWeek = "Sunday";
+    private String selDayOfMonth = "1";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -144,6 +148,7 @@ public class AddMedicine extends Activity {
         int id = item.getItemId();
         if (id == R.id.action_save) {
             updateDatabase();
+            setAlarms();
             Intent intent = new Intent();
             intent.putExtra(Constants.IS_NEW_MED, isNewMed);
             intent.putExtra(Constants.MED_NAME, medNames.get(medNameSpinner.getSelectedItemPosition()));
@@ -195,12 +200,12 @@ public class AddMedicine extends Activity {
                   .setSingleChoiceItems(R.array.arr_days, 0, new DialogInterface.OnClickListener() {
                       public void onClick(DialogInterface dialog, int position) {
                           ListView lv = ((AlertDialog) dialog).getListView();
-                          selDay = lv.getAdapter().getItem(position).toString();
+                          selDayOfWeek = lv.getAdapter().getItem(position).toString();
                       }
                   }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                        selDayOrDate = selDay;
-                        Utils.displayToast(getApplicationContext(), "Reminder set at "+selDay+" of every week.");
+                        selDayOrDate = selDayOfWeek;
+                        Utils.displayToast(getApplicationContext(), "Reminder set at "+ selDayOfWeek +" of every week.");
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -213,28 +218,33 @@ public class AddMedicine extends Activity {
 
     private void buildDatePickerDialog(final Context context) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+        Calendar cal = Calendar.getInstance(TimeZone.getDefault());
+        ArrayList<String> datesArray = new ArrayList<>();
+        for(int i = 1; i <= cal.getActualMaximum(Calendar.DAY_OF_MONTH); i++){
+            datesArray.add(String.valueOf(i));
+        }
         alertDialogBuilder.setTitle("Pick a date")
-                .setSingleChoiceItems(R.array.arr_dates, 0,new DialogInterface.OnClickListener(){
+                .setSingleChoiceItems(datesArray.toArray(new String[datesArray.size()]), 0,new DialogInterface.OnClickListener(){
                     public void onClick(DialogInterface dialog,int position){
                         ListView lv = ((AlertDialog)dialog).getListView();
-                        selDate = lv.getAdapter().getItem(position).toString();
+                        selDayOfMonth = lv.getAdapter().getItem(position).toString();
                     }
                 }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            selDayOrDate = selDate;
+                            selDayOrDate = selDayOfMonth;
                             String suffix;
-                            if(selDate.equals("1")||selDate.equals("21")){
+                            if(selDayOfMonth.equals("1")|| selDayOfMonth.equals("21")){
                                 suffix = "st";
                             }
-                            else if(selDate.equals("2")||selDate.equals("22")){
+                            else if(selDayOfMonth.equals("2")|| selDayOfMonth.equals("22")){
                                 suffix = "nd";
                             }
-                            else if(selDate.equals("3")||selDate.equals("23")){
+                            else if(selDayOfMonth.equals("3")|| selDayOfMonth.equals("23")){
                                 suffix = "rd";
                             }else{
                                 suffix = "th";
                             }
-                            Utils.displayToast(context, "Reminder set at "+selDate+suffix+" of every month.");
+                            Utils.displayToast(context, "Reminder set at "+ selDayOfMonth +suffix+" of every month.");
                         }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -316,7 +326,7 @@ public class AddMedicine extends Activity {
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                     selMin = minute;
                     String am_pm = null;
-                    if(!DateUtil.is24hrFormat) {
+                    if(!DateTimeUtil.is24hrFormat) {
                         if (hourOfDay > 12)         //hourofDay =13
                         {
                             selHour = hourOfDay - 12;     //hour=1
@@ -376,12 +386,13 @@ public class AddMedicine extends Activity {
         public View getView(final int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             View customView = inflater.inflate(R.layout.li_reminder_item, parent, false);
-            String time = DateUtil.toTimeString(reminderService.getReminderTimeByID(getItem(position)));
+            String time = DateTimeUtil.toTimeString(reminderService.getReminderTimeByID(getItem(position)));
             TextView displayTime = (TextView) customView.findViewById(R.id.display_time);
             ImageView actionIcon = (ImageView) customView.findViewById(R.id.delete_icon);
             actionIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    cancelAlarm(remIDs.get(position));
                     reminderService.deleteMedReminder(remIDs.get(position));
                     remIDs.remove(position);
                     if(remIDs.isEmpty()){
@@ -445,6 +456,45 @@ public class AddMedicine extends Activity {
         for(long id : remIDs) {
             reminderService.editMedReminder(id, selMedID, selDayOrDate);
         }
+    }
+
+    private void setAlarms(){
+        for(Long id : remIDs){
+            Date reminderTime = reminderService.getMedReminder(id).getReminderTime();
+            int hourOfDay = DateTimeUtil.getHour(reminderTime);
+            int min = DateTimeUtil.getMin(reminderTime);
+            String dayOfWeek = null;
+            String dayOfMonth = null;
+            switch (selInterval){
+                case WEEKLY:
+                    dayOfWeek = selDayOfWeek;
+                case MONTHLY:
+                    dayOfMonth = selDayOfMonth;
+            }
+            AlarmUtil.setAlarm(this, id.intValue(), selInterval, hourOfDay, min, dayOfWeek, dayOfMonth, Constants.MED_REMINDER);
+            Log.i(TAG, "Setting Alarm");
+            reminderService.updateMedReminderStatus(id, Constants.REM_STATUS_ACTIVE);
+        }
+    }
+
+    private void cancelAlarm(Long id){
+        String status = reminderService.getMedReminder(id).getStatus();
+        if(status != Constants.REM_STATUS_CREATED){
+            Date reminderTime = reminderService.getMedReminder(id).getReminderTime();
+            int hourOfDay = DateTimeUtil.getHour(reminderTime);
+            int min = DateTimeUtil.getMin(reminderTime);
+            String dayOfWeek = null;
+            String dayOfMonth = null;
+            switch (selInterval){
+                case WEEKLY:
+                    dayOfWeek = selDayOfWeek;
+                case MONTHLY:
+                    dayOfMonth = selDayOfMonth;
+            }
+            AlarmUtil.cancelAlarm(this, id.intValue(), selInterval, hourOfDay, min, dayOfWeek, dayOfMonth, Constants.MED_REMINDER);
+            Log.i(TAG, "Cancelling Alarm");
+        }
+        return;
     }
 
     private static String pad(int c) {

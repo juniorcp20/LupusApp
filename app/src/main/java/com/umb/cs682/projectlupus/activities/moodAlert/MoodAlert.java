@@ -4,8 +4,9 @@ import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.activities.activitySense.ActivitySense;
 import com.umb.cs682.projectlupus.config.AppConfig;
 import com.umb.cs682.projectlupus.service.ReminderService;
+import com.umb.cs682.projectlupus.util.AlarmUtil;
 import com.umb.cs682.projectlupus.util.Constants;
-import com.umb.cs682.projectlupus.util.DateUtil;
+import com.umb.cs682.projectlupus.util.DateTimeUtil;
 import com.umb.cs682.projectlupus.util.SharedPreferenceManager;
 import com.umb.cs682.projectlupus.util.Utils;
 
@@ -98,7 +99,7 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
 
     private void setupTimePicker() {
         Calendar cal = Calendar.getInstance();
-        timePicker = new TimePickerDialog(this, mTimeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), DateUtil.is24hrFormat);
+        timePicker = new TimePickerDialog(this, mTimeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), DateTimeUtil.is24hrFormat);
     }
 
     @Override
@@ -128,9 +129,12 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
     private TimePickerDialog.OnTimeSetListener mTimeSetListener =
             new TimePickerDialog.OnTimeSetListener() {
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                    Calendar cal = Calendar.getInstance();
+                    cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                    cal.set(Calendar.MINUTE, minute);
                     selMin = minute;
                     String am_pm = null;
-                    if(!DateUtil.is24hrFormat) {
+                    if(!DateTimeUtil.is24hrFormat) {
                         if (hourOfDay > 12)         //hourofDay =13
                         {
                             selHour = hourOfDay - 12;     //hour=1
@@ -149,7 +153,10 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
                     }
                     if(isNew){
                         try {
-                            remIDs.add(service.addMoodReminder(selectedTime.toString()));
+                            Long newID = service.addMoodReminder(selectedTime.toString());
+                            AlarmUtil.setDailyRepeatingAlarm(getApplicationContext(), Constants.MOOD_REMINDER, newID.intValue(), cal);
+                            service.updateMoodReminderStatus(newID, Constants.REM_STATUS_ACTIVE);
+                            remIDs.add(newID);
                         }catch (DaoException e){
                             Utils.displayToast(getApplicationContext(), e.getMessage());
                         }
@@ -210,12 +217,13 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
         public View getView(final int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             View customView = inflater.inflate(R.layout.li_reminder_item, parent, false);
-            String time = DateUtil.toTimeString(service.getReminderTimeByID(getItem(position)));
+            String time = DateTimeUtil.toTimeString(service.getReminderTimeByID(getItem(position)));
             TextView displayTime = (TextView) customView.findViewById(R.id.display_time);
             ImageView actionIcon = (ImageView) customView.findViewById(R.id.delete_icon);
             actionIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    AlarmUtil.cancelDailyRepeatingAlarm(getApplicationContext(), Constants.MOOD_REMINDER,remIDs.get(position).intValue());
                     service.deleteMoodReminder(remIDs.get(position));
                     remIDs.remove(position);
                     if(remIDs.isEmpty()){

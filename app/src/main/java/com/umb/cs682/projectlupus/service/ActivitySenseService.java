@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.umb.cs682.projectlupus.db.dao.ActivitySenseDao;
 import com.umb.cs682.projectlupus.domain.ActivitySenseBO;
-import com.umb.cs682.projectlupus.util.DateUtil;
+import com.umb.cs682.projectlupus.util.DateTimeUtil;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -152,7 +152,7 @@ public class ActivitySenseService {
             Calendar cal = Calendar.getInstance();
             for (int i = 1; i < 5; i++) {
                 cal.set(2015, 4, i);
-                bo = new ActivitySenseBO(null, 100 * i, DateUtil.toDate(new Date(cal.getTimeInMillis())));
+                bo = new ActivitySenseBO(null, 100 * i, DateTimeUtil.toDate(new Date(cal.getTimeInMillis())));
                 activitySenseDao.insert(bo);
             }
         }
@@ -165,26 +165,26 @@ public class ActivitySenseService {
     public void addActSenseData(Date date){
         ActivitySenseBO bo;
         Log.i(TAG, "Saved to DB");
-        CountQuery query = activitySenseDao.queryBuilder().where(ActivitySenseDao.Properties.Date.eq(DateUtil.toDate(date))).buildCount();
+        CountQuery query = activitySenseDao.queryBuilder().where(ActivitySenseDao.Properties.Date.eq(DateTimeUtil.toDate(date))).buildCount();
         if(!(query.count() == 0)) {
             bo = getActSenseDatabyDate(date);
             bo.setStepCount(getCurrentStepCount());
             activitySenseDao.update(bo);
         }else{
-            bo = new ActivitySenseBO(null, getCurrentStepCount(), DateUtil.toDate(date));
+            bo = new ActivitySenseBO(null, getCurrentStepCount(), DateTimeUtil.toDate(date));
             activitySenseDao.insert(bo);
         }
     }
 
     public ActivitySenseBO getActSenseDatabyDate(Date date){
         Log.i(TAG, "Retrieving from DB");
-        ActivitySenseBO bo = activitySenseDao.queryBuilder().where(ActivitySenseDao.Properties.Date.eq(DateUtil.toDate(date))).uniqueOrThrow();
+        ActivitySenseBO bo = activitySenseDao.queryBuilder().where(ActivitySenseDao.Properties.Date.eq(DateTimeUtil.toDate(date))).uniqueOrThrow();
         return bo;
     }
 
     public void deleteData(Date date){
         Log.i(TAG, "Deleting Data");
-        DeleteQuery query = activitySenseDao.queryBuilder().where(ActivitySenseDao.Properties.Date.eq(DateUtil.toDate(date))).buildDelete();
+        DeleteQuery query = activitySenseDao.queryBuilder().where(ActivitySenseDao.Properties.Date.eq(DateTimeUtil.toDate(date))).buildDelete();
         query.executeDeleteWithoutDetachingEntities();
     }
 

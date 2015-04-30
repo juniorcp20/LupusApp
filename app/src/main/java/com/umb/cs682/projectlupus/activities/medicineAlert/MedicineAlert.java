@@ -3,9 +3,12 @@ package com.umb.cs682.projectlupus.activities.medicineAlert;
 import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.activities.main.Home;
 import com.umb.cs682.projectlupus.config.AppConfig;
+import com.umb.cs682.projectlupus.domain.ReminderBO;
 import com.umb.cs682.projectlupus.service.MedicineService;
 import com.umb.cs682.projectlupus.service.ReminderService;
+import com.umb.cs682.projectlupus.util.AlarmUtil;
 import com.umb.cs682.projectlupus.util.Constants;
+import com.umb.cs682.projectlupus.util.DateTimeUtil;
 import com.umb.cs682.projectlupus.util.SharedPreferenceManager;
 import com.umb.cs682.projectlupus.util.Utils;
 
@@ -14,6 +17,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,6 +31,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class MedicineAlert extends Activity {
     private static final String TAG = "activities.medAlert";
@@ -147,8 +153,9 @@ public class MedicineAlert extends Activity {
                 medNamesListView.setVisibility(View.VISIBLE);*/
                 Utils.displayToast(this, "Added "+medName);
             }else{
-                medNames.set(currMed, medName);
-                adapter.notifyDataSetChanged();
+               /* medNames.set(currMed, medName);
+                adapter.notifyDataSetChanged();*/
+                if(medNames.size()>0)
                 Utils.displayToast(this, "Updated "+medName);
             }
         }
@@ -170,14 +177,15 @@ public class MedicineAlert extends Activity {
             actionIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    reminderService.deleteMedReminderByMedId(medService.getMedicine(medName).getId());
+                    Long currMedID = medService.getMedicine(medName).getId();
+                    ArrayList<Long> remIDs = reminderService.getAllMedReminderIDs(medService.getMedicine(medName).getId());
+                    cancelAlarm(currMedID, remIDs);
+                    reminderService.deleteMedReminderByMedId(currMedID);
                     medNames.remove(position);
                     if (medNames.isEmpty()) {
                         medNamesListView.setVisibility(View.INVISIBLE);
                     }
-
                     notifyDataSetChanged();
-
                 }
             });
             displayName.setText(name);
@@ -185,5 +193,29 @@ public class MedicineAlert extends Activity {
             return customView;
         }
     }
+    private void cancelAlarm(Long currMedID, ArrayList<Long> remIDs){
+        for(Long id: remIDs){
+            ReminderBO currRemBO = reminderService.getMedReminder(id);
+            String status = currRemBO.getStatus();
+            if(status != Constants.REM_STATUS_CREATED){
+                Date reminderTime = reminderService.getMedReminder(id).getReminderTime();
+                int hourOfDay = DateTimeUtil.getHour(reminderTime);
+                int min = DateTimeUtil.getMin(reminderTime);
+                String dayOfWeek = null;
+                String dayOfMonth = null;
+                String selInterval = medService.getMedicineInterval(currMedID);
+                switch (selInterval){
+                    case Constants.WEEKLY:
+                        dayOfWeek = currRemBO.getReminderDayOrDate();
+                    case Constants.MONTHLY:
+                        dayOfMonth = currRemBO.getReminderDayOrDate();
+                }
+                AlarmUtil.cancelAlarm(this, id.intValue(), selInterval, hourOfDay, min, dayOfWeek, dayOfMonth, Constants.MED_REMINDER);
+                Log.i(TAG, "Cancelling Alarm");
+            }
+            return;
+        }
 
+
+    }
 }

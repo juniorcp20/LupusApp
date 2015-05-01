@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.umb.cs682.projectlupus.db.dao.ActivitySenseDao;
 import com.umb.cs682.projectlupus.domain.ActivitySenseBO;
 import com.umb.cs682.projectlupus.util.DateTimeUtil;
+import com.umb.cs682.projectlupus.service.PedometerService.ActivitySenseBinder;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -29,7 +30,7 @@ public class ActivitySenseService {
     private static final String TAG = "service.activitySense";
     private static final String INTENT_FILTER = "com.umb.cs682.projectlupus.service.ActivitySense";
     private static int stepCount;
-    private boolean isBound;
+    private boolean isBound = false;
 
     private Context context;
     private ActivitySenseDao activitySenseDao;
@@ -51,6 +52,14 @@ public class ActivitySenseService {
     private void bindPedometerService(){
         Intent intent = new Intent(context, PedometerService.class);
         context.bindService(intent, pedometerConnection, Context.BIND_AUTO_CREATE);
+        context.startService(intent);
+    }
+
+    private void unbindPedometerService(){
+        Intent intent = new Intent(context, PedometerService.class);
+        context.stopService(intent);
+        context.unbindService(pedometerConnection);
+        isBound = false;
     }
 
     public void startStopPedometer(boolean startStop){
@@ -72,6 +81,9 @@ public class ActivitySenseService {
             bindPedometerService();
         }
         pedometerService.onPause();
+        if(isBound){
+            unbindPedometerService();
+        }
     }
     public void setSensitivity(int sensitivity){
         if(!isBound){
@@ -88,6 +100,9 @@ public class ActivitySenseService {
     }
 
     public void setHandler(Handler handler) {
+        if(!isBound){
+            bindPedometerService();
+        }
         pedometerService.setHandler(handler);
     }
 
@@ -107,7 +122,7 @@ public class ActivitySenseService {
     private ServiceConnection pedometerConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            PedometerService.ActivitySenseBinder binder = (PedometerService.ActivitySenseBinder) service;
+            ActivitySenseBinder binder = (ActivitySenseBinder) service;
             pedometerService = binder.getService();
             isBound = true;
         }
@@ -115,7 +130,6 @@ public class ActivitySenseService {
         @Override
         public void onServiceDisconnected(ComponentName name) {
             isBound = false;
-            pedometerService = null;
         }
     };
 

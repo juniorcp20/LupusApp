@@ -56,14 +56,18 @@ public class PedometerService extends Service {
         if (!wakeLock.isHeld()){
             wakeLock.acquire();
         }
-
-        // Bind without starting the service
+        if (stepServiceIntent == null) {
+            Bundle extras = new Bundle();
+            extras.putInt("int", 1);
+            stepServiceIntent = new Intent(this, StepService.class);//doubtful about "this"
+            stepServiceIntent.putExtras(extras);
+        }
+        /* Bind without starting the service
         try {
-        //TODO: stepServiceIntent is still null here.
             bindStepService();
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     public void onPause(){
@@ -71,8 +75,11 @@ public class PedometerService extends Service {
             wakeLock.release();
         }
         unsetHandler();
-        unbindStepService();
+        if(isBound) {
+            unbindStepService();
+        }
     }
+
     public void startStopPedometer(boolean startStop){
         boolean serviceIsRunning = false;
         try {
@@ -89,22 +96,20 @@ public class PedometerService extends Service {
 
     private void start() {
         Log.i(TAG, "start");
-
-        if (stepServiceIntent == null) {
-            Bundle extras = new Bundle();
-            extras.putInt("int", 1);
-            stepServiceIntent = new Intent(this, StepService.class);//doubtful about "this"
-            stepServiceIntent.putExtras(extras);
-        }
         startStepService();
         bindStepService();
     }
 
     private void stop() {
         Log.i(TAG, "stop");
-
         unbindStepService();
         stopStepService();
+        try {
+            isBound = mService.isRunning();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        mService = null;
     }
 
     private void startStepService() {
@@ -168,7 +173,7 @@ public class PedometerService extends Service {
 
         @Override
         public void stepsChanged(int value) throws RemoteException {
-            Log.i(TAG, "Steps=" + value);
+            //Log.i(TAG, "Steps=" + value);
             stepCount = value;
             if(handler != null) {
                 Message msg = handler.obtainMessage();
@@ -184,7 +189,7 @@ public class PedometerService extends Service {
             Log.i(TAG, "onServiceConnected()");
             mService = IStepService.Stub.asInterface(service);
             try {
-                mService.registerCallback(mCallback);
+                mService.registerCallback(mCallback);// should be called only when resume or restart.
                 mService.setSensitivity(sensitivity);
                 isBound = mService.isRunning();
             } catch (RemoteException e) {

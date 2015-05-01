@@ -22,10 +22,12 @@ public final class Constants {
     public static final String SENSITIVITY_VALUE = "Sensitivity_Value";
 
     //Reminder Types
+    public static final String REMINDER_TYPE = "Reminder Type";
     public static final int MED_REMINDER = 1;
     public static final int MOOD_REMINDER = 2;
 
     //Reminder Status
+    public static final String REM_STATUS_CREATED = "Created"; //reminder data is saved but the alarm is not yet saved
     public static final String REM_STATUS_ACTIVE = "Active";   //alarm is on and will fire in future
     public static final String REM_STATUS_PENDING = "Pending"; // alarm has fired and waiting for user input
     public static final String REM_STATUS_DONE = "Done";       // user selected done on notification
@@ -36,6 +38,15 @@ public final class Constants {
     public static final String DAILY = "Daily";
     public static final String WEEKLY = "Weekly";
     public static final String MONTHLY = "Monthly";
+
+    //Alarm Related
+    public static final String ALARM_INTERVAL = "Alarm Interval";
+    public static final String DAY_OF_WEEK = "Day of Week";
+    public static final String DAY_OF_MONTH = "Day of Month";
+    public static final String REQUEST_CODE = "Request Code";
+    public static final String HOUR_OF_DAY = "Hour of Day";
+    public static final String MINUTES = "minutes";
+    public static final String START_TIME = "Start Time";
 
     //Database
     public static final String STR_DEFAULT = "None";

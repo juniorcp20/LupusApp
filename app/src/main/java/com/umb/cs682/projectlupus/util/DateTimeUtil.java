@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class DateUtil {
+public class DateTimeUtil {
     private static final String DATETIME_FORMAT = "YYYY-MM-DD HH:mm:ss";
     private static final String DATE_FORMAT = "yyyy-MM-dd";
     private static final String TIME_FORMAT_24 = "HH:mm";
@@ -92,5 +92,13 @@ public class DateUtil {
         SimpleDateFormat df = new SimpleDateFormat(format);
         String formattedString = df.format(date);
         return formattedString;
+    }
+
+    public static int getHour(Date reminderTime) {
+        return Integer.parseInt(getFormattedDateString("HH", reminderTime));
+    }
+
+    public static int getMin(Date reminderTime) {
+        return Integer.parseInt(getFormattedDateString("mm", reminderTime));
     }
 }

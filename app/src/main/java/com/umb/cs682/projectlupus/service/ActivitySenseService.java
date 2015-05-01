@@ -17,7 +17,8 @@ import android.widget.Toast;
 
 import com.umb.cs682.projectlupus.db.dao.ActivitySenseDao;
 import com.umb.cs682.projectlupus.domain.ActivitySenseBO;
-import com.umb.cs682.projectlupus.util.DateUtil;
+import com.umb.cs682.projectlupus.util.DateTimeUtil;
+import com.umb.cs682.projectlupus.service.PedometerService.ActivitySenseBinder;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -32,7 +33,7 @@ public class ActivitySenseService {
     private static final String TAG = "service.activitySense";
     private static final String INTENT_FILTER = "com.umb.cs682.projectlupus.service.ActivitySense";
     private static int stepCount;
-    private boolean isBound;
+    private boolean isBound = false;
 
     private Context context;
     private ActivitySenseDao activitySenseDao;
@@ -54,6 +55,14 @@ public class ActivitySenseService {
     private void bindPedometerService(){
         Intent intent = new Intent(context, PedometerService.class);
         context.bindService(intent, pedometerConnection, Context.BIND_AUTO_CREATE);
+        context.startService(intent);
+    }
+
+    private void unbindPedometerService(){
+        Intent intent = new Intent(context, PedometerService.class);
+        context.stopService(intent);
+        context.unbindService(pedometerConnection);
+        isBound = false;
     }
 
     public void startStopPedometer(boolean startStop){
@@ -75,6 +84,9 @@ public class ActivitySenseService {
             bindPedometerService();
         }
         pedometerService.onPause();
+        if(isBound){
+            unbindPedometerService();
+        }
     }
     public void setSensitivity(int sensitivity){
         if(!isBound){
@@ -91,6 +103,9 @@ public class ActivitySenseService {
     }
 
     public void setHandler(Handler handler) {
+        if(!isBound){
+            bindPedometerService();
+        }
         pedometerService.setHandler(handler);
     }
 
@@ -110,7 +125,7 @@ public class ActivitySenseService {
     private ServiceConnection pedometerConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            PedometerService.ActivitySenseBinder binder = (PedometerService.ActivitySenseBinder) service;
+            ActivitySenseBinder binder = (ActivitySenseBinder) service;
             pedometerService = binder.getService();
             isBound = true;
         }
@@ -118,7 +133,6 @@ public class ActivitySenseService {
         @Override
         public void onServiceDisconnected(ComponentName name) {
             isBound = false;
-            pedometerService = null;
         }
     };
 
@@ -155,7 +169,7 @@ public class ActivitySenseService {
             Calendar cal = Calendar.getInstance();
             for (int i = 1; i < 5; i++) {
                 cal.set(2015, 4, i);
-                bo = new ActivitySenseBO(null, 100 * i, DateUtil.toDate(new Date(cal.getTimeInMillis())));
+                bo = new ActivitySenseBO(null, 100 * i, DateTimeUtil.toDate(new Date(cal.getTimeInMillis())));
                 activitySenseDao.insert(bo);
             }
         }
@@ -168,26 +182,26 @@ public class ActivitySenseService {
     public void addActSenseData(Date date){
         ActivitySenseBO bo;
         Log.i(TAG, "Saved to DB");
-        CountQuery query = activitySenseDao.queryBuilder().where(ActivitySenseDao.Properties.Date.eq(DateUtil.toDate(date))).buildCount();
+        CountQuery query = activitySenseDao.queryBuilder().where(ActivitySenseDao.Properties.Date.eq(DateTimeUtil.toDate(date))).buildCount();
         if(!(query.count() == 0)) {
             bo = getActSenseDatabyDate(date);
             bo.setStepCount(getCurrentStepCount());
             activitySenseDao.update(bo);
         }else{
-            bo = new ActivitySenseBO(null, getCurrentStepCount(), DateUtil.toDate(date));
+            bo = new ActivitySenseBO(null, getCurrentStepCount(), DateTimeUtil.toDate(date));
             activitySenseDao.insert(bo);
         }
     }
 
     public ActivitySenseBO getActSenseDatabyDate(Date date){
         Log.i(TAG, "Retrieving from DB");
-        ActivitySenseBO bo = activitySenseDao.queryBuilder().where(ActivitySenseDao.Properties.Date.eq(DateUtil.toDate(date))).uniqueOrThrow();
+        ActivitySenseBO bo = activitySenseDao.queryBuilder().where(ActivitySenseDao.Properties.Date.eq(DateTimeUtil.toDate(date))).uniqueOrThrow();
         return bo;
     }
 
     public void deleteData(Date date){
         Log.i(TAG, "Deleting Data");
-        DeleteQuery query = activitySenseDao.queryBuilder().where(ActivitySenseDao.Properties.Date.eq(DateUtil.toDate(date))).buildDelete();
+        DeleteQuery query = activitySenseDao.queryBuilder().where(ActivitySenseDao.Properties.Date.eq(DateTimeUtil.toDate(date))).buildDelete();
         query.executeDeleteWithoutDetachingEntities();
     }
 

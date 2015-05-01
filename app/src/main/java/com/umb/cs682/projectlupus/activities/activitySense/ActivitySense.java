@@ -192,6 +192,7 @@ public class ActivitySense extends Activity {
                 SharedPreferenceManager.setIntPref(TAG, Constants.SENSITIVITY_VALUE, service.getSensitivity());
                 service.startAlarm();
             }else{
+                saveData();
                 service.stopAlarm();
             }
             service.startStopPedometer(isChecked);

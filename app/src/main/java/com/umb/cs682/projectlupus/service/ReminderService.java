@@ -6,7 +6,7 @@ import com.umb.cs682.projectlupus.config.AppConfig;
 import com.umb.cs682.projectlupus.db.dao.ReminderDao;
 import com.umb.cs682.projectlupus.domain.ReminderBO;
 import com.umb.cs682.projectlupus.util.Constants;
-import com.umb.cs682.projectlupus.util.DateUtil;
+import com.umb.cs682.projectlupus.util.DateTimeUtil;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -51,7 +51,7 @@ public class ReminderService {
     public long addMoodReminder(String time){
         long id = -1;
         bo = new ReminderBO(null, MOOD_REMINDER, -1,null,
-        DateUtil.toTime(time),Constants.REM_STATUS_ACTIVE);
+        DateTimeUtil.toTime(time), Constants.REM_STATUS_CREATED);
         long countBeforeAdd = getRowCount(MOOD_REMINDER);
         if(getRowCount(MOOD_REMINDER, time) == 0) {
             reminderDao.insert(bo);
@@ -66,7 +66,7 @@ public class ReminderService {
 
     public void editMoodReminder(long id,String updatedTime){
         bo = getMoodReminder(id);
-        bo.setReminderTime(DateUtil.toTime(updatedTime));
+        bo.setReminderTime(DateTimeUtil.toTime(updatedTime));
         reminderDao.update(bo);
     }
 
@@ -82,7 +82,7 @@ public class ReminderService {
     }
 
     public ReminderBO getMoodReminder(String time){
-        return reminderDao.queryBuilder().where(ReminderDao.Properties.ReminderTime.eq(DateUtil.toTime(time)), ReminderDao.Properties.TypeId.eq(MOOD_REMINDER)).unique();
+        return reminderDao.queryBuilder().where(ReminderDao.Properties.ReminderTime.eq(DateTimeUtil.toTime(time)), ReminderDao.Properties.TypeId.eq(MOOD_REMINDER)).unique();
     }
 
     public ReminderBO getMoodReminder(long id){
@@ -106,7 +106,7 @@ public class ReminderService {
     public long addMedReminder(long medID, String dayOrDate, String time){
         long id = -1;
         bo = new ReminderBO(null, MED_REMINDER, medID,dayOrDate,
-                DateUtil.toTime(time),Constants.REM_STATUS_ACTIVE);
+                DateTimeUtil.toTime(time),Constants.REM_STATUS_CREATED);
         long countBeforeAdd = getRowCount(MED_REMINDER);
         if(getRowCount(MED_REMINDER, medID, time) == 0) {
             reminderDao.insert(bo);
@@ -121,7 +121,7 @@ public class ReminderService {
 
     public void editMedReminder(long id,String updatedTime){
         bo = getMedReminder(id);
-        bo.setReminderTime(DateUtil.toTime(updatedTime));
+        bo.setReminderTime(DateTimeUtil.toTime(updatedTime));
         reminderDao.update(bo);
     }
 
@@ -129,6 +129,12 @@ public class ReminderService {
         bo = getMedReminder(id);
         bo.setMedId(medID);
         bo.setReminderDayOrDate(dayOrDate);
+        reminderDao.update(bo);
+    }
+
+    public void updateMedReminderStatus(long id, String status){
+        bo = getMedReminder(id);
+        bo.setStatus(status);
         reminderDao.update(bo);
     }
 
@@ -143,11 +149,11 @@ public class ReminderService {
     }
 
     public ReminderBO getMedReminder(long medID, String time){
-        return reminderDao.queryBuilder().where(ReminderDao.Properties.MedId.eq(medID), ReminderDao.Properties.ReminderTime.eq(DateUtil.toTime(time)), ReminderDao.Properties.TypeId.eq(MED_REMINDER)).unique();
+        return reminderDao.queryBuilder().where(ReminderDao.Properties.MedId.eq(medID), ReminderDao.Properties.ReminderTime.eq(DateTimeUtil.toTime(time)), ReminderDao.Properties.TypeId.eq(MED_REMINDER)).unique();
     }
 
     public ReminderBO getMedReminder(long id){
-        return reminderDao.queryBuilder().where(ReminderDao.Properties.Id.eq(id)).uniqueOrThrow();
+        return reminderDao.queryBuilder().where(ReminderDao.Properties.TypeId.eq(MED_REMINDER),ReminderDao.Properties.Id.eq(id)).uniqueOrThrow();
     }
 
     public List<ReminderBO> getMedReminders(){
@@ -191,12 +197,12 @@ public class ReminderService {
     }
 
     private long getRowCount(int type_id, String time){
-        CountQuery query = reminderDao.queryBuilder().where(ReminderDao.Properties.ReminderTime.eq(DateUtil.toTime(time)), ReminderDao.Properties.TypeId.eq(type_id)).buildCount();
+        CountQuery query = reminderDao.queryBuilder().where(ReminderDao.Properties.ReminderTime.eq(DateTimeUtil.toTime(time)), ReminderDao.Properties.TypeId.eq(type_id)).buildCount();
         return query.count();
     }
 
     private long getRowCount(int type_id, long medID, String time) {
-        CountQuery query = reminderDao.queryBuilder().where(ReminderDao.Properties.ReminderTime.eq(DateUtil.toTime(time)), ReminderDao.Properties.TypeId.eq(type_id), ReminderDao.Properties.MedId.eq(medID)).buildCount();
+        CountQuery query = reminderDao.queryBuilder().where(ReminderDao.Properties.ReminderTime.eq(DateTimeUtil.toTime(time)), ReminderDao.Properties.TypeId.eq(type_id), ReminderDao.Properties.MedId.eq(medID)).buildCount();
         return query.count();
     }
 

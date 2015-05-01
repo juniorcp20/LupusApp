@@ -45,7 +45,7 @@ public class AlarmUtil {
         alarmManager.cancel(pendingIntent);
     }
 
-    private static void setOneShotAlarm(Context context, int reminderType, int requestCode, String alarmInterval, long startTime){
+    public static void setOneShotAlarm(Context context, int reminderType, int requestCode, String alarmInterval, long startTime){
         alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = buildIntent(context, reminderType, requestCode, alarmInterval, startTime);
         PendingIntent pendingIntent =  PendingIntent.getBroadcast(context,requestCode,intent,PendingIntent.FLAG_CANCEL_CURRENT);

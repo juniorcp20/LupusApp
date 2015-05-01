@@ -7,6 +7,9 @@ import com.umb.cs682.projectlupus.domain.MedicineBO;
 import com.umb.cs682.projectlupus.util.Constants;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import de.greenrobot.dao.DaoException;
@@ -100,6 +103,35 @@ public class MedicineService {
 
     private long getRowCount(String medName){
         CountQuery query = medicineDao.queryBuilder().where(MedicineDao.Properties.MedName.eq(medName)).buildCount();
+        return query.count();
+    }
+
+    public List<MedicineBO> getAllData() {
+        Query query = medicineDao.queryBuilder().build();
+        return query.list();
+    }
+
+    public HashMap<String,Integer> getMednameVsDosage() {
+        HashMap<String,Integer> mednameVsDosageMap = new HashMap<>();
+        for (MedicineBO currBO : getAllData()) {
+            mednameVsDosageMap.put(currBO.getMedName(),currBO.getDosage());
+        }
+        return mednameVsDosageMap;
+    }
+
+    /* Database Operations*/
+    public void loadDummyData(){
+        MedicineBO bo;
+        if(getCount() == 0) {
+            for (int i = 1; i < 5; i++) {
+                bo = new MedicineBO(null,"Drug " + i,i,Constants.DAILY,null);
+                medicineDao.insert(bo);
+            }
+        }
+    }
+
+    private long getCount(){
+        CountQuery query = medicineDao.queryBuilder().buildCount();
         return query.count();
     }
 }

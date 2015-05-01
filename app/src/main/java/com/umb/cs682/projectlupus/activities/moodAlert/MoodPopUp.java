@@ -9,17 +9,20 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.umb.cs682.projectlupus.R;
+import com.umb.cs682.projectlupus.util.Constants;
 
 public class MoodPopUp extends Activity {
 
-    private static Button button_sbm;
-    private static TextView text_v;
-    private static RatingBar rating_b;
+    private Button button_sbm;
+    private TextView text_v;
+    private RatingBar rating_b;
+    int reminderID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.a_mood_pop_up);
+        reminderID = getIntent().getIntExtra(Constants.REMINDER_ID, -1);
         listenerForRatingBar();
     }
 

@@ -9,6 +9,7 @@ import android.content.Intent;
 
 import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.activities.moodAlert.MoodPopUp;
+import com.umb.cs682.projectlupus.util.Constants;
 
 /**
  * Created by Nithya Kiran on 4/30/2015.
@@ -17,12 +18,15 @@ public class MoodAlarmReceiver extends BroadcastReceiver{
     private NotificationManager nm;
     @Override
     public void onReceive(Context context, Intent intent) {
-        showNotification(context);
+        int reminderID = intent.getIntExtra(Constants.REQUEST_CODE, -1);
+        showNotification(context, reminderID);
     }
 
-    private void showNotification(Context context) {
+    private void showNotification(Context context, int reminderID) {
         nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
         Intent intent = new Intent(context, MoodPopUp.class);
+        intent.putExtra(Constants.REMINDER_ID, reminderID);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
         Notification notification = new Notification.Builder(context)

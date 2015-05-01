@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.umb.cs682.projectlupus.db.dao.MoodLevelDao;
 import com.umb.cs682.projectlupus.domain.MoodLevelBO;
-+import com.umb.cs682.projectlupus.util.DateUtil;
+import com.umb.cs682.projectlupus.util.DateTimeUtil;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -32,10 +32,14 @@ public class MoodLevelService {
             Calendar cal = Calendar.getInstance();
             for (int i = 1; i < 5; i++) {
                 cal.set(2015, 4, i);
-                bo = new MoodLevelBO(null, 1, DateUtil.toDateTime(new Date(cal.getTimeInMillis())), i);
+                bo = new MoodLevelBO(null, 1, DateTimeUtil.toDateTime(new Date(cal.getTimeInMillis())), i);
                 moodLevelDao.insert(bo);
             }
         }
+    }
+
+    public void addMoodLevel(int reminderID){
+
     }
 
     public List<MoodLevelBO> getAllData(){

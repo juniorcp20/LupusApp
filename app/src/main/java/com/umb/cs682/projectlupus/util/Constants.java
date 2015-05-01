@@ -22,6 +22,7 @@ public final class Constants {
     public static final String SENSITIVITY_VALUE = "Sensitivity_Value";
 
     //Reminder Types
+    public static final String REMINDER_ID = "Reminder Id";
     public static final String REMINDER_TYPE = "Reminder Type";
     public static final int MED_REMINDER = 1;
     public static final int MOOD_REMINDER = 2;

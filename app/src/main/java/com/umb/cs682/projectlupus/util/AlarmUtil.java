@@ -61,6 +61,7 @@ public class AlarmUtil {
             intent.setClass(context, MedicineAlarmReceiver.class);
             intent.putExtra(Constants.ALARM_INTERVAL, Constants.DAILY);
         }
+        intent.putExtra(Constants.REQUEST_CODE, requestCode);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         Log.i(TAG, "Set Repeating Alarm - Successful");

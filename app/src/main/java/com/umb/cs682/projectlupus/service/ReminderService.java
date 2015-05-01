@@ -153,7 +153,7 @@ public class ReminderService {
     }
 
     public ReminderBO getMedReminder(long id){
-        return reminderDao.queryBuilder().where(ReminderDao.Properties.Id.eq(id)).uniqueOrThrow();
+        return reminderDao.queryBuilder().where(ReminderDao.Properties.TypeId.eq(MED_REMINDER),ReminderDao.Properties.Id.eq(id)).uniqueOrThrow();
     }
 
     public List<ReminderBO> getMedReminders(){

@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="com.andorid.alarm.permission.SET_ALARM"/>
+    <uses-permission android:name="com.andorid.alarm.permission.SET_ALARM" />
 
     <application
         android:allowBackup="true"
@@ -101,12 +101,6 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name=".service.PedometerService"
-            android:enabled="true"
-            android:exported="true" >
-        </service>
-
         <activity
             android:name=".activities.medicineAlert.MedicinePopUp"
             android:label="@string/title_activity_medicine_pop_up"
@@ -129,6 +123,22 @@
             android:enabled="true"
             android:exported="true" >
         </receiver>
+        <receiver
+            android:name=".alarms.AlarmSetter"
+            android:enabled="true"
+            android:exported="true" >
+        </receiver>
+
+        <service
+            android:name=".alarms.AlarmSetterService"
+            android:exported="false" >
+        </service>
+
+        <service
+            android:name=".service.PedometerService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
     </application>
 
 </manifest>

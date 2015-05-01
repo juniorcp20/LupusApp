@@ -21,9 +21,12 @@ import com.umb.cs682.projectlupus.util.DateUtil;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 import de.greenrobot.dao.query.CountQuery;
 import de.greenrobot.dao.query.DeleteQuery;
+import de.greenrobot.dao.query.Query;
 
 public class ActivitySenseService {
     private static final String TAG = "service.activitySense";
@@ -191,5 +194,18 @@ public class ActivitySenseService {
     private long getCount(){
         CountQuery query = activitySenseDao.queryBuilder().buildCount();
         return query.count();
+    }
+
+    public List<ActivitySenseBO> getAllData() {
+        Query query = activitySenseDao.queryBuilder().build();
+        return query.list();
+    }
+
+    public HashMap<Date, Integer> getTimeVsStepCount(){
+        HashMap<Date, Integer> timeVsStepCountMap = new HashMap<>();
+        for(ActivitySenseBO currBO : getAllData()){
+            timeVsStepCountMap.put(currBO.getDate(), currBO.getStepCount());
+        }
+        return timeVsStepCountMap;
     }
 }

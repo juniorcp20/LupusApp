@@ -10,7 +10,6 @@ import de.greenrobot.dao.identityscope.IdentityScopeType;
 
 import com.umb.cs682.projectlupus.db.dao.ActivitySenseDao;
 import com.umb.cs682.projectlupus.db.dao.MedicineDao;
-import com.umb.cs682.projectlupus.db.dao.MedicineIntakeDao;
 import com.umb.cs682.projectlupus.db.dao.MoodLevelDao;
 import com.umb.cs682.projectlupus.db.dao.ProfileDao;
 import com.umb.cs682.projectlupus.db.dao.ReminderDao;
@@ -20,7 +19,7 @@ import com.umb.cs682.projectlupus.db.dao.ReminderDao;
  * Master of DAO (schema version 1): knows all DAOs.
 */
 public class DaoMaster extends AbstractDaoMaster {
-    public static final int SCHEMA_VERSION = 3;
+    public static final int SCHEMA_VERSION = 2;
     public static final String DATABASE_NAME = "LupusMateDb";
 
     /** Creates underlying database table using DAOs. */
@@ -28,21 +27,19 @@ public class DaoMaster extends AbstractDaoMaster {
         ActivitySenseDao.createTable(db, ifNotExists);
         ProfileDao.createTable(db, ifNotExists);
         MoodLevelDao.createTable(db, ifNotExists);
-        MedicineIntakeDao.createTable(db, ifNotExists);
         ReminderDao.createTable(db, ifNotExists);
         MedicineDao.createTable(db, ifNotExists);
     }
-
+    
     /** Drops underlying database table using DAOs. */
     public static void dropAllTables(SQLiteDatabase db, boolean ifExists) {
         ActivitySenseDao.dropTable(db, ifExists);
         ProfileDao.dropTable(db, ifExists);
         MoodLevelDao.dropTable(db, ifExists);
-        MedicineIntakeDao.dropTable(db, ifExists);
         ReminderDao.dropTable(db, ifExists);
         MedicineDao.dropTable(db, ifExists);
     }
-
+    
     public static abstract class OpenHelper extends SQLiteOpenHelper {
     	//Removed String name from parameters -NK
         public OpenHelper(Context context, CursorFactory factory) {
@@ -55,7 +52,7 @@ public class DaoMaster extends AbstractDaoMaster {
             createAllTables(db, false);
         }
     }
-
+    
     /** WARNING: Drops all table on Upgrade! Use only during development. */
     public static class DevOpenHelper extends OpenHelper {
         public DevOpenHelper(Context context, CursorFactory factory) {
@@ -75,17 +72,16 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(ActivitySenseDao.class);
         registerDaoClass(ProfileDao.class);
         registerDaoClass(MoodLevelDao.class);
-        registerDaoClass(MedicineIntakeDao.class);
         registerDaoClass(ReminderDao.class);
         registerDaoClass(MedicineDao.class);
     }
-
+    
     public DaoSession newSession() {
         return new DaoSession(db, IdentityScopeType.Session, daoConfigMap);
     }
-
+    
     public DaoSession newSession(IdentityScopeType type) {
         return new DaoSession(db, type, daoConfigMap);
     }
-
+    
 }

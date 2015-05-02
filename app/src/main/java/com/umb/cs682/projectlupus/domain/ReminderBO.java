@@ -2,7 +2,6 @@ package com.umb.cs682.projectlupus.domain;
 
 import java.util.List;
 
-import com.umb.cs682.projectlupus.db.dao.MedicineIntakeDao;
 import com.umb.cs682.projectlupus.db.dao.MoodLevelDao;
 import com.umb.cs682.projectlupus.db.dao.ReminderDao;
 import com.umb.cs682.projectlupus.db.helpers.DaoSession;
@@ -18,7 +17,7 @@ public class ReminderBO {
     private Long id;
     private Integer typeId;
     private long medId;
-    private String reminderDayDate;
+    private String reminderDayOrDate;
     /** Not-null value. */
     private java.util.Date reminderTime;
     /** Not-null value. */
@@ -31,7 +30,6 @@ public class ReminderBO {
     private transient ReminderDao myDao;
 
     private List<MoodLevelBO> moodReminders;
-    private List<MedicineIntakeBO> medIntakeCount;
 
     public ReminderBO() {
     }
@@ -40,11 +38,11 @@ public class ReminderBO {
         this.id = id;
     }
 
-    public ReminderBO(Long id, Integer typeId, long medId, String reminderDayDate, java.util.Date reminderTime, String status) {
+    public ReminderBO(Long id, Integer typeId, long medId, String reminderDayOrDate, java.util.Date reminderTime, String status) {
         this.id = id;
         this.typeId = typeId;
         this.medId = medId;
-        this.reminderDayDate = reminderDayDate;
+        this.reminderDayOrDate = reminderDayOrDate;
         this.reminderTime = reminderTime;
         this.status = status;
     }
@@ -79,12 +77,12 @@ public class ReminderBO {
         this.medId = medId;
     }
 
-    public String getReminderDayDate() {
-        return reminderDayDate;
+    public String getReminderDayOrDate() {
+        return reminderDayOrDate;
     }
 
-    public void setReminderDayDate(String reminderDayDate) {
-        this.reminderDayDate = reminderDayDate;
+    public void setReminderDayOrDate(String reminderDayOrDate) {
+        this.reminderDayOrDate = reminderDayOrDate;
     }
 
     /** Not-null value. */
@@ -129,33 +127,11 @@ public class ReminderBO {
         moodReminders = null;
     }
 
-    /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */
-    public List<MedicineIntakeBO> getMedIntakeCount() {
-        if (medIntakeCount == null) {
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            MedicineIntakeDao targetDao = daoSession.getMedicineIntakeDao();
-            List<MedicineIntakeBO> medIntakeCountNew = targetDao._queryReminder_MedIntakeCount(id);
-            synchronized (this) {
-                if(medIntakeCount == null) {
-                    medIntakeCount = medIntakeCountNew;
-                }
-            }
-        }
-        return medIntakeCount;
-    }
-
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
-    public synchronized void resetMedIntakeCount() {
-        medIntakeCount = null;
-    }
-
     /** Convenient call for {@link AbstractDao#delete(Object)}. Entity must attached to an entity context. */
     public void delete() {
         if (myDao == null) {
             throw new DaoException("Entity is detached from DAO context");
-        }
+        }    
         myDao.delete(this);
     }
 
@@ -163,7 +139,7 @@ public class ReminderBO {
     public void update() {
         if (myDao == null) {
             throw new DaoException("Entity is detached from DAO context");
-        }
+        }    
         myDao.update(this);
     }
 
@@ -171,7 +147,7 @@ public class ReminderBO {
     public void refresh() {
         if (myDao == null) {
             throw new DaoException("Entity is detached from DAO context");
-        }
+        }    
         myDao.refresh(this);
     }
 

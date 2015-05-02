@@ -192,7 +192,7 @@ public class StepService extends Service implements StepListener {
      */
     @Override
     public void onStep() {
-       // logger.info("onStep()");
+        logger.info("onStep()");
         mSteps++;
 
        /* if (!updating.get()) {

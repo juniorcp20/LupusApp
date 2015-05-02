@@ -9,7 +9,7 @@ public class ProfileBO {
     private Long id;
     /** Not-null value. */
     private String userName;
-    private String age;
+    private String age; //NK
     private String gender;
     private String ethnicity;
 
@@ -20,7 +20,7 @@ public class ProfileBO {
         this.id = id;
     }
 
-    public ProfileBO(Long id, String userName, String age, String gender, String ethnicity) {
+    public ProfileBO(Long id, String userName, String age, String gender, String ethnicity) { //NK
         this.id = id;
         this.userName = userName;
         this.age = age;
@@ -48,11 +48,11 @@ public class ProfileBO {
 
     public String getAge() {
         return age;
-    }
+    } //NK
 
     public void setAge(String age) {
         this.age = age;
-    }
+    } //NK
 
     public String getGender() {
         return gender;

@@ -26,7 +26,7 @@ public class ProfileDao extends AbstractDao<ProfileBO, Long> {
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property UserName = new Property(1, String.class, "userName", false, "USER_NAME");
-        public final static Property Age = new Property(2, String.class, "age", false, "AGE");
+        public final static Property Age = new Property(2, String.class, "age", false, "AGE"); //NK
         public final static Property Gender = new Property(3, String.class, "gender", false, "GENDER");
         public final static Property Ethnicity = new Property(4, String.class, "ethnicity", false, "ETHNICITY");
     };
@@ -35,7 +35,7 @@ public class ProfileDao extends AbstractDao<ProfileBO, Long> {
     public ProfileDao(DaoConfig config) {
         super(config);
     }
-
+    
     public ProfileDao(DaoConfig config, DaoSession daoSession) {
         super(config, daoSession);
     }
@@ -46,7 +46,7 @@ public class ProfileDao extends AbstractDao<ProfileBO, Long> {
         db.execSQL("CREATE TABLE " + constraint + "'PROFILE' (" + //
                 "'_id' INTEGER PRIMARY KEY ," + // 0: id
                 "'USER_NAME' TEXT NOT NULL ," + // 1: userName
-                "'AGE' TEXT," + // 2: age
+                "'AGE' INTEGER," + // 2: age
                 "'GENDER' TEXT," + // 3: gender
                 "'ETHNICITY' TEXT);"); // 4: ethnicity
     }
@@ -61,23 +61,23 @@ public class ProfileDao extends AbstractDao<ProfileBO, Long> {
     @Override
     protected void bindValues(SQLiteStatement stmt, ProfileBO entity) {
         stmt.clearBindings();
-
+ 
         Long id = entity.getId();
         if (id != null) {
             stmt.bindLong(1, id);
         }
         stmt.bindString(2, entity.getUserName());
-
-        String age = entity.getAge();
+ 
+        String age = entity.getAge(); //NK
         if (age != null) {
-            stmt.bindString(3, age);
+            stmt.bindString(3, age); //NK bindLong
         }
-
+ 
         String gender = entity.getGender();
         if (gender != null) {
             stmt.bindString(4, gender);
         }
-
+ 
         String ethnicity = entity.getEthnicity();
         if (ethnicity != null) {
             stmt.bindString(5, ethnicity);
@@ -88,38 +88,38 @@ public class ProfileDao extends AbstractDao<ProfileBO, Long> {
     @Override
     public Long readKey(Cursor cursor, int offset) {
         return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
-    }
+    }    
 
     /** @inheritdoc */
     @Override
     public ProfileBO readEntity(Cursor cursor, int offset) {
         ProfileBO entity = new ProfileBO( //
-                cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-                cursor.getString(offset + 1), // userName
-                cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // age
-                cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // gender
-                cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4) // ethnicity
+            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
+            cursor.getString(offset + 1), // userName
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // age NK getInt
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // gender
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4) // ethnicity
         );
         return entity;
     }
-
+     
     /** @inheritdoc */
     @Override
     public void readEntity(Cursor cursor, ProfileBO entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setUserName(cursor.getString(offset + 1));
-        entity.setAge(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setAge(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2)); //NK getInt
         entity.setGender(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setEthnicity(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-    }
-
+     }
+    
     /** @inheritdoc */
     @Override
     protected Long updateKeyAfterInsert(ProfileBO entity, long rowId) {
         entity.setId(rowId);
         return rowId;
     }
-
+    
     /** @inheritdoc */
     @Override
     public Long getKey(ProfileBO entity) {
@@ -131,9 +131,9 @@ public class ProfileDao extends AbstractDao<ProfileBO, Long> {
     }
 
     /** @inheritdoc */
-    @Override
+    @Override    
     protected boolean isEntityUpdateable() {
         return true;
     }
-
+    
 }

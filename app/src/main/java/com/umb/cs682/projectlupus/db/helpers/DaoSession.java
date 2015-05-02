@@ -10,13 +10,11 @@ import de.greenrobot.dao.identityscope.IdentityScopeType;
 import de.greenrobot.dao.internal.DaoConfig;
 
 import com.umb.cs682.projectlupus.domain.ActivitySenseBO;
-import com.umb.cs682.projectlupus.domain.MedicineIntakeBO;
 import com.umb.cs682.projectlupus.domain.ProfileBO;
 import com.umb.cs682.projectlupus.domain.MoodLevelBO;
 import com.umb.cs682.projectlupus.domain.ReminderBO;
 import com.umb.cs682.projectlupus.domain.MedicineBO;
 
-import com.umb.cs682.projectlupus.db.dao.MedicineIntakeDao;
 import com.umb.cs682.projectlupus.db.dao.ActivitySenseDao;
 import com.umb.cs682.projectlupus.db.dao.MedicineDao;
 import com.umb.cs682.projectlupus.db.dao.MoodLevelDao;
@@ -35,14 +33,12 @@ public class DaoSession extends AbstractDaoSession {
     private final DaoConfig activitySenseDaoConfig;
     private final DaoConfig profileDaoConfig;
     private final DaoConfig moodLevelDaoConfig;
-    private final DaoConfig medicineIntakeDaoConfig;
     private final DaoConfig reminderDaoConfig;
     private final DaoConfig medicineDaoConfig;
 
     private final ActivitySenseDao activitySenseDao;
     private final ProfileDao profileDao;
     private final MoodLevelDao moodLevelDao;
-    private final MedicineIntakeDao medicineIntakeDao;
     private final ReminderDao reminderDao;
     private final MedicineDao medicineDao;
 
@@ -59,9 +55,6 @@ public class DaoSession extends AbstractDaoSession {
         moodLevelDaoConfig = daoConfigMap.get(MoodLevelDao.class).clone();
         moodLevelDaoConfig.initIdentityScope(type);
 
-        medicineIntakeDaoConfig = daoConfigMap.get(MedicineIntakeDao.class).clone();
-        medicineIntakeDaoConfig.initIdentityScope(type);
-
         reminderDaoConfig = daoConfigMap.get(ReminderDao.class).clone();
         reminderDaoConfig.initIdentityScope(type);
 
@@ -71,23 +64,20 @@ public class DaoSession extends AbstractDaoSession {
         activitySenseDao = new ActivitySenseDao(activitySenseDaoConfig, this);
         profileDao = new ProfileDao(profileDaoConfig, this);
         moodLevelDao = new MoodLevelDao(moodLevelDaoConfig, this);
-        medicineIntakeDao = new MedicineIntakeDao(medicineIntakeDaoConfig, this);
         reminderDao = new ReminderDao(reminderDaoConfig, this);
         medicineDao = new MedicineDao(medicineDaoConfig, this);
 
         registerDao(ActivitySenseBO.class, activitySenseDao);
         registerDao(ProfileBO.class, profileDao);
         registerDao(MoodLevelBO.class, moodLevelDao);
-        registerDao(MedicineIntakeBO.class, medicineIntakeDao);
         registerDao(ReminderBO.class, reminderDao);
         registerDao(MedicineBO.class, medicineDao);
     }
-
+    
     public void clear() {
         activitySenseDaoConfig.getIdentityScope().clear();
         profileDaoConfig.getIdentityScope().clear();
         moodLevelDaoConfig.getIdentityScope().clear();
-        medicineIntakeDaoConfig.getIdentityScope().clear();
         reminderDaoConfig.getIdentityScope().clear();
         medicineDaoConfig.getIdentityScope().clear();
     }
@@ -102,10 +92,6 @@ public class DaoSession extends AbstractDaoSession {
 
     public MoodLevelDao getMoodLevelDao() {
         return moodLevelDao;
-    }
-
-    public MedicineIntakeDao getMedicineIntakeDao() {
-        return medicineIntakeDao;
     }
 
     public ReminderDao getReminderDao() {

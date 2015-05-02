@@ -38,7 +38,7 @@ public class MoodLevelDao extends AbstractDao<MoodLevelBO, Long> {
     public MoodLevelDao(DaoConfig config) {
         super(config);
     }
-
+    
     public MoodLevelDao(DaoConfig config, DaoSession daoSession) {
         super(config, daoSession);
     }
@@ -63,7 +63,7 @@ public class MoodLevelDao extends AbstractDao<MoodLevelBO, Long> {
     @Override
     protected void bindValues(SQLiteStatement stmt, MoodLevelBO entity) {
         stmt.clearBindings();
-
+ 
         Long id = entity.getId();
         if (id != null) {
             stmt.bindLong(1, id);
@@ -77,7 +77,7 @@ public class MoodLevelDao extends AbstractDao<MoodLevelBO, Long> {
     @Override
     public Long readKey(Cursor cursor, int offset) {
         return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
-    }
+    }    
 
     /** @inheritdoc */
     @Override
@@ -90,7 +90,7 @@ public class MoodLevelDao extends AbstractDao<MoodLevelBO, Long> {
         );
         return entity;
     }
-
+     
     /** @inheritdoc */
     @Override
     public void readEntity(Cursor cursor, MoodLevelBO entity, int offset) {
@@ -99,14 +99,14 @@ public class MoodLevelDao extends AbstractDao<MoodLevelBO, Long> {
         entity.setDate(new java.util.Date(cursor.getLong(offset + 2)));
         entity.setMoodLevel(cursor.getInt(offset + 3));
      }
-
+    
     /** @inheritdoc */
     @Override
     protected Long updateKeyAfterInsert(MoodLevelBO entity, long rowId) {
         entity.setId(rowId);
         return rowId;
     }
-
+    
     /** @inheritdoc */
     @Override
     public Long getKey(MoodLevelBO entity) {
@@ -118,11 +118,11 @@ public class MoodLevelDao extends AbstractDao<MoodLevelBO, Long> {
     }
 
     /** @inheritdoc */
-    @Override
+    @Override    
     protected boolean isEntityUpdateable() {
         return true;
     }
-
+    
     /** Internal query to resolve the "moodReminders" to-many relationship of Reminder. */
     public List<MoodLevelBO> _queryReminder_MoodReminders(long reminderId) {
         synchronized (this) {

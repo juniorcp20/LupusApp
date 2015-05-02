@@ -37,7 +37,7 @@ public class MedicineDao extends AbstractDao<MedicineBO, Long> {
     public MedicineDao(DaoConfig config) {
         super(config);
     }
-
+    
     public MedicineDao(DaoConfig config, DaoSession daoSession) {
         super(config, daoSession);
         this.daoSession = daoSession;
@@ -64,7 +64,7 @@ public class MedicineDao extends AbstractDao<MedicineBO, Long> {
     @Override
     protected void bindValues(SQLiteStatement stmt, MedicineBO entity) {
         stmt.clearBindings();
-
+ 
         Long id = entity.getId();
         if (id != null) {
             stmt.bindLong(1, id);
@@ -72,7 +72,7 @@ public class MedicineDao extends AbstractDao<MedicineBO, Long> {
         stmt.bindString(2, entity.getMedName());
         stmt.bindLong(3, entity.getDosage());
         stmt.bindString(4, entity.getInterval());
-
+ 
         String notes = entity.getNotes();
         if (notes != null) {
             stmt.bindString(5, notes);
@@ -89,7 +89,7 @@ public class MedicineDao extends AbstractDao<MedicineBO, Long> {
     @Override
     public Long readKey(Cursor cursor, int offset) {
         return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
-    }
+    }    
 
     /** @inheritdoc */
     @Override
@@ -103,7 +103,7 @@ public class MedicineDao extends AbstractDao<MedicineBO, Long> {
         );
         return entity;
     }
-
+     
     /** @inheritdoc */
     @Override
     public void readEntity(Cursor cursor, MedicineBO entity, int offset) {
@@ -113,14 +113,14 @@ public class MedicineDao extends AbstractDao<MedicineBO, Long> {
         entity.setInterval(cursor.getString(offset + 3));
         entity.setNotes(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
      }
-
+    
     /** @inheritdoc */
     @Override
     protected Long updateKeyAfterInsert(MedicineBO entity, long rowId) {
         entity.setId(rowId);
         return rowId;
     }
-
+    
     /** @inheritdoc */
     @Override
     public Long getKey(MedicineBO entity) {
@@ -132,9 +132,9 @@ public class MedicineDao extends AbstractDao<MedicineBO, Long> {
     }
 
     /** @inheritdoc */
-    @Override
+    @Override    
     protected boolean isEntityUpdateable() {
         return true;
     }
-
+    
 }

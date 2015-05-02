@@ -32,7 +32,7 @@ public class MoodLevelService {
             Calendar cal = Calendar.getInstance();
             for (int i = 1; i < 5; i++) {
                 cal.set(2015, 4, i);
-                bo = new MoodLevelBO(null, 1, DateTimeUtil.toDate(new Date(cal.getTimeInMillis())), i);
+                bo = new MoodLevelBO(null, 1, DateTimeUtil.toDateTime(new Date(cal.getTimeInMillis())), i);
                 moodLevelDao.insert(bo);
             }
         }

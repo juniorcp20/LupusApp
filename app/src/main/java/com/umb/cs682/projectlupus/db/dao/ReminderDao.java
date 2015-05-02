@@ -25,12 +25,12 @@ public class ReminderDao extends AbstractDao<ReminderBO, Long> {
     /**
      * Properties of entity Reminder.<br/>
      * Can be used for QueryBuilder and for referencing column names.
-     */
+    */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property TypeId = new Property(1, Integer.class, "typeId", false, "TYPE_ID");
         public final static Property MedId = new Property(2, long.class, "medId", false, "MED_ID");
-        public final static Property ReminderDayDate = new Property(3, String.class, "reminderDayDate", false, "REMINDER_DAY_DATE");
+        public final static Property ReminderDayOrDate = new Property(3, String.class, "reminderDayOrDate", false, "REMINDER_DAY_DATE");
         public final static Property ReminderTime = new Property(4, java.util.Date.class, "reminderTime", false, "REMINDER_TIME");
         public final static Property Status = new Property(5, String.class, "status", false, "STATUS");
     };
@@ -42,7 +42,7 @@ public class ReminderDao extends AbstractDao<ReminderBO, Long> {
     public ReminderDao(DaoConfig config) {
         super(config);
     }
-
+    
     public ReminderDao(DaoConfig config, DaoSession daoSession) {
         super(config, daoSession);
         this.daoSession = daoSession;
@@ -55,7 +55,7 @@ public class ReminderDao extends AbstractDao<ReminderBO, Long> {
                 "'_id' INTEGER PRIMARY KEY ," + // 0: id
                 "'TYPE_ID' INTEGER," + // 1: typeId
                 "'MED_ID' INTEGER NOT NULL ," + // 2: medId
-                "'REMINDER_DAY_DATE' TEXT," + // 3: reminderDayDate
+                "'REMINDER_DAY_DATE' TEXT," + // 3: reminderDayOrDate
                 "'REMINDER_TIME' INTEGER NOT NULL ," + // 4: reminderTime
                 "'STATUS' TEXT NOT NULL );"); // 5: status
     }
@@ -70,21 +70,21 @@ public class ReminderDao extends AbstractDao<ReminderBO, Long> {
     @Override
     protected void bindValues(SQLiteStatement stmt, ReminderBO entity) {
         stmt.clearBindings();
-
+ 
         Long id = entity.getId();
         if (id != null) {
             stmt.bindLong(1, id);
         }
-
+ 
         Integer typeId = entity.getTypeId();
         if (typeId != null) {
             stmt.bindLong(2, typeId);
         }
         stmt.bindLong(3, entity.getMedId());
-
-        String reminderDayDate = entity.getReminderDayDate();
-        if (reminderDayDate != null) {
-            stmt.bindString(4, reminderDayDate);
+ 
+        String reminderDayOrDate = entity.getReminderDayOrDate();
+        if (reminderDayOrDate != null) {
+            stmt.bindString(4, reminderDayOrDate);
         }
         stmt.bindLong(5, entity.getReminderTime().getTime());
         stmt.bindString(6, entity.getStatus());
@@ -100,40 +100,40 @@ public class ReminderDao extends AbstractDao<ReminderBO, Long> {
     @Override
     public Long readKey(Cursor cursor, int offset) {
         return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
-    }
+    }    
 
     /** @inheritdoc */
     @Override
     public ReminderBO readEntity(Cursor cursor, int offset) {
         ReminderBO entity = new ReminderBO( //
-                cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-                cursor.isNull(offset + 1) ? null : cursor.getInt(offset + 1), // typeId
-                cursor.getLong(offset + 2), // medId
-                cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // reminderDayDate
-                new java.util.Date(cursor.getLong(offset + 4)), // reminderTime
-                cursor.getString(offset + 5) // status
+            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
+            cursor.isNull(offset + 1) ? null : cursor.getInt(offset + 1), // typeId
+            cursor.getLong(offset + 2), // medId
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // reminderDayOrDate
+            new java.util.Date(cursor.getLong(offset + 4)), // reminderTime
+            cursor.getString(offset + 5) // status
         );
         return entity;
     }
-
+     
     /** @inheritdoc */
     @Override
     public void readEntity(Cursor cursor, ReminderBO entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setTypeId(cursor.isNull(offset + 1) ? null : cursor.getInt(offset + 1));
         entity.setMedId(cursor.getLong(offset + 2));
-        entity.setReminderDayDate(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setReminderDayOrDate(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setReminderTime(new java.util.Date(cursor.getLong(offset + 4)));
         entity.setStatus(cursor.getString(offset + 5));
-    }
-
+     }
+    
     /** @inheritdoc */
     @Override
     protected Long updateKeyAfterInsert(ReminderBO entity, long rowId) {
         entity.setId(rowId);
         return rowId;
     }
-
+    
     /** @inheritdoc */
     @Override
     public Long getKey(ReminderBO entity) {
@@ -145,11 +145,11 @@ public class ReminderDao extends AbstractDao<ReminderBO, Long> {
     }
 
     /** @inheritdoc */
-    @Override
+    @Override    
     protected boolean isEntityUpdateable() {
         return true;
     }
-
+    
     /** Internal query to resolve the "medReminders" to-many relationship of Medicine. */
     public List<ReminderBO> _queryMedicine_MedReminders(long medId) {
         synchronized (this) {

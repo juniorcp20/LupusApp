@@ -33,7 +33,7 @@ public class ActivitySenseDao extends AbstractDao<ActivitySenseBO, Long> {
     public ActivitySenseDao(DaoConfig config) {
         super(config);
     }
-
+    
     public ActivitySenseDao(DaoConfig config, DaoSession daoSession) {
         super(config, daoSession);
     }
@@ -57,7 +57,7 @@ public class ActivitySenseDao extends AbstractDao<ActivitySenseBO, Long> {
     @Override
     protected void bindValues(SQLiteStatement stmt, ActivitySenseBO entity) {
         stmt.clearBindings();
-
+ 
         Long id = entity.getId();
         if (id != null) {
             stmt.bindLong(1, id);
@@ -70,7 +70,7 @@ public class ActivitySenseDao extends AbstractDao<ActivitySenseBO, Long> {
     @Override
     public Long readKey(Cursor cursor, int offset) {
         return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
-    }
+    }    
 
     /** @inheritdoc */
     @Override
@@ -82,7 +82,7 @@ public class ActivitySenseDao extends AbstractDao<ActivitySenseBO, Long> {
         );
         return entity;
     }
-
+     
     /** @inheritdoc */
     @Override
     public void readEntity(Cursor cursor, ActivitySenseBO entity, int offset) {
@@ -90,14 +90,14 @@ public class ActivitySenseDao extends AbstractDao<ActivitySenseBO, Long> {
         entity.setStepCount(cursor.getInt(offset + 1));
         entity.setDate(new java.util.Date(cursor.getLong(offset + 2)));
      }
-
+    
     /** @inheritdoc */
     @Override
     protected Long updateKeyAfterInsert(ActivitySenseBO entity, long rowId) {
         entity.setId(rowId);
         return rowId;
     }
-
+    
     /** @inheritdoc */
     @Override
     public Long getKey(ActivitySenseBO entity) {
@@ -109,9 +109,9 @@ public class ActivitySenseDao extends AbstractDao<ActivitySenseBO, Long> {
     }
 
     /** @inheritdoc */
-    @Override
+    @Override    
     protected boolean isEntityUpdateable() {
         return true;
     }
-
+    
 }

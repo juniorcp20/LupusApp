@@ -34,19 +34,19 @@ public class MedicineService {
 
     public void initMedicineDB(){
         if(medicineDao.count() == 0) {
-            medicineDao.insert(new MedicineBO(null, "Prednisone/Prednisolone", -1, DAILY, null));
-            medicineDao.insert(new MedicineBO(null, "Mycophenolate", -1, DAILY, null));
-            medicineDao.insert(new MedicineBO(null, "Methotrexate", -1, WEEKLY, null));
-            medicineDao.insert(new MedicineBO(null, "Cyclophosphamide", -1, DAILY, null));
-            medicineDao.insert(new MedicineBO(null, "Belimumab", -1, MONTHLY, null));
-            medicineDao.insert(new MedicineBO(null, "Tacrolimus", -1, DAILY, null));
-            medicineDao.insert(new MedicineBO(null, "Rituximab", -1, MONTHLY, null));
+            medicineDao.insert(new MedicineBO(null, "Prednisone/Prednisolone", -1, DAILY, null,0,0));
+            medicineDao.insert(new MedicineBO(null, "Mycophenolate", -1, DAILY, null,0,0));
+            medicineDao.insert(new MedicineBO(null, "Methotrexate", -1, WEEKLY, null,0,0));
+            medicineDao.insert(new MedicineBO(null, "Cyclophosphamide", -1, DAILY, null,0,0));
+            medicineDao.insert(new MedicineBO(null, "Belimumab", -1, MONTHLY, null,0,0));
+            medicineDao.insert(new MedicineBO(null, "Tacrolimus", -1, DAILY, null,0,0));
+            medicineDao.insert(new MedicineBO(null, "Rituximab", -1, MONTHLY, null,0,0));
         }
     }
 
     public String addMedicine(String name, int dosage, String interval, String notes){
         String newMed = null;
-        bo = new MedicineBO(null, name, dosage, interval, notes);
+        bo = new MedicineBO(null, name, dosage, interval, notes,0,0);
         long countBeforeAdd = getRowCount();
         if(getRowCount(name) == 0){
             medicineDao.insert(bo);
@@ -124,7 +124,7 @@ public class MedicineService {
         MedicineBO bo;
         if(getCount() == 0) {
             for (int i = 1; i < 5; i++) {
-                bo = new MedicineBO(null,"Drug " + i,i,Constants.DAILY,null);
+                bo = new MedicineBO(null,"Drug " + i,i,Constants.DAILY,null,0,0);
                 medicineDao.insert(bo);
             }
         }

@@ -21,6 +21,8 @@ public class MedicineBO {
     /** Not-null value. */
     private String interval;
     private String notes;
+    private Integer medReminderCount;
+    private Integer medTakenCount;
 
     /** Used to resolve relations */
     private transient DaoSession daoSession;
@@ -37,12 +39,14 @@ public class MedicineBO {
         this.id = id;
     }
 
-    public MedicineBO(Long id, String medName, int dosage, String interval, String notes) {
+    public MedicineBO(Long id, String medName, int dosage, String interval, String notes, Integer medReminderCount, Integer medTakenCount) {
         this.id = id;
         this.medName = medName;
         this.dosage = dosage;
         this.interval = interval;
         this.notes = notes;
+        this.medReminderCount = medReminderCount;
+        this.medTakenCount = medTakenCount;
     }
 
     /** called by internal mechanisms, do not call yourself. */
@@ -95,6 +99,22 @@ public class MedicineBO {
         this.notes = notes;
     }
 
+    public Integer getMedReminderCount() {
+        return medReminderCount;
+    }
+
+    public void setMedReminderCount(Integer medReminderCount) {
+        this.medReminderCount = medReminderCount;
+    }
+
+    public Integer getMedTakenCount() {
+        return medTakenCount;
+    }
+
+    public void setMedTakenCount(Integer medTakenCount) {
+        this.medTakenCount = medTakenCount;
+    }
+
     /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */
     public List<ReminderBO> getMedReminders() {
         if (medReminders == null) {
@@ -121,7 +141,7 @@ public class MedicineBO {
     public void delete() {
         if (myDao == null) {
             throw new DaoException("Entity is detached from DAO context");
-        }    
+        }
         myDao.delete(this);
     }
 
@@ -129,7 +149,7 @@ public class MedicineBO {
     public void update() {
         if (myDao == null) {
             throw new DaoException("Entity is detached from DAO context");
-        }    
+        }
         myDao.update(this);
     }
 
@@ -137,7 +157,7 @@ public class MedicineBO {
     public void refresh() {
         if (myDao == null) {
             throw new DaoException("Entity is detached from DAO context");
-        }    
+        }
         myDao.refresh(this);
     }
 

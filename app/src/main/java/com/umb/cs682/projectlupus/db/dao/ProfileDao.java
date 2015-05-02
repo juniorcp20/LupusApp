@@ -46,7 +46,7 @@ public class ProfileDao extends AbstractDao<ProfileBO, Long> {
         db.execSQL("CREATE TABLE " + constraint + "'PROFILE' (" + //
                 "'_id' INTEGER PRIMARY KEY ," + // 0: id
                 "'USER_NAME' TEXT NOT NULL ," + // 1: userName
-                "'AGE' INTEGER," + // 2: age
+                "'AGE' TEXT," + // 2: age
                 "'GENDER' TEXT," + // 3: gender
                 "'ETHNICITY' TEXT);"); // 4: ethnicity
     }

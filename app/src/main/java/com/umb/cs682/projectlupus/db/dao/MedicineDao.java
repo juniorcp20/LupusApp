@@ -22,13 +22,15 @@ public class MedicineDao extends AbstractDao<MedicineBO, Long> {
     /**
      * Properties of entity Medicine.<br/>
      * Can be used for QueryBuilder and for referencing column names.
-    */
+     */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property MedName = new Property(1, String.class, "medName", false, "MED_NAME");
         public final static Property Dosage = new Property(2, int.class, "dosage", false, "DOSAGE");
         public final static Property Interval = new Property(3, String.class, "interval", false, "INTERVAL");
         public final static Property Notes = new Property(4, String.class, "notes", false, "NOTES");
+        public final static Property MedReminderCount = new Property(5, Integer.class, "medReminderCount", false, "MED_REMINDER_COUNT");
+        public final static Property MedTakenCount = new Property(6, Integer.class, "medTakenCount", false, "MED_TAKEN_COUNT");
     };
 
     private DaoSession daoSession;
@@ -37,7 +39,7 @@ public class MedicineDao extends AbstractDao<MedicineBO, Long> {
     public MedicineDao(DaoConfig config) {
         super(config);
     }
-    
+
     public MedicineDao(DaoConfig config, DaoSession daoSession) {
         super(config, daoSession);
         this.daoSession = daoSession;
@@ -51,7 +53,9 @@ public class MedicineDao extends AbstractDao<MedicineBO, Long> {
                 "'MED_NAME' TEXT NOT NULL ," + // 1: medName
                 "'DOSAGE' INTEGER NOT NULL ," + // 2: dosage
                 "'INTERVAL' TEXT NOT NULL ," + // 3: interval
-                "'NOTES' TEXT);"); // 4: notes
+                "'NOTES' TEXT," + // 4: notes
+                "'MED_REMINDER_COUNT' INTEGER," + // 5: medReminderCount
+                "'MED_TAKEN_COUNT' INTEGER);"); // 6: medTakenCount
     }
 
     /** Drops the underlying database table. */
@@ -64,7 +68,7 @@ public class MedicineDao extends AbstractDao<MedicineBO, Long> {
     @Override
     protected void bindValues(SQLiteStatement stmt, MedicineBO entity) {
         stmt.clearBindings();
- 
+
         Long id = entity.getId();
         if (id != null) {
             stmt.bindLong(1, id);
@@ -72,10 +76,20 @@ public class MedicineDao extends AbstractDao<MedicineBO, Long> {
         stmt.bindString(2, entity.getMedName());
         stmt.bindLong(3, entity.getDosage());
         stmt.bindString(4, entity.getInterval());
- 
+
         String notes = entity.getNotes();
         if (notes != null) {
             stmt.bindString(5, notes);
+        }
+
+        Integer medReminderCount = entity.getMedReminderCount();
+        if (medReminderCount != null) {
+            stmt.bindLong(6, medReminderCount);
+        }
+
+        Integer medTakenCount = entity.getMedTakenCount();
+        if (medTakenCount != null) {
+            stmt.bindLong(7, medTakenCount);
         }
     }
 
@@ -89,21 +103,23 @@ public class MedicineDao extends AbstractDao<MedicineBO, Long> {
     @Override
     public Long readKey(Cursor cursor, int offset) {
         return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
-    }    
+    }
 
     /** @inheritdoc */
     @Override
     public MedicineBO readEntity(Cursor cursor, int offset) {
         MedicineBO entity = new MedicineBO( //
-            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.getString(offset + 1), // medName
-            cursor.getInt(offset + 2), // dosage
-            cursor.getString(offset + 3), // interval
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4) // notes
+                cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
+                cursor.getString(offset + 1), // medName
+                cursor.getInt(offset + 2), // dosage
+                cursor.getString(offset + 3), // interval
+                cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // notes
+                cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5), // medReminderCount
+                cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6) // medTakenCount
         );
         return entity;
     }
-     
+
     /** @inheritdoc */
     @Override
     public void readEntity(Cursor cursor, MedicineBO entity, int offset) {
@@ -112,15 +128,17 @@ public class MedicineDao extends AbstractDao<MedicineBO, Long> {
         entity.setDosage(cursor.getInt(offset + 2));
         entity.setInterval(cursor.getString(offset + 3));
         entity.setNotes(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-     }
-    
+        entity.setMedReminderCount(cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5));
+        entity.setMedTakenCount(cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6));
+    }
+
     /** @inheritdoc */
     @Override
     protected Long updateKeyAfterInsert(MedicineBO entity, long rowId) {
         entity.setId(rowId);
         return rowId;
     }
-    
+
     /** @inheritdoc */
     @Override
     public Long getKey(MedicineBO entity) {
@@ -132,9 +150,10 @@ public class MedicineDao extends AbstractDao<MedicineBO, Long> {
     }
 
     /** @inheritdoc */
-    @Override    
+    @Override
     protected boolean isEntityUpdateable() {
         return true;
     }
-    
+
 }
+

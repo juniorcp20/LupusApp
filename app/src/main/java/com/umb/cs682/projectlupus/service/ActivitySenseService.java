@@ -143,7 +143,7 @@ public class ActivitySenseService {
 
     public void stopAlarm(){
         alarmManager.cancel(pendingIntent);
-        context.unregisterReceiver(receiver);
+        //context.unregisterReceiver(receiver);
     }
 
     public void setupAlarm(){

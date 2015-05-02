@@ -17,6 +17,7 @@ import android.view.WindowManager;
 
 import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.activities.medicineAlert.MedicinePopUp;
+import com.umb.cs682.projectlupus.exceptions.AppException;
 import com.umb.cs682.projectlupus.util.AlarmUtil;
 import com.umb.cs682.projectlupus.util.Constants;
 
@@ -28,7 +29,11 @@ public class MedicineAlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         showNotification(context);
-        reScheduleAlarm(context, intent);
+        try {
+            reScheduleAlarm(context, intent);
+        }catch(AppException e){
+            e.printStackTrace();
+        }
     }
 
     private void showNotification(Context context){
@@ -49,12 +54,14 @@ public class MedicineAlarmReceiver extends BroadcastReceiver {
         nm.notify(1, notification);
     }
 
-    private void reScheduleAlarm(Context context, Intent intent) {
+    private void reScheduleAlarm(Context context, Intent intent) throws AppException {
+        int reminderID = intent.getIntExtra(Constants.REMINDER_ID, -1);
         int requestCode = intent.getIntExtra(Constants.REQUEST_CODE, -1);
-        long nextStartTime = 0;
         long currentStartTime = intent.getLongExtra(Constants.START_TIME, -1);
-        Calendar cal = Calendar.getInstance(TimeZone.getDefault());
-        cal.setTimeInMillis(currentStartTime);
+        //long nextStartTime = 0;
+        Calendar futureCal = Calendar.getInstance(TimeZone.getDefault());
+        Calendar currentCal = Calendar.getInstance(TimeZone.getDefault());
+        currentCal.setTimeInMillis(currentStartTime);
 
         String alarmInterval = intent.getStringExtra(Constants.ALARM_INTERVAL);
         switch(alarmInterval){
@@ -63,22 +70,26 @@ public class MedicineAlarmReceiver extends BroadcastReceiver {
             case Constants.WEEKLY:
                 int dayOfWeek = intent.getIntExtra(Constants.DAY_OF_WEEK, -1);
                 if(dayOfWeek != -1){
-                    nextStartTime = getNextWeekStartTime(dayOfWeek, cal);
+                    futureCal = getNextWeekStartTime(currentCal);
                 }
                 break;
             case Constants.MONTHLY:
                 int dayOfMonth = intent.getIntExtra(Constants.DAY_OF_MONTH, -1);
                 if(dayOfMonth != -1){
-                    nextStartTime = getNextMonthStartTime(dayOfMonth, cal);
+                    futureCal = getNextMonthStartTime(currentCal);
                 }
                 break;
         }
-        if(requestCode != -1) {
-            AlarmUtil.setOneShotAlarm(context, Constants.MED_REMINDER, requestCode, alarmInterval, nextStartTime);
+        if(reminderID != -1 && requestCode != -1) {
+           // AlarmUtil.setOneShotAlarm(context, Constants.MED_REMINDER, reminderID, requestCode, alarmInterval, nextStartTime);
+            AlarmUtil.setAlarm(context, requestCode, reminderID, Constants.MED_REMINDER, alarmInterval, futureCal);
+        }else{
+            throw new AppException("Could not find request code in intent");
         }
     }
 
-    private long getNextMonthStartTime(int dayOfMonth, Calendar cal) {
+    //private long getNextMonthStartTime(Calendar cal) {
+    private Calendar getNextMonthStartTime(Calendar cal) {
         //cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         int currentMonth = cal.get(Calendar.MONTH);
         currentMonth++;
@@ -91,12 +102,17 @@ public class MedicineAlarmReceiver extends BroadcastReceiver {
         cal.set(Calendar.MONTH, currentMonth);
         // get the maximum possible days in this month
         //int maximumDays = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-        return cal.getTimeInMillis();// + AlarmManager.INTERVAL_DAY*maximumDays;
+        //return cal.getTimeInMillis();// + AlarmManager.INTERVAL_DAY*maximumDays;
+        return cal;
     }
 
-    private long getNextWeekStartTime(int dayOfWeek, Calendar cal) {
+    //private long getNextWeekStartTime(Calendar cal) {
+    private Calendar getNextWeekStartTime(Calendar cal) {
         //cal.set(Calendar.DAY_OF_WEEK, dayOfWeek);
-        return cal.getTimeInMillis()+ AlarmManager.INTERVAL_DAY*7;
+        //return cal.getTimeInMillis()+ AlarmManager.INTERVAL_DAY*7;
+        long timeInMillis = cal.getTimeInMillis()+ AlarmManager.INTERVAL_DAY*7;
+        cal.setTimeInMillis(timeInMillis);
+        return cal;
     }
 
 }

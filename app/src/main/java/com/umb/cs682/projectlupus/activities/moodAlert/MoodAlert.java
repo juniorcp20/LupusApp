@@ -154,7 +154,10 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
                     if(isNew){
                         try {
                             Long newID = service.addMoodReminder(selectedTime.toString());
-                            AlarmUtil.setDailyRepeatingAlarm(getApplicationContext(), Constants.MOOD_REMINDER, newID.intValue(), cal);
+                            int remID = newID.intValue();
+                            int requestCode = remID;
+                            //AlarmUtil.setDailyRepeatingAlarm(getApplicationContext(), Constants.MOOD_REMINDER, remID, requestCode, cal);
+                            AlarmUtil.setAlarm(getApplicationContext(), requestCode, remID, Constants.MOOD_REMINDER, Constants.DAILY, cal);
                             service.updateMoodReminderStatus(newID, Constants.REM_STATUS_ACTIVE);
                             remIDs.add(newID);
                         }catch (DaoException e){
@@ -223,7 +226,10 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
             actionIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AlarmUtil.cancelDailyRepeatingAlarm(getApplicationContext(), Constants.MOOD_REMINDER,remIDs.get(position).intValue());
+                    int currRemID = remIDs.get(position).intValue();
+                    int requestCode = currRemID;
+                    //AlarmUtil.cancelDailyRepeatingAlarm(getApplicationContext(), Constants.MOOD_REMINDER, remIDs.get(position).intValue(), remIDs.get(position).intValue());
+                    AlarmUtil.cancelAlarm(getApplicationContext(),requestCode, currRemID, Constants.MOOD_REMINDER, Constants.DAILY, null);
                     service.deleteMoodReminder(remIDs.get(position));
                     remIDs.remove(position);
                     if(remIDs.isEmpty()){

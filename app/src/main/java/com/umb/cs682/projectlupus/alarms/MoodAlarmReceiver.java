@@ -9,6 +9,8 @@ import android.content.Intent;
 
 import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.activities.moodAlert.MoodPopUp;
+import com.umb.cs682.projectlupus.config.AppConfig;
+import com.umb.cs682.projectlupus.service.ReminderService;
 import com.umb.cs682.projectlupus.util.Constants;
 
 /**
@@ -16,17 +18,20 @@ import com.umb.cs682.projectlupus.util.Constants;
  */
 public class MoodAlarmReceiver extends BroadcastReceiver{
     private NotificationManager nm;
+    private ReminderService reminderService = AppConfig.getReminderService();
     @Override
     public void onReceive(Context context, Intent intent) {
         int reminderID = intent.getIntExtra(Constants.REQUEST_CODE, -1);
-        showNotification(context, reminderID);
+        reminderService.updateMoodReminderStatus(reminderID, Constants.REM_STATUS_PENDING);
+        showNotification(context, intent);//reminderID);
     }
 
-    private void showNotification(Context context, int reminderID) {
+    private void showNotification(Context context, Intent alarmIntent){//int reminderID) {
         nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         Intent intent = new Intent(context, MoodPopUp.class);
-        intent.putExtra(Constants.REMINDER_ID, reminderID);
+        //intent.putExtra(Constants.REMINDER_ID, reminderID);
+        intent.putExtras(alarmIntent);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
         Notification notification = new Notification.Builder(context)

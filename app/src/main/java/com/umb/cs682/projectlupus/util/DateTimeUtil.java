@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class DateTimeUtil {
     private static final String DATETIME_FORMAT = "YYYY-MM-DD HH:mm:ss";
@@ -29,6 +30,10 @@ public class DateTimeUtil {
 
     public static Date toDate(Date date){
         return getFormattedDate(DATE_FORMAT, date);
+    }
+    public static Date toDate(String date){
+        Date formattedDate = getFormattedDate(DATE_FORMAT, date);
+        return formattedDate;
     }
 
     public static Date toDateTime(Date date){
@@ -100,5 +105,43 @@ public class DateTimeUtil {
 
     public static int getMin(Date reminderTime) {
         return Integer.parseInt(getFormattedDateString("mm", reminderTime));
+    }
+
+    public static Calendar getCalendar(int hourOfDay, int min, String dayOfWeek, String dayOfMonth){
+        Calendar cal = Calendar.getInstance(TimeZone.getDefault());
+        cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        cal.set(Calendar.MINUTE, min);
+        cal.set(Calendar.DAY_OF_WEEK, getDayOfWeek(dayOfWeek));
+        cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dayOfMonth));
+        return cal;
+    }
+
+    private static int getDayOfWeek(String dayOfWeek) {
+        int retVal = 0;
+        switch(dayOfWeek.toLowerCase()){
+            case "sunday":
+                retVal = Calendar.SUNDAY;
+                break;
+            case "monday":
+                retVal = Calendar.MONDAY;
+                break;
+            case "tuesday":
+                retVal = Calendar.TUESDAY;
+                break;
+            case "wednesday":
+                retVal = Calendar.WEDNESDAY;
+                break;
+            case "thursday":
+                retVal = Calendar.THURSDAY;
+                break;
+            case "friday":
+                retVal = Calendar.FRIDAY;
+                break;
+            case "saturday":
+                retVal = Calendar.SATURDAY;
+                break;
+
+        }
+        return retVal;
     }
 }

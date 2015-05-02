@@ -13,6 +13,7 @@ import com.umb.cs682.projectlupus.service.MedicineService;
 import com.umb.cs682.projectlupus.service.ReminderService;
 import com.umb.cs682.projectlupus.util.AlarmUtil;
 import com.umb.cs682.projectlupus.util.Constants;
+import com.umb.cs682.projectlupus.util.DateTimeUtil;
 
 import java.util.Calendar;
 import java.util.List;
@@ -58,11 +59,14 @@ public class AlarmSetterService extends IntentService {
     private void setAllMoodAlarms() {
         List<ReminderBO> moodAlarms = reminderService.getMoodReminders();
         Calendar cal = Calendar.getInstance(TimeZone.getDefault());
-        int id = 0;
+        int remID = 0;
+        int requestCode = 0;
         for(ReminderBO bo : moodAlarms){
-            id = bo.getId().intValue();
+            remID = bo.getId().intValue();
+            requestCode = remID;
             cal.setTimeInMillis(bo.getReminderTime().getTime());
-            AlarmUtil.setDailyRepeatingAlarm(context, Constants.MOOD_REMINDER, id, cal);
+            //AlarmUtil.setDailyRepeatingAlarm(context, Constants.MOOD_REMINDER, remID, requestCode, cal);
+            AlarmUtil.setAlarm(context, requestCode, remID, Constants.MOOD_REMINDER, Constants.DAILY, cal);
         }
         Log.i(TAG, "Mood Alarms Set");
     }
@@ -70,6 +74,7 @@ public class AlarmSetterService extends IntentService {
     private void setAllMedAlarms(){
         List<ReminderBO> medAlarms = reminderService.getMedReminders();
         Calendar cal = Calendar.getInstance(TimeZone.getDefault());
+        int requestCode;
         int remID = 0;
         int medID = 0;
         String alarmInterval;
@@ -80,6 +85,7 @@ public class AlarmSetterService extends IntentService {
         MedicineBO medicineBO;
         for(ReminderBO reminderBO : medAlarms){
             remID = reminderBO.getId().intValue();
+            requestCode = remID;
             medID = reminderService.getMedReminder(remID).getId().intValue();
             medicineBO = medicineService.getMedicine(medID);
             alarmInterval = medicineBO.getInterval();
@@ -88,7 +94,7 @@ public class AlarmSetterService extends IntentService {
             min = cal.get(Calendar.MINUTE);
             switch(alarmInterval){
                 case Constants.DAILY:
-                    AlarmUtil.setDailyRepeatingAlarm(context, Constants.MED_REMINDER, remID, cal);
+                   // AlarmUtil.setDailyRepeatingAlarm(context, Constants.MED_REMINDER, remID, requestCode, cal);
                     break;
                 case Constants.WEEKLY:
                     dayOfWeek = reminderBO.getReminderDayOrDate();
@@ -96,7 +102,7 @@ public class AlarmSetterService extends IntentService {
                 case Constants.MONTHLY:
                     dayOfMonth = reminderBO.getReminderDayOrDate();
             }
-            AlarmUtil.setAlarm(context, remID, alarmInterval, hourOfDay, min, dayOfWeek, dayOfMonth, Constants.MED_REMINDER);
+            AlarmUtil.setAlarm(context, requestCode, remID, Constants.MED_REMINDER, alarmInterval, DateTimeUtil.getCalendar(hourOfDay, min, dayOfWeek, dayOfMonth));
         }
         Log.i(TAG, "Medicine Alarms Set");
     }

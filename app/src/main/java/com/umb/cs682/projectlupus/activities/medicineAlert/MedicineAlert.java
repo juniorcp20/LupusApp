@@ -32,7 +32,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class MedicineAlert extends Activity {
     private static final String TAG = "activities.medAlert";
@@ -210,7 +209,9 @@ public class MedicineAlert extends Activity {
                     case Constants.MONTHLY:
                         dayOfMonth = currRemBO.getReminderDayOrDate();
                 }
-                AlarmUtil.cancelAlarm(this, id.intValue(), selInterval, hourOfDay, min, dayOfWeek, dayOfMonth, Constants.MED_REMINDER);
+                int remID = id.intValue();
+                int requestCode = remID;
+                AlarmUtil.cancelAlarm(this, requestCode, remID, Constants.MED_REMINDER, selInterval, DateTimeUtil.getCalendar(hourOfDay, min, dayOfWeek, dayOfMonth));
                 Log.i(TAG, "Cancelling Alarm");
             }
             return;

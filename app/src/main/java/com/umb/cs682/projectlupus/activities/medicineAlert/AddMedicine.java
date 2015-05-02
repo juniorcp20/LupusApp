@@ -471,7 +471,9 @@ public class AddMedicine extends Activity {
                 case MONTHLY:
                     dayOfMonth = selDayOfMonth;
             }
-            AlarmUtil.setAlarm(this, id.intValue(), selInterval, hourOfDay, min, dayOfWeek, dayOfMonth, Constants.MED_REMINDER);
+            int currRemID = id.intValue();
+            int requestCode = currRemID;
+            AlarmUtil.setAlarm(this, requestCode, currRemID, Constants.MED_REMINDER, selInterval, DateTimeUtil.getCalendar(hourOfDay, min, dayOfWeek, dayOfMonth));
             Log.i(TAG, "Setting Alarm");
             reminderService.updateMedReminderStatus(id, Constants.REM_STATUS_ACTIVE);
         }
@@ -491,7 +493,9 @@ public class AddMedicine extends Activity {
                 case MONTHLY:
                     dayOfMonth = selDayOfMonth;
             }
-            AlarmUtil.cancelAlarm(this, id.intValue(), selInterval, hourOfDay, min, dayOfWeek, dayOfMonth, Constants.MED_REMINDER);
+            int remID = id.intValue();
+            int requestCode = remID;
+            AlarmUtil.cancelAlarm(this, requestCode, remID, Constants.MED_REMINDER, selInterval, DateTimeUtil.getCalendar(hourOfDay, min, dayOfWeek, dayOfMonth));
             Log.i(TAG, "Cancelling Alarm");
         }
         return;

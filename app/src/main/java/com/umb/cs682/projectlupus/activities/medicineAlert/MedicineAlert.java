@@ -206,9 +206,9 @@ public class MedicineAlert extends Activity {
                 String selInterval = medService.getMedicineInterval(currMedID);
                 switch (selInterval){
                     case Constants.WEEKLY:
-                        dayOfWeek = currRemBO.getReminderDayOrDate();
+                        dayOfWeek = currRemBO.getReminderDayDate();
                     case Constants.MONTHLY:
-                        dayOfMonth = currRemBO.getReminderDayOrDate();
+                        dayOfMonth = currRemBO.getReminderDayDate();
                 }
                 AlarmUtil.cancelAlarm(this, id.intValue(), selInterval, hourOfDay, min, dayOfWeek, dayOfMonth, Constants.MED_REMINDER);
                 Log.i(TAG, "Cancelling Alarm");

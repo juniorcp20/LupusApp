@@ -28,12 +28,12 @@ public class MoodPopUp extends Activity {
 
     public void listenerForRatingBar(){
         rating_b=(RatingBar)findViewById(R.id.ratingBar);
-        text_v=(TextView)findViewById(R.id.numRating);
+        //text_v=(TextView)findViewById(R.id.numRating);
 
         rating_b.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                text_v.setText(String.valueOf(rating));
+               // text_v.setText(String.valueOf(rating));
             }
         });
     }

@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.umb.cs682.projectlupus.db.dao.ActivitySenseDao;
 import com.umb.cs682.projectlupus.db.dao.MedicineDao;
+import com.umb.cs682.projectlupus.db.dao.MedicineIntakeDao;
 import com.umb.cs682.projectlupus.db.dao.MoodLevelDao;
 import com.umb.cs682.projectlupus.db.dao.ProfileDao;
 import com.umb.cs682.projectlupus.db.dao.ReminderDao;
@@ -13,6 +14,7 @@ import com.umb.cs682.projectlupus.db.helpers.DaoMaster;
 import com.umb.cs682.projectlupus.db.helpers.DaoSession;
 import com.umb.cs682.projectlupus.service.ActivitySenseService;
 import com.umb.cs682.projectlupus.service.HomeService;
+import com.umb.cs682.projectlupus.service.MedicineIntakeService;
 import com.umb.cs682.projectlupus.service.MedicineService;
 import com.umb.cs682.projectlupus.service.MoodLevelService;
 import com.umb.cs682.projectlupus.service.ProfileService;
@@ -34,6 +36,7 @@ public class AppConfig {
     private static MedicineService medicineService;
     private static MoodLevelService moodLevelService;
     private static ReminderService reminderService;
+    private static MedicineIntakeService medicineIntakeService;
 
     private static boolean isBound = false;
 
@@ -43,6 +46,7 @@ public class AppConfig {
     private static MoodLevelDao moodLevelDao;
     private static ProfileDao profileDao;
     private static ReminderDao reminderDao;
+    private static MedicineIntakeDao medicineIntakeDao;
 
     //Application Context
     private static Context appContext;
@@ -72,6 +76,7 @@ public class AppConfig {
             moodLevelDao = daoSession.getMoodLevelDao();
             profileDao = daoSession.getProfileDao();
             reminderDao = daoSession.getReminderDao();
+            medicineIntakeDao = daoSession.getMedicineIntakeDao();
 
             //Initialize services
             profileService = new ProfileService(appContext, profileDao);
@@ -82,6 +87,7 @@ public class AppConfig {
             }
             medicineService = new MedicineService(appContext, medicineDao);
             reminderService = new ReminderService(appContext, reminderDao);
+            medicineIntakeService = new MedicineIntakeService(appContext, medicineIntakeDao);
         }catch (Exception e){
             Log.e("Config", e.getMessage());
         }
@@ -99,10 +105,14 @@ public class AppConfig {
     }
     public static MedicineService getMedicineService(){return medicineService;}
     public static ReminderService getReminderService(){return reminderService;}
+    public static MedicineIntakeService getMedicineIntakeService(){
+        return medicineIntakeService;
+    }
     public static void clearTables(){
         profileDao.deleteAll();
         moodLevelDao.deleteAll();
         activitySenseDao.deleteAll();
         reminderDao.deleteAll();
+        medicineIntakeDao.deleteAll();
     }
 }

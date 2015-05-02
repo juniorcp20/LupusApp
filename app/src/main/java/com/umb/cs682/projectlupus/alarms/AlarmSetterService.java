@@ -32,6 +32,7 @@ public class AlarmSetterService extends IntentService {
 
     public AlarmSetterService() {
         super(TAG);
+        matcher = new IntentFilter();
         matcher.addAction(CREATE);
         try {
             setAppContext(getApplicationContext());
@@ -91,10 +92,10 @@ public class AlarmSetterService extends IntentService {
                     AlarmUtil.setDailyRepeatingAlarm(context, Constants.MED_REMINDER, remID, cal);
                     break;
                 case Constants.WEEKLY:
-                    dayOfWeek = reminderBO.getReminderDayOrDate();
+                    dayOfWeek = reminderBO.getReminderDayDate();
                     break;
                 case Constants.MONTHLY:
-                    dayOfMonth = reminderBO.getReminderDayOrDate();
+                    dayOfMonth = reminderBO.getReminderDayDate();
             }
             AlarmUtil.setAlarm(context, remID, alarmInterval, hourOfDay, min, dayOfWeek, dayOfMonth, Constants.MED_REMINDER);
         }

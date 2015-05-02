@@ -128,7 +128,7 @@ public class ReminderService {
     public void editMedReminder(long id, long medID, String dayOrDate){
         bo = getMedReminder(id);
         bo.setMedId(medID);
-        bo.setReminderDayOrDate(dayOrDate);
+        bo.setReminderDayDate(dayOrDate);
         reminderDao.update(bo);
     }
 

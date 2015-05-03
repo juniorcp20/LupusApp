@@ -83,6 +83,11 @@
             android:name=".activities.moodAlert.MoodAlert"
             android:label="@string/title_activity_init_mood_alert" >
         </activity>
+        <activity
+            android:name=".activities.moodAlert.MoodPopUp"
+            android:label="@string/title_activity_mood_pop_up"
+            android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar.MinWidth">
+        </activity>
 
         <!-- MEDICINE ALERT -->
         <activity
@@ -93,6 +98,12 @@
             android:name=".activities.medicineAlert.AddMedicine"
             android:label="@string/title_activity_add_medicine" >
         </activity>
+        <activity
+            android:name=".activities.medicineAlert.MedicinePopUp"
+            android:label="@string/title_activity_medicine_pop_up"
+            android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar.MinWidth">
+        </activity>
+
         <!-- splash page -->
         <activity android:name=".activities.main.Splash" >
             <intent-filter>
@@ -102,17 +113,8 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".activities.medicineAlert.MedicinePopUp"
-            android:label="@string/title_activity_medicine_pop_up"
-            android:parentActivityName=".activities.common.About" >
-        </activity>
-        <activity
-            android:name=".activities.moodAlert.MoodPopUp"
-            android:label="@string/title_activity_mood_pop_up"
-            android:parentActivityName=".activities.common.About" >
->
-        </activity>
+
+
 
         <receiver
             android:name=".alarms.MoodAlarmReceiver"

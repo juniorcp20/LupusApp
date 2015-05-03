@@ -53,7 +53,7 @@
         <item>About</item>
     </string-array>
 
-    <string-array name="minute">
+    <string-array name="arr_snooze_interval">
         <item>5 minutes</item>
         <item>15 minutes</item>
         <item>30 minutes</item>

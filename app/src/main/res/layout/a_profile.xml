@@ -182,7 +182,8 @@
                 android:spinnerMode="dialog"
                 android:layout_marginStart="@dimen/main_layout_padding"
                 android:layout_marginLeft="@dimen/main_layout_padding"
-                android:layout_marginRight="@dimen/main_layout_padding"/>
+                android:layout_marginRight="@dimen/main_layout_padding"
+                android:backgroundTint="@color/darkPurple"/>
         </TableRow>
 
     </TableLayout>

@@ -138,7 +138,7 @@ public class ActivitySenseService {
 
     /*Alarm Manager Setup*/
     public void startAlarm(){
-        alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), AlarmManager.INTERVAL_HOUR, pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime(), AlarmManager.INTERVAL_HOUR, pendingIntent);
     }
 
     public void stopAlarm(){
@@ -185,7 +185,7 @@ public class ActivitySenseService {
         CountQuery query = activitySenseDao.queryBuilder().where(ActivitySenseDao.Properties.Date.eq(DateTimeUtil.toDate(date))).buildCount();
         if(!(query.count() == 0)) {
             bo = getActSenseDatabyDate(date);
-            bo.setStepCount(getCurrentStepCount());
+            bo.setStepCount(bo.getStepCount() + getCurrentStepCount());
             activitySenseDao.update(bo);
         }else{
             bo = new ActivitySenseBO(null, getCurrentStepCount(), DateTimeUtil.toDate(date));

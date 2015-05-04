@@ -58,7 +58,7 @@ public class ProfileService {
     }
 
     public ProfileBO getProfileData(){
-        bo = profileDao.queryBuilder().uniqueOrThrow();
+        bo = profileDao.queryBuilder().unique();
         return bo;
     }
 }

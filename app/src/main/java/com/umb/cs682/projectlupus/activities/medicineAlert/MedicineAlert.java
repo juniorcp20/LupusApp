@@ -35,7 +35,8 @@ import java.util.Date;
 
 public class MedicineAlert extends Activity {
     private static final String TAG = "activities.medAlert";
-    private boolean isInit = SharedPreferenceManager.getBooleanPref(Constants.IS_FIRST_RUN);
+    //private boolean isInit = SharedPreferenceManager.getBooleanPref(Constants.IS_FIRST_RUN);
+    private boolean isInit = SharedPreferenceManager.isFirstRun();
 
     Button addMed;
     private ListView medNamesListView;

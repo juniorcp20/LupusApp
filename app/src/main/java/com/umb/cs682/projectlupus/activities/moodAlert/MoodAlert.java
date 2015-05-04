@@ -38,7 +38,8 @@ import de.greenrobot.dao.DaoException;
 public class MoodAlert extends Activity implements AdapterView.OnItemClickListener{
     private static final String TAG = "activities.moodAlert";
     //private String parent = null;
-    private boolean isInit = SharedPreferenceManager.getBooleanPref(Constants.IS_FIRST_RUN);
+    //private boolean isInit = SharedPreferenceManager.getBooleanPref(Constants.IS_FIRST_RUN);
+    private boolean isInit = SharedPreferenceManager.isFirstRun();
     private boolean isNew = false;
 
     private int selHour;

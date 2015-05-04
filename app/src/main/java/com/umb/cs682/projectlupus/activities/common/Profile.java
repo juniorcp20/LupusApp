@@ -26,7 +26,8 @@ import java.util.Arrays;
 
 public class Profile extends Activity {
     //private String parent = null;
-    private boolean isInit = SharedPreferenceManager.getBooleanPref(Constants.IS_FIRST_RUN);
+    //private boolean isInit = SharedPreferenceManager.getBooleanPref(Constants.IS_FIRST_RUN);
+    private boolean isInit = SharedPreferenceManager.isFirstRun();
 
     private ProfileService service = LupusMate.getProfileService();
 
@@ -111,12 +112,14 @@ public class Profile extends Activity {
 
     private void populateData() {
         ProfileBO data = service.getProfileData();
-        etUsername.setText(data.getUserName());
-        spAge.setSelection(Utils.getSpinnerIndex(spAge, data.getAge()));
-        if(data.getGender() != "Male"){
-            rgGender.check(R.id.rb_female);
+        if(data != null) {
+            etUsername.setText(data.getUserName());
+            spAge.setSelection(Utils.getSpinnerIndex(spAge, data.getAge()));
+            if (data.getGender() != "Male") {
+                rgGender.check(R.id.rb_female);
+            }
+            spEthnicity.setSelection(Utils.getSpinnerIndex(spEthnicity, data.getEthnicity()));
         }
-        spEthnicity.setSelection(Utils.getSpinnerIndex(spEthnicity, data.getEthnicity()));
     }
 
     public void next(){

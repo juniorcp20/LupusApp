@@ -23,7 +23,7 @@ import android.widget.ToggleButton;
 
 import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.activities.medicineAlert.MedicineAlert;
-import com.umb.cs682.projectlupus.config.AppConfig;
+import com.umb.cs682.projectlupus.config.LupusMate;
 import com.umb.cs682.projectlupus.service.ActivitySenseService;
 import com.umb.cs682.projectlupus.util.Constants;
 import com.umb.cs682.projectlupus.util.SharedPreferenceManager;
@@ -35,20 +35,21 @@ import java.util.Date;
 public class ActivitySense extends Activity {
     private static final String TAG = "activities.actSense";
 
-    private boolean isInit = SharedPreferenceManager.getBooleanPref(Constants.IS_FIRST_RUN);
+    //private boolean isInit = SharedPreferenceManager.getBooleanPref(Constants.IS_FIRST_RUN);
+    private boolean isInit = SharedPreferenceManager.isFirstRun();
     private String DEFAULT_SENSITIVITY = "1";
     private boolean isOn = false;
 
     private static ToggleButton startStopButton = null;
-    private static TextView text = null;
+    private static TextView stepCountText = null;
 
     private static ArrayList<String> sensArrayList = null;
     private static ArrayAdapter<CharSequence> modesAdapter = null;
 
-    private ActivitySenseService service = AppConfig.getActivitySenseService();
+    private ActivitySenseService service = LupusMate.getActivitySenseService();
     private static Handler handler = null;
 
-    private TextView stepCountText = null;
+    private TextView stepCountTextDup = null;
     private Button save = null;
     private Button show = null;
     private Button delete = null;
@@ -88,10 +89,10 @@ public class ActivitySense extends Activity {
         sensSpinner.setAdapter(modesAdapter);
         sensSpinner.setSelection(idx);
 
-        text = (TextView) this.findViewById(R.id.tv_steps);
+        stepCountText = (TextView) this.findViewById(R.id.tv_steps);
         setHandler();
 
-        stepCountText = (TextView) findViewById(R.id.stepcount);
+        stepCountTextDup = (TextView) findViewById(R.id.stepcount);
         save = (Button) findViewById(R.id.save);
         show = (Button) findViewById(R.id.show);
         delete = (Button) findViewById(R.id.delete);
@@ -190,12 +191,15 @@ public class ActivitySense extends Activity {
             SharedPreferenceManager.setBooleanPref(TAG,Constants.ACTIVITY_SENSE_SETTING,isChecked);
             if(isChecked) {
                 SharedPreferenceManager.setIntPref(TAG, Constants.SENSITIVITY_VALUE, service.getSensitivity());
+                //showData();
                 service.startAlarm();
             }else{
-                saveData();
                 service.stopAlarm();
             }
             service.startStopPedometer(isChecked);
+            if(!isChecked) {
+                saveData();
+            }
         }
     };
 
@@ -205,7 +209,7 @@ public class ActivitySense extends Activity {
 
             public void handleMessage(Message msg) {
                 int current = msg.arg1;
-                text.setText("Steps = " + current);
+                stepCountText.setText("Steps = " + current);
             }
         });
     }
@@ -228,7 +232,7 @@ public class ActivitySense extends Activity {
     }
 
     public void showData(){
-        stepCountText.setText(String.valueOf(service.getStoredStepCount(new Date())));
+        stepCountTextDup.setText(String.valueOf(service.getStoredStepCount(new Date())));
     }
 
     public void deleteRows(){

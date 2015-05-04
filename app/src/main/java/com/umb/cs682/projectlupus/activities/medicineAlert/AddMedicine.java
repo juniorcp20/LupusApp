@@ -66,6 +66,7 @@ public class AddMedicine extends Activity {
     private boolean isNewRem = false;
     private boolean is24hrFormat = false;
     private boolean isNewMed = false;
+    private boolean isValid = false;
 
     private Spinner medNameSpinner;
     private ImageButton addMedBtn;
@@ -147,13 +148,16 @@ public class AddMedicine extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_save) {
-            updateDatabase();
-            setAlarms();
-            Intent intent = new Intent();
-            intent.putExtra(Constants.IS_NEW_MED, isNewMed);
-            intent.putExtra(Constants.MED_NAME, medNames.get(medNameSpinner.getSelectedItemPosition()));
-            startActivity(intent.setClass(this, MedicineAlert.class));
-            return true;
+            validate();
+            if(isValid) {
+                updateDatabase();
+                setAlarms();
+                Intent intent = new Intent();
+                intent.putExtra(Constants.IS_NEW_MED, isNewMed);
+                intent.putExtra(Constants.MED_NAME, medNames.get(medNameSpinner.getSelectedItemPosition()));
+                startActivity(intent.setClass(this, MedicineAlert.class));
+                return true;
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -175,7 +179,7 @@ public class AddMedicine extends Activity {
 
         final EditText newMedNameText = (EditText) dialogView.findViewById(R.id.et_new_med);
 
-        alertDialogBuilder.setTitle("Add New Medicine")
+        alertDialogBuilder//.setTitle("Add New Medicine")
                             .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     String newMedName = newMedNameText.getText().toString();
@@ -510,5 +514,29 @@ public class AddMedicine extends Activity {
 
     private long getMedID(){
         return medService.getMedicine(selMedName).getId();
+    }
+
+    private void validate(){
+        AlertDialog.Builder alertDialogBuilder;
+        String dosage = dosageText.getText().toString();
+        if(!dosage.equals("") && !(remIDs.size() == 0)){
+            isValid = true;
+        }else{
+            StringBuilder msg = new StringBuilder("Missing data for :");
+            if(dosage.equals(""))
+                msg.append("\nDosage");
+            if(remIDs.size() == 0)
+                msg.append("\nReminders");
+            alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setMessage(msg.toString())
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    });
+
+            AlertDialog dialog = alertDialogBuilder.create();
+            dialog.show();
+        }
     }
 }

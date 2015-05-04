@@ -11,6 +11,8 @@ import com.umb.cs682.projectlupus.util.SharedPreferenceManager;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -79,13 +81,16 @@ public class Profile extends Activity {
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_next) {
-            if(!etUsername.getText().toString().isEmpty()){
-                save();
-            }
-			next();
+            /*if(!etUsername.getText().toString().isEmpty()){
+
+                //save();
+            }*/
+            validateAndSave();
+			//next();
 		}
         if(id == R.id.action_save){
-            save();
+            validateAndSave();
+           // save();
         }
 		return super.onOptionsItemSelected(item);
 	}
@@ -141,6 +146,35 @@ public class Profile extends Activity {
             Utils.displayToast(this, "Saved");
         }else{
             Utils.displayToast(this, "Failed, Try Again!");
+        }
+    }
+
+    private void validateAndSave(){
+        String username = etUsername.getText().toString();
+        if(username.equals("")){
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+            alertDialogBuilder.setMessage("Proceed without name?")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            save();
+                            if(isInit){
+                                next();
+                            }
+                        }
+                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.dismiss();
+                }
+            });
+
+            AlertDialog dialog = alertDialogBuilder.create();
+            dialog.show();
+        }else{
+            if(isInit) {
+                next();
+            }
+            save();
         }
     }
 }

@@ -8,6 +8,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/et_new_med"
         android:layout_gravity="center_horizontal"
-        android:hint="Enter medicine name"/>
+        android:hint="Enter medicine name"
+        android:textColorHint="@color/dullPurple"
+        android:textColor="@color/darkPurple"
+        android:backgroundTint="@color/darkPurple"/>
 
 </LinearLayout>

@@ -24,6 +24,7 @@
     <string name="title_activity_mood_pop_up">Mood Reminder</string>
     <string name="a_mood_alert_pop_up_text1">Hey!</string>
     <string name="a_mood_alert_pop_up_text2">How are you feeling?</string>
+    <string name="popup_mood_text">Hey! How are you feeling?</string>
 
     <!-- ACTIVITY SENSING -->
     <string name="title_init_activity_sense">Step 3 of 4</string>
@@ -51,14 +52,14 @@
     <string name="a_add_medicine_instruction_hint">Type your own instructions</string>
     <string name="a_add_medicine_name_hint">Eg. Prednisone</string>
     <string name="d_add_new_medicine_title">Add New Medicine</string>
+    <string name="notification_med_text">Time to take your medicines!</string>
+    <string name="a_med_alert_pop_up_text2">Time to take your medicines!</string>
 
-
-
-
-
-
-
+    <!-- COMMON -->
     <string name="app_name">LupusMate</string>
+    <string name="popup_title">LupusMate Reminder</string>
+    <string name="title_activity_help">Help</string>
+    <string name="title_activity_about">About</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -75,7 +76,5 @@
     <string name="title_activity_init_profile">InitProfile</string>
     <string name="title_activity_edit_profile">EditProfile</string>
     <string name="title_activity_share_info">ShareInfo</string>
-    <string name="title_activity_help">Help</string>
-    <string name="title_activity_about">About</string>
     <string name="title_activity_medicine_pop_up">MedicinePopUp</string>
 </resources>

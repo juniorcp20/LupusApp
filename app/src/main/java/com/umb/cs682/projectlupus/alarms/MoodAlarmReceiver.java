@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 
 import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.activities.moodAlert.MoodPopUp;
@@ -34,16 +35,20 @@ public class MoodAlarmReceiver extends BroadcastReceiver{
         intent.putExtras(alarmIntent);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
-        Notification notification = new Notification.Builder(context)
+        Notification.Builder notificationBuilder = new Notification.Builder(context)
                 .setContentIntent(pendingIntent)
-                .setContentText("LupusMate Reminder")
-                .setSmallIcon(R.drawable.logo_24)
+                .setContentText(context.getString(R.string.popup_title))
+                .setSmallIcon(R.drawable.ic_mood_notification_icon)
                 .setWhen(System.currentTimeMillis())
-                .setTicker("LupusMate Reminder")
-                .setContentTitle("Hey! How are you feeling?")
+                .setTicker(context.getString(R.string.popup_title))
+                .setContentTitle(context.getString(R.string.popup_mood_text))
                 .setDefaults(Notification.DEFAULT_SOUND)
-                .setAutoCancel(true)
-                .build();
+                .setAutoCancel(true);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            notificationBuilder.setColor(context.getResources().getColor(R.color.darkPurple));
+        }
+
+        Notification notification = notificationBuilder.build();
         nm.notify(1, notification);
     }
 }

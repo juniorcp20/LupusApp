@@ -48,6 +48,13 @@ public final class Constants {
     public static final String HOUR_OF_DAY = "Hour of Day";
     public static final String MINUTES = "minutes";
     public static final String START_TIME = "Start Time";
+    public static final String SNOOZED = "Is Snoozed";
+
+    //Snooze Intervals
+    public static final String MIN_5 = "5 minutes";
+    public static final String MIN_15 = "10 minutes";
+    public static final String MIN_30 = "30 minutes";
+    public static final String MIN_60 = "1 hour";
 
     //Database
     public static final String STR_DEFAULT = "None";

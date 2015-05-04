@@ -23,4 +23,23 @@ public class Utils {
         }
         return index;
     }
+
+    public static int getSnoozeInterval(Spinner sp) {
+        int retval = 0;
+        switch(sp.getSelectedItem().toString()){
+            case Constants.MIN_5:
+                retval = 5;
+                break;
+            case Constants.MIN_15:
+                retval = 15;
+                break;
+            case Constants.MIN_30:
+                retval = 30;
+                break;
+            case Constants.MIN_60:
+                retval = 60;
+                break;
+        }
+        return retval;
+    }
 }

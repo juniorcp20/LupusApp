@@ -66,6 +66,20 @@ public class MedicineService {
         bo.update();
     }
 
+    public void incrementTotalRemindedCount(long id){
+        bo = getMedicine(id);
+        int currentCount = bo.getMedReminderCount();
+        bo.setMedReminderCount(currentCount++);
+        bo.update();
+    }
+
+    public void incrementMedTakenCount(long id){
+        bo = getMedicine(id);
+        int currentCount = bo.getMedTakenCount();
+        bo.setMedTakenCount(currentCount++);
+        bo.update();
+    }
+
     public List<MedicineBO> getMedicines(){
         return getMedicinesQuery.list();
     }

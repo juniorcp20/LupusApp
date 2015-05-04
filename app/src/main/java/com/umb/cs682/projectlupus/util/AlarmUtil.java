@@ -52,6 +52,35 @@ public class AlarmUtil {
         alarmManager.cancel(pendingIntent);*/
     }
 
+    public static void snooze(Context context, int requestCode, int reminderID, int reminderType, String alarmInterval, Calendar cal, long snoozeTime){
+        alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        long startTime;
+        if(alarmInterval.equals(Constants.DAILY)) {
+            startTime = 0;
+        }else{
+            startTime = getAlarmTimeMillis(alarmInterval, cal);
+        }
+        Intent intent = buildIntent(context, reminderType, reminderID, requestCode, alarmInterval, startTime);
+        intent.putExtra(Constants.SNOOZED, true);
+        PendingIntent pendingIntent =  PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, snoozeTime, pendingIntent);
+    }
+
+    public static void cancelSnooze(Context context, int requestCode, int reminderID, int reminderType, String alarmInterval, Calendar cal){
+        alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        long startTime;
+        if(alarmInterval.equals(Constants.DAILY)) {
+            startTime = 0;
+        }else{
+            startTime = getAlarmTimeMillis(alarmInterval, cal);
+        }
+        Intent intent = buildIntent(context, reminderType, reminderID, requestCode, alarmInterval, startTime);
+        intent.putExtra(Constants.SNOOZED, true);
+        PendingIntent pendingIntent =  PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        pendingIntent.cancel();
+        alarmManager.cancel(pendingIntent);
+    }
+
     private static void setOneShotAlarm(Context context, int reminderType, int reminderID, int requestCode, String alarmInterval, long startTime){
         alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = buildIntent(context, reminderType, reminderID, requestCode, alarmInterval, startTime);
@@ -98,10 +127,6 @@ public class AlarmUtil {
         pendingIntent.cancel();
         alarmManager.cancel(pendingIntent);
         Log.i(TAG, "Repeating Alarm - Cancelled");
-    }
-
-    public static void snooze(){
-
     }
 
     private static Intent buildIntent(Context context, int reminderType, int reminderID, int requestCode, String alarmInterval, long startTime){//int hourOfDay, int min, int dayOfWeek, int dayOfMonth){

@@ -111,8 +111,12 @@ public class DateTimeUtil {
         Calendar cal = Calendar.getInstance(TimeZone.getDefault());
         cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
         cal.set(Calendar.MINUTE, min);
-        cal.set(Calendar.DAY_OF_WEEK, getDayOfWeek(dayOfWeek));
-        cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dayOfMonth));
+        if(dayOfWeek != null) {
+            cal.set(Calendar.DAY_OF_WEEK, getDayOfWeek(dayOfWeek));
+        }
+        if(dayOfMonth != null) {
+            cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dayOfMonth));
+        }
         return cal;
     }
 

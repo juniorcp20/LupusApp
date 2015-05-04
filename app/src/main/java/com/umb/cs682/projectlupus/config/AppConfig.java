@@ -99,6 +99,7 @@ public class AppConfig {
     }
     public static MedicineService getMedicineService(){return medicineService;}
     public static ReminderService getReminderService(){return reminderService;}
+    public static DaoSession getDaoSession(){return daoSession;}
     public static void clearTables(){
         profileDao.deleteAll();
         moodLevelDao.deleteAll();

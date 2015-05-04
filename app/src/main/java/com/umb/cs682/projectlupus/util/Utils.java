@@ -24,9 +24,9 @@ public class Utils {
         return index;
     }
 
-    public static int getSnoozeInterval(Spinner sp) {
+    public static int getSnoozeInterval(String interval) {
         int retval = 0;
-        switch(sp.getSelectedItem().toString()){
+        switch(interval){
             case Constants.MIN_5:
                 retval = 5;
                 break;

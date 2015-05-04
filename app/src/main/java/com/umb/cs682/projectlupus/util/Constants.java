@@ -52,7 +52,7 @@ public final class Constants {
 
     //Snooze Intervals
     public static final String MIN_5 = "5 minutes";
-    public static final String MIN_15 = "10 minutes";
+    public static final String MIN_15 = "15 minutes";
     public static final String MIN_30 = "30 minutes";
     public static final String MIN_60 = "1 hour";
 

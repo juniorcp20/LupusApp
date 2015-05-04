@@ -88,6 +88,7 @@ public class MoodPopUp extends Activity {
             @Override
             public void onClick(View v) {
                 cancelSnooze();
+                reminderService.updateMoodReminderStatus(reminderID, Constants.REM_STATUS_SKIP);
                 finish();
             }
         });
@@ -137,12 +138,13 @@ public class MoodPopUp extends Activity {
     private void save(){
         if (reminderID > 0) {
             moodLevelService.addMoodLevel(reminderID, selMoodLevel);
+            reminderService.updateMoodReminderStatus(reminderID, Constants.REM_STATUS_DONE);
         }
     }
 
     private void snooze(){
         Calendar cal = Calendar.getInstance(TimeZone.getDefault());
-        selSnoozeInterval = Utils.getSnoozeInterval(spSnoozeInterval);
+        selSnoozeInterval = Utils.getSnoozeInterval(spSnoozeInterval.getSelectedItem().toString());
         cal.add(Calendar.MINUTE, selSnoozeInterval);
         long snoozeTime = cal.getTimeInMillis();
         snoozeRequestCode = 5000 + reminderID; // to uniquely identify snooze alarms from normal alarms

@@ -2,7 +2,7 @@ package com.umb.cs682.projectlupus.activities.moodAlert;
 
 import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.activities.activitySense.ActivitySense;
-import com.umb.cs682.projectlupus.config.AppConfig;
+import com.umb.cs682.projectlupus.config.LupusMate;
 import com.umb.cs682.projectlupus.service.ReminderService;
 import com.umb.cs682.projectlupus.util.AlarmUtil;
 import com.umb.cs682.projectlupus.util.Constants;
@@ -56,7 +56,7 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
 
     private MoodAlertAdapter adapter;
 
-    private ReminderService service = AppConfig.getReminderService();
+    private ReminderService service = LupusMate.getReminderService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

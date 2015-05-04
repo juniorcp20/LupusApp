@@ -2,7 +2,7 @@ package com.umb.cs682.projectlupus.util;
 
 import android.text.format.DateFormat;
 
-import com.umb.cs682.projectlupus.config.AppConfig;
+import com.umb.cs682.projectlupus.config.LupusMate;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,7 +20,7 @@ public class DateTimeUtil {
 
 
     private static boolean is24HourFormat(){
-        if(DateFormat.is24HourFormat(AppConfig.getAppContext())){
+        if(DateFormat.is24HourFormat(LupusMate.getAppContext())){
             is24hrFormat = true;
         }else{
             is24hrFormat = false;

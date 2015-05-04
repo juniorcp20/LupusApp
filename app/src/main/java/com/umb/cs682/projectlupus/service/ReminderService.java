@@ -2,7 +2,7 @@ package com.umb.cs682.projectlupus.service;
 
 import android.content.Context;
 
-import com.umb.cs682.projectlupus.config.AppConfig;
+import com.umb.cs682.projectlupus.config.LupusMate;
 import com.umb.cs682.projectlupus.db.dao.ReminderDao;
 import com.umb.cs682.projectlupus.domain.ReminderBO;
 import com.umb.cs682.projectlupus.util.Constants;
@@ -32,7 +32,7 @@ public class ReminderService {
     private Query getMoodRemindersQuery;
     private Query getMedRemindersQuery;
 
-    private MedicineService medicineService = AppConfig.getMedicineService();
+    private MedicineService medicineService = LupusMate.getMedicineService();
 
     public ReminderService(Context context, ReminderDao reminderDao){
         this.context = context;

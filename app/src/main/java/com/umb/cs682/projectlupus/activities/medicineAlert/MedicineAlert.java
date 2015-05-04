@@ -2,7 +2,7 @@ package com.umb.cs682.projectlupus.activities.medicineAlert;
 
 import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.activities.main.Home;
-import com.umb.cs682.projectlupus.config.AppConfig;
+import com.umb.cs682.projectlupus.config.LupusMate;
 import com.umb.cs682.projectlupus.domain.ReminderBO;
 import com.umb.cs682.projectlupus.service.MedicineService;
 import com.umb.cs682.projectlupus.service.ReminderService;
@@ -47,8 +47,8 @@ public class MedicineAlert extends Activity {
 
     private AddMedicineNameAdapter adapter;
 
-    private MedicineService medService = AppConfig.getMedicineService();
-    private ReminderService reminderService = AppConfig.getReminderService();
+    private MedicineService medService = LupusMate.getMedicineService();
+    private ReminderService reminderService = LupusMate.getReminderService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

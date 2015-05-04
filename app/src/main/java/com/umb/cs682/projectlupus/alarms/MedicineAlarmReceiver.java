@@ -11,7 +11,7 @@ import android.os.Build;
 
 import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.activities.medicineAlert.MedicinePopUp;
-import com.umb.cs682.projectlupus.config.AppConfig;
+import com.umb.cs682.projectlupus.config.LupusMate;
 import com.umb.cs682.projectlupus.exceptions.AppException;
 import com.umb.cs682.projectlupus.service.MedicineService;
 import com.umb.cs682.projectlupus.service.ReminderService;
@@ -24,8 +24,8 @@ import java.util.TimeZone;
 public class MedicineAlarmReceiver extends BroadcastReceiver {
     private NotificationManager nm;
 
-    private ReminderService reminderService = AppConfig.getReminderService();
-    private MedicineService medicineService = AppConfig.getMedicineService();
+    private ReminderService reminderService = LupusMate.getReminderService();
+    private MedicineService medicineService = LupusMate.getMedicineService();
 
     int reminderID;
     @Override

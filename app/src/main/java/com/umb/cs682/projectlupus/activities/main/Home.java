@@ -5,11 +5,10 @@ import com.umb.cs682.projectlupus.activities.common.About;
 import com.umb.cs682.projectlupus.activities.common.Help;
 import com.umb.cs682.projectlupus.activities.common.Profile;
 import com.umb.cs682.projectlupus.activities.common.Settings;
-import com.umb.cs682.projectlupus.activities.common.ShareInfo;
 import com.umb.cs682.projectlupus.activities.medicineAlert.MedicineAlert;
 import com.umb.cs682.projectlupus.activities.moodAlert.MoodAlert;
 import com.umb.cs682.projectlupus.activities.activitySense.ActivitySense;
-import com.umb.cs682.projectlupus.config.AppConfig;
+import com.umb.cs682.projectlupus.config.LupusMate;
 import com.umb.cs682.projectlupus.service.ActivitySenseService;
 import com.umb.cs682.projectlupus.service.MoodLevelService;
 import com.umb.cs682.projectlupus.util.Constants;
@@ -40,8 +39,8 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
 	 * {@link #restoreActionBar()}.
 	 */
 	private CharSequence mTitle;
-    MoodLevelService moodService = AppConfig.getMoodLevelService();
-    ActivitySenseService actSenseService = AppConfig.getActivitySenseService();
+    MoodLevelService moodService = LupusMate.getMoodLevelService();
+    ActivitySenseService actSenseService = LupusMate.getActivitySenseService();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

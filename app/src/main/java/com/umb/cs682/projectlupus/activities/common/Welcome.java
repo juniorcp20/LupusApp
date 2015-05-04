@@ -2,21 +2,16 @@ package com.umb.cs682.projectlupus.activities.common;
 
 import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.activities.main.Home;
-import com.umb.cs682.projectlupus.config.AppConfig;
 import com.umb.cs682.projectlupus.util.Constants;
-import com.umb.cs682.projectlupus.util.SharedPreferenceManager;
 
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-
-import static com.umb.cs682.projectlupus.config.AppConfig.*;
 
 public class Welcome extends Activity {
     private final String TAG = "projectlupus.activities";
@@ -35,7 +30,7 @@ public class Welcome extends Activity {
                 next();
             }
         });
-        try {
+        /*try {
             setAppContext(getApplicationContext());
             configureServices();
             SharedPreferenceManager.initPrefs();
@@ -46,7 +41,7 @@ public class Welcome extends Activity {
             }
         }catch (Exception e){
             Log.e("Welcome", e.getMessage());
-        }
+        }*/
 	}
 
     public boolean onCreateOptionsMenu(Menu menu) {

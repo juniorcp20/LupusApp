@@ -6,14 +6,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.umb.cs682.projectlupus.R;
-import com.umb.cs682.projectlupus.config.AppConfig;
+import com.umb.cs682.projectlupus.config.LupusMate;
 import com.umb.cs682.projectlupus.exceptions.AppException;
 import com.umb.cs682.projectlupus.service.MoodLevelService;
 import com.umb.cs682.projectlupus.service.ReminderService;
@@ -41,8 +39,8 @@ public class MoodPopUp extends Activity {
     int snoozeRequestCode;
     boolean snoozed = false;
 
-    MoodLevelService moodLevelService = AppConfig.getMoodLevelService();
-    ReminderService reminderService = AppConfig.getReminderService();
+    MoodLevelService moodLevelService = LupusMate.getMoodLevelService();
+    ReminderService reminderService = LupusMate.getReminderService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

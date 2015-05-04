@@ -1,7 +1,7 @@
 package com.umb.cs682.projectlupus.activities.medicineAlert;
 
 import com.umb.cs682.projectlupus.R;
-import com.umb.cs682.projectlupus.config.AppConfig;
+import com.umb.cs682.projectlupus.config.LupusMate;
 import com.umb.cs682.projectlupus.domain.MedicineBO;
 import com.umb.cs682.projectlupus.service.MedicineService;
 import com.umb.cs682.projectlupus.service.ReminderService;
@@ -82,8 +82,8 @@ public class AddMedicine extends Activity {
     private AddMedReminderAdapter medRemAdapter;
     private ArrayAdapter<String> medNameAdapter;
 
-    private ReminderService reminderService = AppConfig.getReminderService();
-    private MedicineService medService = AppConfig.getMedicineService();
+    private ReminderService reminderService = LupusMate.getReminderService();
+    private MedicineService medService = LupusMate.getMedicineService();
 
     //local use
     private int selHour;

@@ -2,7 +2,7 @@ package com.umb.cs682.projectlupus.activities.common;
 
 import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.activities.moodAlert.MoodAlert;
-import com.umb.cs682.projectlupus.config.AppConfig;
+import com.umb.cs682.projectlupus.config.LupusMate;
 import com.umb.cs682.projectlupus.domain.ProfileBO;
 import com.umb.cs682.projectlupus.service.ProfileService;
 import com.umb.cs682.projectlupus.util.Constants;
@@ -28,7 +28,7 @@ public class Profile extends Activity {
     //private String parent = null;
     private boolean isInit = SharedPreferenceManager.getBooleanPref(Constants.IS_FIRST_RUN);
 
-    private ProfileService service = AppConfig.getProfileService();
+    private ProfileService service = LupusMate.getProfileService();
 
     private EditText etUsername;
     private Spinner spAge;

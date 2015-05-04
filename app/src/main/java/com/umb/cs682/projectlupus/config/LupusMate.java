@@ -1,5 +1,6 @@
 package com.umb.cs682.projectlupus.config;
 
+import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -21,7 +22,7 @@ import com.umb.cs682.projectlupus.service.ReminderService;
 /**
  * Created by Nithya Kiran on 3/16/2015.
  */
-public class AppConfig {
+public class LupusMate extends Application{
     //DB
     private static SQLiteDatabase db;
     private static DaoMaster daoMaster;
@@ -35,8 +36,6 @@ public class AppConfig {
     private static MoodLevelService moodLevelService;
     private static ReminderService reminderService;
 
-    private static boolean isBound = false;
-
     //DAO Objects
     private static ActivitySenseDao activitySenseDao;
     private static MedicineDao medicineDao;
@@ -47,20 +46,26 @@ public class AppConfig {
     //Application Context
     private static Context appContext;
 
- /*   static{
-        try{
-            Log.i("Config", "Configuring Services");
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        setAppContext();
+        try {
             configureServices();
-        }catch (Exception e){
-            Log.e("Config",e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    }*/
-
-    public static void setAppContext(Context context){
-        appContext = context;
     }
 
-    public static void configureServices() throws Exception{
+    /*public static void setAppContext(Context context){
+            appContext = context;
+        }*/
+    public void setAppContext(){
+        appContext = getApplicationContext();
+    }
+
+   // public static void configureServices() throws Exception{
+   public void configureServices() throws Exception{
         try {
             //Initialize DAOs
             DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(appContext, null);

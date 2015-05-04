@@ -13,12 +13,14 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.activities.common.Welcome;
-
+import com.umb.cs682.projectlupus.util.Constants;
+import com.umb.cs682.projectlupus.util.SharedPreferenceManager;
 
 /**
  * Created by mark on 4/27/15.
  */
 public class Splash extends Activity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +41,10 @@ public class Splash extends Activity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 finish();
-                Intent i = new Intent(getBaseContext(),Welcome.class);
-                startActivity(i);
+                SharedPreferenceManager.initPrefs();//todo delete before distribution
+                openApp();
+                /*Intent i = new Intent(getBaseContext(),Welcome.class);
+                startActivity(i);*/
 
             }
 
@@ -51,5 +55,16 @@ public class Splash extends Activity {
         });
 
 
+    }
+
+    private void openApp() {
+        boolean isInit = SharedPreferenceManager.isFirstRun();
+        Intent intent = new Intent();
+        if(isInit){
+            intent.setClass(this, Welcome.class);
+        }else{
+            intent.setClass(this, Home.class);
+        }
+        startActivity(intent);
     }
 }

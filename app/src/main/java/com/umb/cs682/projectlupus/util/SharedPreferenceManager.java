@@ -2,9 +2,11 @@ package com.umb.cs682.projectlupus.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.umb.cs682.projectlupus.config.AppConfig;
+import com.umb.cs682.projectlupus.R;
+import com.umb.cs682.projectlupus.config.LupusMate;
 
 /**
  * Created by Nithya Kiran on 3/24/2015.
@@ -13,7 +15,7 @@ public class SharedPreferenceManager {
     //Shared Preferences file name
     private static String PREFS_FILE = "App_Prefs";
     private static SharedPreferences prefs;
-    private static Context context = AppConfig.getAppContext();
+    private static Context context = LupusMate.getAppContext();
 
     //todo remove when done
     public static void initPrefs(){
@@ -22,6 +24,11 @@ public class SharedPreferenceManager {
         editor.remove(Constants.IS_FIRST_RUN);
         editor.putBoolean(Constants.ACTIVITY_SENSE_SETTING,false);
         editor.commit();
+    }
+
+    public static boolean isFirstRun(){
+        prefs = context.getSharedPreferences(PREFS_FILE,0);
+        return prefs.getBoolean(Constants.IS_FIRST_RUN, true);
     }
 
     public static boolean contains(String prefKey){

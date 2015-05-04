@@ -10,7 +10,7 @@ import android.os.Build;
 
 import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.activities.moodAlert.MoodPopUp;
-import com.umb.cs682.projectlupus.config.AppConfig;
+import com.umb.cs682.projectlupus.config.LupusMate;
 import com.umb.cs682.projectlupus.service.ReminderService;
 import com.umb.cs682.projectlupus.util.Constants;
 
@@ -19,7 +19,7 @@ import com.umb.cs682.projectlupus.util.Constants;
  */
 public class MoodAlarmReceiver extends BroadcastReceiver{
     private NotificationManager nm;
-    private ReminderService reminderService = AppConfig.getReminderService();
+    private ReminderService reminderService = LupusMate.getReminderService();
     @Override
     public void onReceive(Context context, Intent intent) {
         int reminderID = intent.getIntExtra(Constants.REQUEST_CODE, -1);

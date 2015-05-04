@@ -3,7 +3,7 @@ package com.umb.cs682.projectlupus.service;
 import android.content.Context;
 import android.database.Cursor;
 
-import com.umb.cs682.projectlupus.config.AppConfig;
+import com.umb.cs682.projectlupus.config.LupusMate;
 import com.umb.cs682.projectlupus.db.dao.MoodLevelDao;
 import com.umb.cs682.projectlupus.db.helpers.DaoSession;
 import com.umb.cs682.projectlupus.domain.MoodLevelBO;
@@ -12,7 +12,6 @@ import com.umb.cs682.projectlupus.util.DateTimeUtil;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -74,7 +73,7 @@ public class MoodLevelService {
     }
 
     public static List<Date> getDistinctDates() {
-        DaoSession session = AppConfig.getDaoSession();
+        DaoSession session = LupusMate.getDaoSession();
         ArrayList<Date> result = new ArrayList<>();
         Cursor c = session.getDatabase().rawQuery(SQL_DISTINCT_DATES, null);
         if (c.moveToFirst()) {

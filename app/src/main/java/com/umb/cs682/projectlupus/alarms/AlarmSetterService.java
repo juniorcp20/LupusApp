@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.Log;
 
-import com.umb.cs682.projectlupus.config.AppConfig;
+import com.umb.cs682.projectlupus.config.LupusMate;
 import com.umb.cs682.projectlupus.domain.MedicineBO;
 import com.umb.cs682.projectlupus.domain.ReminderBO;
 import com.umb.cs682.projectlupus.service.MedicineService;
@@ -19,8 +19,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 
-import static com.umb.cs682.projectlupus.config.AppConfig.configureServices;
-import static com.umb.cs682.projectlupus.config.AppConfig.setAppContext;
+/*import static com.umb.cs682.projectlupus.config.LupusMate.configureServices;
+import static com.umb.cs682.projectlupus.config.LupusMate.setAppContext;*/
 
 public class AlarmSetterService extends IntentService {
     private static final String TAG = "AlarmSetterService";
@@ -33,16 +33,17 @@ public class AlarmSetterService extends IntentService {
 
     public AlarmSetterService() {
         super(TAG);
+        matcher = new IntentFilter();
         matcher.addAction(CREATE);
-        try {
+       /* try {
             setAppContext(getApplicationContext());
             configureServices();
         }catch (Exception e){
             e.printStackTrace();
-        }
-        context = AppConfig.getAppContext();
-        reminderService = AppConfig.getReminderService();
-        medicineService = AppConfig.getMedicineService();
+        }*/
+        context = LupusMate.getAppContext();
+        reminderService = LupusMate.getReminderService();
+        medicineService = LupusMate.getMedicineService();
     }
 
     @Override

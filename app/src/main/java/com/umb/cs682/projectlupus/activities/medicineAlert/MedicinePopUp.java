@@ -11,7 +11,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.umb.cs682.projectlupus.R;
-import com.umb.cs682.projectlupus.config.AppConfig;
+import com.umb.cs682.projectlupus.config.LupusMate;
 import com.umb.cs682.projectlupus.exceptions.AppException;
 import com.umb.cs682.projectlupus.service.MedicineService;
 import com.umb.cs682.projectlupus.service.ReminderService;
@@ -39,8 +39,8 @@ public class MedicinePopUp extends Activity {
     int snoozeRequestCode;
     boolean snoozed = false;
 
-    MedicineService medicineService = AppConfig.getMedicineService();
-    ReminderService reminderService = AppConfig.getReminderService();
+    MedicineService medicineService = LupusMate.getMedicineService();
+    ReminderService reminderService = LupusMate.getReminderService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,6 +1,7 @@
 package com.umb.cs682.projectlupus.activities.medicineAlert;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,7 +33,7 @@ public class MedicinePopUp extends Activity {
     private ImageView ivSkip;
     private ImageView ivAccept;
 
-    Bundle alarmIntentExtras;
+
     int reminderID;
     Long medicineID;
     int selSnoozeInterval = 5;
@@ -53,19 +54,9 @@ public class MedicinePopUp extends Activity {
         ivSnooze = (ImageView) findViewById(R.id.iv_med_snooze);
         ivSkip = (ImageView) findViewById(R.id.iv_med_skip);
 
-        alarmIntentExtras = getIntent().getExtras();
-        if(alarmIntentExtras != null) {
-            reminderID = alarmIntentExtras.getInt(Constants.REMINDER_ID);
-        }else {
-            try {
-                throw new AppException("Data not found in intent");
-            } catch (AppException e) {
-                e.printStackTrace();
-            }
-        }
+        initSnoozeIntervalSpinner();;
 
-        setMedNameText();
-        initSnoozeIntervalSpinner();
+        onNewIntent(getIntent());
 
         ivAccept.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +84,23 @@ public class MedicinePopUp extends Activity {
         });
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        reminderID = intent.getIntExtra(Constants.REMINDER_ID,0);
+        /*Bundle alarmIntentExtras = intent.getExtras();
+        if(alarmIntentExtras != null) {
+            reminderID = alarmIntentExtras.getInt(Constants.REMINDER_ID);
+        }else {
+            try {
+                throw new AppException("Data not found in intent");
+            } catch (AppException e) {
+                e.printStackTrace();
+            }
+        }*/
+        if(reminderID > 0) {
+            setMedNameText();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

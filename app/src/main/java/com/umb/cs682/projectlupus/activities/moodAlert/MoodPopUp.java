@@ -1,6 +1,7 @@
 package com.umb.cs682.projectlupus.activities.moodAlert;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -53,7 +54,7 @@ public class MoodPopUp extends Activity {
         ivSkip = (ImageView) findViewById(R.id.iv_mood_skip);
         ivAccept = (ImageView) findViewById(R.id.iv_mood_accept);
 
-        alarmIntentExtras = getIntent().getExtras();
+        /*alarmIntentExtras = getIntent().getExtras();
         if(alarmIntentExtras != null) {
             reminderID = alarmIntentExtras.getInt(Constants.REMINDER_ID);
         }else {
@@ -62,9 +63,9 @@ public class MoodPopUp extends Activity {
             } catch (AppException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
         //reminderID = getIntent().getIntExtra(Constants.REMINDER_ID, -1);
-
+        onNewIntent(getIntent());
         initSnoozeIntervalSpinner();
         moodLevelRatingListener();
 
@@ -111,6 +112,11 @@ public class MoodPopUp extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        reminderID = intent.getIntExtra(Constants.REMINDER_ID,0);
     }
 
     private void initSnoozeIntervalSpinner(){

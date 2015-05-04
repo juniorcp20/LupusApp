@@ -20,20 +20,24 @@ import com.umb.cs682.projectlupus.util.Constants;
 public class MoodAlarmReceiver extends BroadcastReceiver{
     private NotificationManager nm;
     private ReminderService reminderService = LupusMate.getReminderService();
+
+    int reminderID;
+
     @Override
     public void onReceive(Context context, Intent intent) {
-        int reminderID = intent.getIntExtra(Constants.REQUEST_CODE, -1);
+        reminderID = intent.getIntExtra(Constants.REMINDER_ID, -1);
         reminderService.updateMoodReminderStatus(reminderID, Constants.REM_STATUS_PENDING);
-        showNotification(context, intent);//reminderID);
+        showNotification(context);//, intent);//reminderID);
     }
 
-    private void showNotification(Context context, Intent alarmIntent){//int reminderID) {
+    private void showNotification(Context context){//}, Intent alarmIntent){//int reminderID) {
         nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         Intent intent = new Intent(context, MoodPopUp.class);
-        //intent.putExtra(Constants.REMINDER_ID, reminderID);
-        intent.putExtras(alarmIntent);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(Constants.REMINDER_ID, reminderID);
+        //intent.putExtras(alarmIntent);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Notification.Builder notificationBuilder = new Notification.Builder(context)
                 .setContentIntent(pendingIntent)

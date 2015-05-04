@@ -29,7 +29,9 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/tv_med_popup_name"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        style="@style/PurpleFont"
+        android:textStyle="bold"/>
     <Space
         android:layout_width="fill_parent"
         android:layout_height="10dp" />

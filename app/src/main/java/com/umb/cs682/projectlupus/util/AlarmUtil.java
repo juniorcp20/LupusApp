@@ -140,8 +140,8 @@ public class AlarmUtil {
 
         intent.putExtra(Constants.REQUEST_CODE, requestCode);
         intent.putExtra(Constants.REMINDER_ID, reminderID);
+        intent.putExtra(Constants.ALARM_INTERVAL, alarmInterval);
         if(!alarmInterval.equals(Constants.DAILY)) {
-            intent.putExtra(Constants.ALARM_INTERVAL, alarmInterval);
             intent.putExtra(Constants.START_TIME, startTime);
         }
         return intent;

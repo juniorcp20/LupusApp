@@ -84,15 +84,12 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
                 intent = new Intent(this, Profile.class);
                 break;
             case 4:
-                intent = new Intent(this, ShareInfo.class);
-                break;
-            case 5:
                 intent = new Intent(this, Settings.class);
                 break;
-            case 6:
+            case 5:
                 intent = new Intent(this, Help.class);
                 break;
-            case 7:
+            case 6:
                 intent = new Intent(this, About.class);
                 break;
         }

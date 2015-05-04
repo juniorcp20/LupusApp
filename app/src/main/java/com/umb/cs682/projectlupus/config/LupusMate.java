@@ -22,7 +22,7 @@ import com.umb.cs682.projectlupus.service.ReminderService;
 /**
  * Created by Nithya Kiran on 3/16/2015.
  */
-public class LupusMate extends Application{
+public class LupusMate{
     //DB
     private static SQLiteDatabase db;
     private static DaoMaster daoMaster;
@@ -46,7 +46,7 @@ public class LupusMate extends Application{
     //Application Context
     private static Context appContext;
 
-    @Override
+   /* @Override
     public void onCreate() {
         super.onCreate();
         setAppContext();
@@ -55,17 +55,17 @@ public class LupusMate extends Application{
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
-    /*public static void setAppContext(Context context){
+    public static void setAppContext(Context context){
             appContext = context;
-        }*/
-    public void setAppContext(){
+        }
+   /* public void setAppContext(){
         appContext = getApplicationContext();
-    }
+    }*/
 
-   // public static void configureServices() throws Exception{
-   public void configureServices() throws Exception{
+   public static void configureServices() throws Exception{
+  // public void configureServices() throws Exception{
         try {
             //Initialize DAOs
             DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(appContext, null);

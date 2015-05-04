@@ -194,6 +194,7 @@ public class ActivitySense extends Activity {
                 //showData();
                 service.startAlarm();
             }else{
+                //saveData();
                 service.stopAlarm();
             }
             service.startStopPedometer(isChecked);

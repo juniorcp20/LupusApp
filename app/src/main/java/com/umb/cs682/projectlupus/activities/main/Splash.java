@@ -13,6 +13,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.activities.common.Welcome;
+import com.umb.cs682.projectlupus.config.LupusMate;
 import com.umb.cs682.projectlupus.util.Constants;
 import com.umb.cs682.projectlupus.util.SharedPreferenceManager;
 
@@ -41,6 +42,7 @@ public class Splash extends Activity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 finish();
+                configApp();
                 SharedPreferenceManager.initPrefs();//todo delete before distribution
                 openApp();
                 /*Intent i = new Intent(getBaseContext(),Welcome.class);
@@ -55,6 +57,15 @@ public class Splash extends Activity {
         });
 
 
+    }
+
+    private void configApp(){
+        LupusMate.setAppContext(getApplicationContext());
+        try {
+            LupusMate.configureServices();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void openApp() {

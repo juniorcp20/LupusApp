@@ -22,7 +22,7 @@ import com.jwetherell.pedometer.service.IStepServiceCallback;
 import com.jwetherell.pedometer.service.StepDetector;
 import com.jwetherell.pedometer.service.StepService;
 import com.umb.cs682.projectlupus.R;
-import com.umb.cs682.projectlupus.config.AppConfig;
+import com.umb.cs682.projectlupus.config.LupusMate;
 
 public class PedometerService extends Service {
     private static final String TAG = "projectlupus.service";
@@ -43,7 +43,7 @@ public class PedometerService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        LayoutInflater inflater = (LayoutInflater) AppConfig.getAppContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) LupusMate.getAppContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.a_activity_sense, null);
         text = (TextView) layout.findViewById(R.id.tv_steps);
 

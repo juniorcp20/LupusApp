@@ -49,10 +49,10 @@ public class ActivitySense extends Activity {
     private ActivitySenseService service = LupusMate.getActivitySenseService();
     private static Handler handler = null;
 
-    private TextView stepCountTextDup = null;
+    /*private TextView stepCountTextDup = null;
     private Button save = null;
     private Button show = null;
-    private Button delete = null;
+    private Button delete = null;*/
 
     /**
      * {@inheritDoc}
@@ -92,7 +92,7 @@ public class ActivitySense extends Activity {
         stepCountText = (TextView) this.findViewById(R.id.tv_steps);
         setHandler();
 
-        stepCountTextDup = (TextView) findViewById(R.id.stepcount);
+        /*stepCountTextDup = (TextView) findViewById(R.id.stepcount);
         save = (Button) findViewById(R.id.save);
         show = (Button) findViewById(R.id.show);
         delete = (Button) findViewById(R.id.delete);
@@ -116,7 +116,7 @@ public class ActivitySense extends Activity {
             public void onClick(View v) {
                 deleteRows();
             }
-        });
+        });*/
 
         service.setupAlarm();
     }
@@ -231,9 +231,9 @@ public class ActivitySense extends Activity {
         service.addActSenseData(new Date());
     }
 
-    public void showData(){
+   /* public void showData(){
         stepCountTextDup.setText(String.valueOf(service.getStoredStepCount(new Date())));
-    }
+    }*/
 
     public void deleteRows(){
         service.deleteData(new Date());

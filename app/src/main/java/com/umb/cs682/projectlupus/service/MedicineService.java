@@ -11,6 +11,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
+import java.util.TreeMap;
 
 import de.greenrobot.dao.DaoException;
 import de.greenrobot.dao.query.CountQuery;
@@ -125,20 +127,21 @@ public class MedicineService {
         return query.list();
     }
 
-    public HashMap<String,Integer> getMednameVsDosage() {
-        HashMap<String,Integer> mednameVsDosageMap = new HashMap<>();
+    public TreeMap<String,Float> getMednameVsTakenPercentage() {
+        TreeMap<String,Float> mednameVsTakenPercentageMap = new TreeMap<>();
         for (MedicineBO currBO : getAllData()) {
-            mednameVsDosageMap.put(currBO.getMedName(),currBO.getDosage());
+            mednameVsTakenPercentageMap.put(currBO.getMedName(),currBO.getMedTakenCount().floatValue() / currBO.getMedReminderCount() * 100);
         }
-        return mednameVsDosageMap;
+        return mednameVsTakenPercentageMap;
     }
 
     /* Database Operations*/
     public void loadDummyData(){
         MedicineBO bo;
         if(getCount() == 0) {
+            Random random = new Random();
             for (int i = 1; i < 5; i++) {
-                bo = new MedicineBO(null,"Drug " + i,i,Constants.DAILY,null,0,0);
+                bo = new MedicineBO(null,"Drug " + i,i,Constants.DAILY,null,100,random.nextInt(51) + 50);
                 medicineDao.insert(bo);
             }
         }

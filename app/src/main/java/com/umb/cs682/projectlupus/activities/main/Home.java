@@ -1,5 +1,15 @@
 package com.umb.cs682.projectlupus.activities.main;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.utils.ValueFormatter;
 import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.activities.common.About;
 import com.umb.cs682.projectlupus.activities.common.Help;
@@ -10,6 +20,7 @@ import com.umb.cs682.projectlupus.activities.moodAlert.MoodAlert;
 import com.umb.cs682.projectlupus.activities.activitySense.ActivitySense;
 import com.umb.cs682.projectlupus.config.LupusMate;
 import com.umb.cs682.projectlupus.service.ActivitySenseService;
+import com.umb.cs682.projectlupus.service.MedicineService;
 import com.umb.cs682.projectlupus.service.MoodLevelService;
 import com.umb.cs682.projectlupus.util.Constants;
 import com.umb.cs682.projectlupus.util.SharedPreferenceManager;
@@ -19,14 +30,28 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class Home extends Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks{
     private static final String TAG = ".activities.main";
 
     private boolean firstRun = true;
+
+    private LineChart moodChart = null;
+    private LineChart activityChart = null;
+    private BarChart medicineChart = null;
 
 	/**
 	 * Fragment managing the behaviors, interactions and presentation of the
@@ -39,8 +64,9 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
 	 * {@link #restoreActionBar()}.
 	 */
 	private CharSequence mTitle;
-    MoodLevelService moodService = LupusMate.getMoodLevelService();
-    ActivitySenseService actSenseService = LupusMate.getActivitySenseService();
+    private MoodLevelService moodLevelService = LupusMate.getMoodLevelService();
+    private ActivitySenseService activitySenseService = LupusMate.getActivitySenseService();
+    private MedicineService medicineService = LupusMate.getMedicineService();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +82,105 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
 		// Set up the drawer.
 		mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
 		    (DrawerLayout) findViewById(R.id.drawer_layout));
-        moodService.loadDummyData();
-        actSenseService.loadDummyData();
+
+        // Load dummy data for testing
+        moodLevelService.loadDummyData();
+        activitySenseService.loadDummyData();
+        medicineService.loadDummyData();
+
+        Iterator iterator;
+        Date date;
+        //Calendar calendar = Calendar.getInstance();
+        //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("M yyyy");
+
+        // Set up the mood chart
+        ArrayList<Entry> timeVsMoodAL = new ArrayList<>();
+        TreeMap<Date,Float> timeVsMoodMap = moodLevelService.getTimeVsMoodLevel();
+        iterator = timeVsMoodMap.entrySet().iterator();
+
+        ArrayList<String> moodXVals = new ArrayList<>();
+        /*Date javaStartDate = timeVsMoodMap.firstKey();
+        MutableDateTime jodaStartDate = new MutableDateTime();
+        jodaStartDate.setDate(javaStartDate.getYear(), javaStartDate.getMonth(), javaStartDate.getDate());
+        DateTime now = DateTime.now();
+        for (int i = 0;i < Days.daysBetween(jodaStartDate,now).getDays();i ++) {
+            moodXVals.add();
+        }*/
+
+        while (iterator.hasNext()){
+            Map.Entry pair = (Map.Entry) iterator.next();
+            //calendar.setTime((Date)pair.getKey());
+            date = (Date) pair.getKey();
+            String[] splitStrings = date.toString().split(" ");
+            timeVsMoodAL.add(new Entry((Float) pair.getValue(),date.getDate() - 1));
+            moodXVals.add(splitStrings[0] + " " + splitStrings[1] + " " + splitStrings[2] + " " + splitStrings[splitStrings.length - 1]);
+        }
+
+        LineDataSet timeVsMoodDataset = new LineDataSet(timeVsMoodAL,null);
+        LineData timeVsMoodData = new LineData(moodXVals,timeVsMoodDataset);
+        moodChart = (LineChart) findViewById(R.id.mood_chart);
+        moodChart.setData(timeVsMoodData);
+        moodChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        moodChart.setDescription(null);
+        moodChart.getAxisRight().setEnabled(false);
+        moodChart.getLegend().setEnabled(false);
+
+        //moodChart.setScaleEnabled(true);
+        //moodChart.setDragEnabled(true);
+
+        //testing
+        /*ArrayList<Entry> timeVsMoodAL = new ArrayList<>();
+        ArrayList<String> xVals = new ArrayList<>();
+        for (int i = 0;i < 5; i ++){
+            timeVsMoodAL.add(new Entry(i*i,i));
+            xVals.add(i + "");
+        }
+        LineDataSet timeVsMoodDataset = new LineDataSet(timeVsMoodAL,"what does this do?");
+        LineData timeVsMoodData = new LineData(xVals,timeVsMoodDataset);
+        moodChart = (LineChart) findViewById(R.id.mood_chart);
+        moodChart.setData(timeVsMoodData);*/
+
+        // Set up the activity chart
+        ArrayList<Entry> timeVsStepCountAL = new ArrayList<>();
+        TreeMap<Date,Integer> timeVsStepCountMap = activitySenseService.getTimeVsStepCount();
+        iterator = timeVsStepCountMap.entrySet().iterator();
+        ArrayList<String> stepXVals = new ArrayList<>();
+        while (iterator.hasNext()){
+            Map.Entry pair = (Map.Entry) iterator.next();
+            date = (Date) pair.getKey();
+            String[] splitStrings = date.toString().split(" ");
+            timeVsStepCountAL.add(new Entry(((Integer)pair.getValue()).floatValue(), date.getDate() - 1));
+            stepXVals.add(splitStrings[0] + " " + splitStrings[1] + " " + splitStrings[2] + " " + splitStrings[splitStrings.length - 1]);
+        }
+        LineDataSet timeVsStepCountDataset = new LineDataSet(timeVsStepCountAL,null);
+        LineData timeVsStepCountData = new LineData(stepXVals,timeVsStepCountDataset);
+        activityChart = (LineChart) findViewById(R.id.activity_chart);
+        activityChart.setData(timeVsStepCountData);
+        activityChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        activityChart.setDescription(null);
+        activityChart.getAxisRight().setEnabled(false);
+        activityChart.getLegend().setEnabled(false);
+
+        // Set up the medicine chart
+        ArrayList<BarEntry> mednameVsTakenPercentageAL = new ArrayList<>();
+        TreeMap<String,Float> mednameVsTakenPercentageMap = medicineService.getMednameVsTakenPercentage();
+        iterator = mednameVsTakenPercentageMap.entrySet().iterator();
+        ArrayList<String> medicineXVals = new ArrayList<>();
+        int i = 0;
+        while (iterator.hasNext()) {
+            Map.Entry pair = (Map.Entry) iterator.next();
+            mednameVsTakenPercentageAL.add(new BarEntry((Float) pair.getValue(),i++));
+            medicineXVals.add(pair.getKey().toString());
+        }
+        BarDataSet mednameVsTakenPercentageDataset = new BarDataSet(mednameVsTakenPercentageAL,null);
+        BarData mednameVsTakenPercentageData = new BarData(medicineXVals,mednameVsTakenPercentageDataset);
+        medicineChart = (BarChart) findViewById(R.id.medicine_chart);
+        medicineChart.setData(mednameVsTakenPercentageData);
+        medicineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        medicineChart.setDescription(null);
+        medicineChart.getAxisRight().setEnabled(false);
+        medicineChart.getLegend().setEnabled(false);
+
 	}
 
 

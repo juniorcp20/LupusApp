@@ -24,6 +24,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
+import java.util.TreeMap;
 
 import de.greenrobot.dao.query.CountQuery;
 import de.greenrobot.dao.query.DeleteQuery;
@@ -167,9 +169,10 @@ public class ActivitySenseService {
         ActivitySenseBO bo;
         if(getCount() == 0) {
             Calendar cal = Calendar.getInstance();
-            for (int i = 1; i < 5; i++) {
+            Random random = new Random();
+            for (int i = 1; i < 20; i++) {
                 cal.set(2015, 4, i);
-                bo = new ActivitySenseBO(null, 100 * i, DateTimeUtil.toDate(new Date(cal.getTimeInMillis())));
+                bo = new ActivitySenseBO(null, random.nextInt(2000), DateTimeUtil.toDate(new Date(cal.getTimeInMillis())));
                 activitySenseDao.insert(bo);
             }
         }
@@ -215,8 +218,8 @@ public class ActivitySenseService {
         return query.list();
     }
 
-    public HashMap<Date, Integer> getTimeVsStepCount(){
-        HashMap<Date, Integer> timeVsStepCountMap = new HashMap<>();
+    public TreeMap<Date, Integer> getTimeVsStepCount(){
+        TreeMap<Date, Integer> timeVsStepCountMap = new TreeMap<>();
         for(ActivitySenseBO currBO : getAllData()){
             timeVsStepCountMap.put(currBO.getDate(), currBO.getStepCount());
         }

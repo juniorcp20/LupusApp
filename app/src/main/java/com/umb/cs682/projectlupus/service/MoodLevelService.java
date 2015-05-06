@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.TreeMap;
 
 import de.greenrobot.dao.query.CountQuery;
@@ -38,9 +39,10 @@ public class MoodLevelService {
     public void loadDummyData(){
         if(getCount() == 0) {
             Calendar cal = Calendar.getInstance();
-            for (int i = 1; i < 5; i++) {
+            Random random = new Random();
+            for (int i = 1; i < 20; i++) {
                 cal.set(2015, 4, i);
-                bo = new MoodLevelBO(null, 1, DateTimeUtil.toDate(new Date(cal.getTimeInMillis())), i);
+                bo = new MoodLevelBO(null, 1, DateTimeUtil.toDate(new Date(cal.getTimeInMillis())), random.nextInt(6));
                 moodLevelDao.insert(bo);
             }
         }
@@ -56,10 +58,10 @@ public class MoodLevelService {
         return query.list();
     }
 
-    public TreeMap<Date, Long> getTimeVsMoodLevel(){
+    public TreeMap<Date, Float> getTimeVsMoodLevel(){
         // Calculates the avg moodlevel for each day, because there might be multiple reminders each day.
-        TreeMap<Date, Long> timeVsMoodLevelMap = new TreeMap<>();
-        Long avg;
+        TreeMap<Date, Float> timeVsMoodLevelMap = new TreeMap<>();
+        Float avg;
         for(Date date : getDistinctDates()){
             avg = calculateAvgMoodLevel(date);
             timeVsMoodLevelMap.put(date, avg);
@@ -90,14 +92,14 @@ public class MoodLevelService {
         return query.count();
     }
 
-    private Long calculateAvgMoodLevel(Date date) {
+    private Float calculateAvgMoodLevel(Date date) {
         List<MoodLevelBO> data = new ArrayList<>();
         data = getDataByDate(date);
         int sum = 0;
         for(MoodLevelBO bo : data){
             sum = sum + bo.getMoodLevel();
         }
-        long avg = sum/data.size();
+        float avg = (float) sum / data.size();
         return avg;
     }
 }

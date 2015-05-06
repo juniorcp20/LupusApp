@@ -42,7 +42,7 @@ public class MoodLevelService {
             Random random = new Random();
             for (int i = 1; i < 20; i++) {
                 cal.set(2015, 4, i);
-                bo = new MoodLevelBO(null, 1, DateTimeUtil.toDate(new Date(cal.getTimeInMillis())), random.nextInt(6));
+                bo = new MoodLevelBO(null, 1, new Date(), random.nextInt(6)); //DateTimeUtil.toDate(new Date(cal.getTimeInMillis()))
                 moodLevelDao.insert(bo);
             }
         }
@@ -80,7 +80,7 @@ public class MoodLevelService {
         Cursor c = session.getDatabase().rawQuery(SQL_DISTINCT_DATES, null);
         if (c.moveToFirst()) {
             do {
-                result.add(DateTimeUtil.toDate(c.getString(0)));
+                result.add(new Date(Long.parseLong(c.getString(0))));
             } while (c.moveToNext());
         }
         c.close();

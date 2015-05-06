@@ -47,6 +47,7 @@ public class MoodPopUp extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.a_mood_pop_up);
+        setFinishOnTouchOutside(false);
 
         rbMoodLevel =(RatingBar)findViewById(R.id.ratingBar);
         spSnoozeInterval = (Spinner) findViewById(R.id.sp_mood_snooze_interval);

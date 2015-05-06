@@ -47,6 +47,7 @@ public class MedicinePopUp extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.a_medicine_pop_up);
+        setFinishOnTouchOutside(false);
 
         medNameText = (TextView) findViewById(R.id.tv_med_popup_name);
         spSnoozeInterval = (Spinner) findViewById(R.id.sp_med_snooze_interval);

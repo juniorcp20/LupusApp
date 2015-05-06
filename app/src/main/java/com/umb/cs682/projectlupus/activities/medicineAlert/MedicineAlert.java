@@ -1,6 +1,7 @@
 package com.umb.cs682.projectlupus.activities.medicineAlert;
 
 import com.umb.cs682.projectlupus.R;
+import com.umb.cs682.projectlupus.activities.activitySense.ActivitySense;
 import com.umb.cs682.projectlupus.activities.main.Home;
 import com.umb.cs682.projectlupus.config.LupusMate;
 import com.umb.cs682.projectlupus.domain.ReminderBO;
@@ -106,7 +107,10 @@ public class MedicineAlert extends Activity {
     @Override
     public Intent getParentActivityIntent(){
         Intent newIntent = null;
-        newIntent = new Intent(this, getIntent().getClass());
+        if(isInit)
+            newIntent = new Intent(this, ActivitySense.class);
+        else
+            newIntent = new Intent(this, Home.class);
         return newIntent;
     }
 
@@ -171,14 +175,14 @@ public class MedicineAlert extends Activity {
         public View getView(final int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
             View customView = inflater.inflate(R.layout.li_reminder_item, parent, false);
-            String name = medNames.get(position);
+            final String name = medNames.get(position);
             TextView displayName = (TextView) customView.findViewById(R.id.display_time);
             ImageView actionIcon = (ImageView) customView.findViewById(R.id.delete_icon);
             actionIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Long currMedID = medService.getMedicine(medName).getId();
-                    ArrayList<Long> remIDs = reminderService.getAllMedReminderIDs(medService.getMedicine(medName).getId());
+                    Long currMedID = medService.getMedicine(name).getId();
+                    ArrayList<Long> remIDs = reminderService.getAllMedReminderIDs(medService.getMedicine(name).getId());
                     cancelAlarm(currMedID, remIDs);
                     reminderService.deleteMedReminderByMedId(currMedID);
                     medNames.remove(position);

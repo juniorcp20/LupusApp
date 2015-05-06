@@ -77,4 +77,5 @@
     <string name="title_activity_edit_profile">EditProfile</string>
     <string name="title_activity_share_info">ShareInfo</string>
     <string name="title_activity_medicine_pop_up">MedicinePopUp</string>
+    <string name="task_affinity">PopUpDialog</string>
 </resources>

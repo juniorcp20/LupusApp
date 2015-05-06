@@ -19,6 +19,14 @@
         android:theme="@style/AppTheme"
         android:icon="@drawable/logo">
 
+        <!-- SPLASH SCREEN -->
+        <activity android:name=".activities.main.Splash" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <!-- COMMON -->
         <activity
             android:name=".activities.common.Welcome"
@@ -28,10 +36,12 @@
                 <category android:name="android.intent.category.default" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activities.main.Home"
             android:label="@string/title_activity_home" >
         </activity>
+
         <activity
             android:name=".activities.common.Profile"
             android:label="@string/title_activity_init_profile"
@@ -40,14 +50,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.umb.cs682.projectlupus.activities.common.Welcome" />
         </activity>
-        <activity
-            android:name=".activities.common.ShareInfo"
-            android:label="@string/title_activity_share_info"
-            android:parentActivityName=".activities.main.Home" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.umb.cs682.projectlupus.activities.main.Home" />
-        </activity>
+
         <activity
             android:name=".activities.common.Settings"
             android:label="@string/title_activity_settings"
@@ -56,6 +59,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.umb.cs682.projectlupus.activities.main.Home" />
         </activity>
+
         <activity
             android:name=".activities.common.Help"
             android:label="@string/title_activity_help"
@@ -64,6 +68,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.umb.cs682.projectlupus.activities.main.Home" />
         </activity>
+
         <activity
             android:name=".activities.common.About"
             android:label="@string/title_activity_about"
@@ -74,7 +79,8 @@
         </activity>
 
         <!-- ACTIVITY SENSE -->
-        <activity android:name=".activities.activitySense.ActivitySense" >
+        <activity
+            android:name=".activities.activitySense.ActivitySense" >
         </activity>
 
         <!-- MOOD ALERT -->
@@ -82,48 +88,51 @@
             android:name=".activities.moodAlert.MoodAlert"
             android:label="@string/title_activity_init_mood_alert" >
         </activity>
+
         <activity
             android:name=".activities.moodAlert.MoodPopUp"
             android:label="@string/title_activity_mood_pop_up"
-            android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar.MinWidth">
+            android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar.MinWidth"
+            android:taskAffinity=".util"
+            android:excludeFromRecents="true">
         </activity>
 
         <!-- MEDICINE ALERT -->
         <activity
             android:name=".activities.medicineAlert.MedicineAlert"
-            android:label="@string/title_activity_init_medicine_alert" >
+            android:label="@string/title_activity_init_medicine_alert"
+            android:parentActivityName=".activities.medicineAlert.MedicineAlert" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.umb.cs682.projectlupus.activities.medicineAlert.MedicineAlert" />
         </activity>
+
         <activity
             android:name=".activities.medicineAlert.AddMedicine"
             android:label="@string/title_activity_add_medicine" >
         </activity>
+
         <activity
             android:name=".activities.medicineAlert.MedicinePopUp"
             android:label="@string/title_activity_medicine_pop_up"
-            android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar.MinWidth">
+            android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar.MinWidth"
+            android:taskAffinity=".util"
+            android:excludeFromRecents="true">
         </activity>
 
-        <!-- splash page -->
-        <activity android:name=".activities.main.Splash" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-
-
-
+        <!-- RECEIVERS -->
         <receiver
             android:name=".alarms.MoodAlarmReceiver"
             android:enabled="true"
             android:exported="true" >
         </receiver>
+
         <receiver
             android:name=".alarms.MedicineAlarmReceiver"
             android:enabled="true"
             android:exported="true" >
         </receiver>
+
         <receiver
             android:name=".alarms.AlarmSetter"
             android:enabled="true"
@@ -133,6 +142,7 @@
             </intent-filter>
         </receiver>
 
+        <!-- SERVICES -->
         <service
             android:name=".alarms.AlarmSetterService"
             android:exported="false" >
@@ -143,6 +153,6 @@
             android:enabled="true"
             android:exported="true" >
         </service>
-    </application>
 
+    </application>
 </manifest>

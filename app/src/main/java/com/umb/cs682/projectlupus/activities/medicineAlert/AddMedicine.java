@@ -209,7 +209,7 @@ public class AddMedicine extends Activity {
                   }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                         selDayOrDate = selDayOfWeek;
-                        Utils.displayToast(getApplicationContext(), "Reminder set at "+ selDayOfWeek +" of every week.");
+                        Utils.displayToast(getApplicationContext(), "Reminder will be set at "+ selDayOfWeek +" of every week.");
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -248,7 +248,7 @@ public class AddMedicine extends Activity {
                             }else{
                                 suffix = "th";
                             }
-                            Utils.displayToast(context, "Reminder set at "+ selDayOfMonth +suffix+" of every month.");
+                            Utils.displayToast(context, "Reminder will be set at "+ selDayOfMonth +suffix+" of every month.");
                         }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -279,6 +279,7 @@ public class AddMedicine extends Activity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selMedName = medNames.get(position);
                 selMedID = getMedID();
+                ((TextView) parent.getChildAt(0)).setTextColor(getResources().getColor(R.color.darkPurple));
             }
 
             @Override
@@ -358,7 +359,7 @@ public class AddMedicine extends Activity {
                     }
                     medRemAdapter.notifyDataSetChanged();
                     reminderListView.setVisibility(View.VISIBLE);
-                    Utils.displayToast(getApplicationContext(), "Alert set at "+selectedTime);
+                    //Utils.displayToast(getApplicationContext(), "Alert set at "+selectedTime);
          }
                };
     /*  End Widget Setup    */

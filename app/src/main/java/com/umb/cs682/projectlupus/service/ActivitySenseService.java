@@ -156,8 +156,6 @@ public class ActivitySenseService {
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                //todo remove the toast
-                Toast.makeText(context, "Saving Data!", Toast.LENGTH_SHORT).show();
                 addActSenseData(new Date());
             }
         };

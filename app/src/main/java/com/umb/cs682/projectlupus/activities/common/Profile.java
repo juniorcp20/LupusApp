@@ -143,7 +143,7 @@ public class Profile extends Activity {
         String gender = rbGender.getText().toString();
         isSuccess = service.addProfileData(username, age, gender, ethnicity);
         if(isSuccess){
-            Utils.displayToast(this, "Saved");
+            Utils.displayToast(this, "Saving..");
         }else{
             Utils.displayToast(this, "Failed, Try Again!");
         }

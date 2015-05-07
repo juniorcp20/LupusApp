@@ -92,10 +92,10 @@
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:textSize="20dp"
+                        android:textSize="15dp"
                         android:gravity="center"
                         android:text="562"
-                        android:id="@+id/textView16"
+                        android:id="@+id/tv_home_step_count"
                         style="@style/PurpleFont"/>
                 </LinearLayout>
 

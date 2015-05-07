@@ -124,6 +124,10 @@ public class ActivitySenseService {
         return stepCount;
     }
 
+    public void resetCurrentStepCount(){
+        stepCount = 0;
+    }
+
     private ServiceConnection pedometerConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -189,6 +193,7 @@ public class ActivitySenseService {
         if(!(query.count() == 0)) {
             bo = getActSenseDatabyDate(date);
             bo.setStepCount(bo.getStepCount() + getCurrentStepCount());
+            resetCurrentStepCount();
             activitySenseDao.update(bo);
         }else{
             bo = new ActivitySenseBO(null, getCurrentStepCount(), DateTimeUtil.toDate(date));

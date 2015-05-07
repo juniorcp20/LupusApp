@@ -194,7 +194,10 @@ public class ReminderService {
     public ArrayList<String> getMedicinesWithReminders(){
         ArrayList<String> medNames = new ArrayList<>();
         for(ReminderBO currBO : getMedReminders()){
-            medNames.add(medicineService.getMedicine(currBO.getMedId()).getMedName());
+            String currMedName = medicineService.getMedicine(currBO.getMedId()).getMedName();
+            if(!medNames.contains(currMedName)) {
+                medNames.add(currMedName);
+            }
         }
         return medNames;
     }

@@ -3,6 +3,7 @@ package com.umb.cs682.projectlupus.activities.moodAlert;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +27,7 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 public class MoodPopUp extends Activity {
+    private static final String TAG = "activities.moodpopup";
 
     private RatingBar rbMoodLevel;
     private Spinner spSnoozeInterval;
@@ -55,17 +57,6 @@ public class MoodPopUp extends Activity {
         ivSkip = (ImageView) findViewById(R.id.iv_mood_skip);
         ivAccept = (ImageView) findViewById(R.id.iv_mood_accept);
 
-        /*alarmIntentExtras = getIntent().getExtras();
-        if(alarmIntentExtras != null) {
-            reminderID = alarmIntentExtras.getInt(Constants.REMINDER_ID);
-        }else {
-            try {
-                throw new AppException("Data not found in intent");
-            } catch (AppException e) {
-                e.printStackTrace();
-            }
-        }*/
-        //reminderID = getIntent().getIntExtra(Constants.REMINDER_ID, -1);
         onNewIntent(getIntent());
         initSnoozeIntervalSpinner();
         moodLevelRatingListener();
@@ -89,26 +80,20 @@ public class MoodPopUp extends Activity {
             @Override
             public void onClick(View v) {
                 cancelSnooze();
-                reminderService.updateMoodReminderStatus(reminderID, Constants.REM_STATUS_SKIP);
-                finish();
+                skip();
             }
         });
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -119,6 +104,12 @@ public class MoodPopUp extends Activity {
     @Override
     protected void onNewIntent(Intent intent) {
         reminderID = intent.getIntExtra(Constants.REMINDER_ID,0);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        skip();
     }
 
     private void initSnoozeIntervalSpinner(){
@@ -140,7 +131,14 @@ public class MoodPopUp extends Activity {
         if (reminderID > 0) {
             moodLevelService.addMoodLevel(reminderID, selMoodLevel);
             reminderService.updateMoodReminderStatus(reminderID, Constants.REM_STATUS_DONE);
+            Log.i(TAG, "Reminder status - Done");
         }
+    }
+
+    private void skip(){
+        reminderService.updateMoodReminderStatus(reminderID, Constants.REM_STATUS_SKIP);
+        finish();
+        Log.i(TAG, "Reminder status - Skip");
     }
 
     private void snooze(){
@@ -152,11 +150,13 @@ public class MoodPopUp extends Activity {
         AlarmUtil.snooze(this, snoozeRequestCode, reminderID, Constants.MOOD_REMINDER, Constants.DAILY, null, snoozeTime);
         reminderService.updateMoodReminderStatus(reminderID, Constants.REM_STATUS_SNOOZE);
         snoozed = true;
+        Log.i(TAG, "Reminder status - Snooze");
     }
 
     private void cancelSnooze(){
         if(snoozed){
             AlarmUtil.cancelSnooze(this, snoozeRequestCode, reminderID, Constants.MOOD_REMINDER, Constants.DAILY, null);
+            Log.i(TAG, "Snooze cancelled");
         }
     }
 

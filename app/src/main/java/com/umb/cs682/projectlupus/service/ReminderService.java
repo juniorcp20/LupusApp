@@ -46,6 +46,16 @@ public class ReminderService {
         return reminderDao.queryBuilder().where(ReminderDao.Properties.Id.eq(id)).unique().getReminderTime();
     }
 
+    public ReminderBO getReminder(long id){
+        return reminderDao.queryBuilder().where(ReminderDao.Properties.Id.eq(id)).uniqueOrThrow();
+    }
+
+    public void updateReminderStatus(long id, String status){
+        bo = getReminder(id);
+        bo.setStatus(status);
+        reminderDao.update(bo);
+    }
+
     /* Mood Reminders */
 
     public long addMoodReminder(String time){

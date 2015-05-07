@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 
 import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.activities.medicineAlert.MedicinePopUp;
@@ -22,15 +23,18 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 public class MedicineAlarmReceiver extends BroadcastReceiver {
+    private static final String TAG = "receiver.medicine";
     private NotificationManager nm;
 
     private ReminderService reminderService = LupusMate.getReminderService();
     private MedicineService medicineService = LupusMate.getMedicineService();
 
     int reminderID;
+    int requestCode;
     @Override
     public void onReceive(Context context, Intent intent) {
         boolean snoozed = intent.getBooleanExtra(Constants.SNOOZED, false);
+        requestCode = intent.getIntExtra(Constants.REQUEST_CODE, -1);
         reminderID = intent.getIntExtra(Constants.REMINDER_ID, -1);
         showNotification(context);
 
@@ -49,7 +53,8 @@ public class MedicineAlarmReceiver extends BroadcastReceiver {
         Intent intent = new Intent(context, MedicinePopUp.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(Constants.REMINDER_ID, reminderID);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        int notifRequestCode = 6000 + requestCode; // to uniquely identify notification pending intents from normal pending intents
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, notifRequestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Notification.Builder notificationBuilder = new Notification.Builder(context)
                 .setContentIntent(pendingIntent)
@@ -64,11 +69,19 @@ public class MedicineAlarmReceiver extends BroadcastReceiver {
             notificationBuilder.setColor(context.getResources().getColor(R.color.darkPurple));
         }
         Notification notification = notificationBuilder.build();
-        nm.notify(1, notification);
+        notification.deleteIntent = PendingIntent.getBroadcast(context, notifRequestCode, getDeleteIntent(context), 0); // change reminder status to skip if notification is deleted
+        Log.i(TAG, "Notified, reminder ID = "+reminderID);
+        nm.notify(notifRequestCode, notification);
+    }
+
+    private Intent getDeleteIntent(Context context){
+        Intent deleteIntent = new Intent(context, DeleteNotificationReceiver.class);
+        deleteIntent.putExtra(Constants.REMINDER_ID, reminderID);
+        deleteIntent.setAction("delete");
+        return deleteIntent;
     }
 
     private void reScheduleAlarm(Context context, Intent intent) throws AppException {
-        int requestCode = intent.getIntExtra(Constants.REQUEST_CODE, -1);
         long currentStartTime = intent.getLongExtra(Constants.START_TIME, -1);
         //long nextStartTime = 0;
         Calendar futureCal = Calendar.getInstance(TimeZone.getDefault());
@@ -95,6 +108,7 @@ public class MedicineAlarmReceiver extends BroadcastReceiver {
         if(reminderID != -1 && requestCode != -1) {
            // AlarmUtil.setOneShotAlarm(context, Constants.MED_REMINDER, reminderID, requestCode, alarmInterval, nextStartTime);
             AlarmUtil.setAlarm(context, requestCode, reminderID, Constants.MED_REMINDER, alarmInterval, futureCal);
+            Log.i(TAG, "Rescheduled alarm, reminder ID = "+reminderID);
         }else{
             throw new AppException("Could not find request code in intent");
         }

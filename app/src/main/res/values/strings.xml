@@ -11,6 +11,11 @@
     <string name="welcome_msg">It is recommended to complete the initial setup. Or setup later using the settings menu in the home page.</string>
     <string name="welcome_button">Go!</string>
 
+    <!--About-->
+    <string name="about_text">This project was made as a part of capstone requirement for \n <b> Dr. Ramon Bonegio </b> \n \n By \n Nithya Konda, Lipsa Ray, Kun Mao and Quynh Vo \n \nUniversity of Massachusetts, Boston \n Class of 2015 </string>
+
+
+
     <!-- PROFILE -->
     <string name="title_init_profile">Step 1 of 4</string>
     <string name="title_profile">Profile</string>

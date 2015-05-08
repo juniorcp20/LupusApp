@@ -17,7 +17,25 @@
         <item name="android:actionBarStyle">@style/ActionBarAppTheme</item>
         <item name="android:selectableItemBackground">@color/lightPurple</item>
         <item name="android:textColorHighlight">@color/lightPurple</item>
+        <item name="android:alertDialogTheme">@style/Theme_LupusMate_Dialog_Alert</item>
+
     </style>
+
+    <style name="DialogWindowTitle.LupusMate" parent="@style/DialogWindowTitle_Holo">
+        <item name="android:textAppearance">@style/TextAppearance.LupusMate.DialogWindowTitle</item>
+    </style>
+
+    <style name="TextAppearance.LupusMate.DialogWindowTitle" parent="@android:style/TextAppearance.Holo.DialogWindowTitle">
+        <item name="android:textColor">@color/darkPurple</item>
+    </style>
+        <style name="Widget.LupusMate.Button.Borderless" parent="@android:style/Widget.Holo.Button.Borderless">
+            <item name="android:textColor">@color/darkPurple</item>
+        </style>
+
+
+        <style name="LupusMate.ButtonBar.AlertDialog" parent="@android:style/Holo.ButtonBar.AlertDialog">
+            <item name="android:background">@color/white</item>
+        </style>
 
     <!-- ActionBar styles -->
     <style name="ActionBarAppTheme"
@@ -36,4 +54,6 @@
         <item name="android:textColor">@color/grey</item>
         <item name="android:fontFamily">sans-serif</item>
     </style>
+
+
 </resources>

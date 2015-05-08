@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.activities.common.Welcome;
 import com.umb.cs682.projectlupus.config.LupusMate;
-import com.umb.cs682.projectlupus.util.Constants;
 import com.umb.cs682.projectlupus.util.SharedPreferenceManager;
 
 /**
@@ -27,7 +26,7 @@ public class Splash extends Activity {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getActionBar().hide();
-        setContentView(R.layout.splash);
+        setContentView(R.layout.a_splash);
 
         final ImageView iv = (ImageView)findViewById(R.id.imageView);
         final Animation an = AnimationUtils.loadAnimation(getBaseContext(),R.anim.rotate);

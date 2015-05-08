@@ -58,7 +58,7 @@ public class AlarmSetterService extends IntentService {
     }
 
     private void setAllMoodAlarms() {
-        List<ReminderBO> moodAlarms = reminderService.getMoodReminders();
+        List<ReminderBO> moodAlarms = reminderService.getMoodRemindersForCurrentThread();
         Calendar cal = Calendar.getInstance(TimeZone.getDefault());
         int remID = 0;
         int requestCode = 0;
@@ -73,7 +73,7 @@ public class AlarmSetterService extends IntentService {
     }
 
     private void setAllMedAlarms(){
-        List<ReminderBO> medAlarms = reminderService.getMedReminders();
+        List<ReminderBO> medAlarms = reminderService.getMedRemindersForCurrentThread();
         Calendar cal = Calendar.getInstance(TimeZone.getDefault());
         int requestCode;
         int remID = 0;

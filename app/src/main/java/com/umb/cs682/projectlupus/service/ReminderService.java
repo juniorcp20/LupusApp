@@ -103,6 +103,10 @@ public class ReminderService {
         return getMoodRemindersQuery.list();
     }
 
+    public List<ReminderBO> getMoodRemindersForCurrentThread(){
+        return getMoodRemindersQuery.forCurrentThread().list();
+    }
+
     public ArrayList<Long> getAllMoodReminderIDs(){
         ArrayList<Long> ids = new ArrayList<>();
         for(ReminderBO currBO : getMoodReminders()){
@@ -168,6 +172,10 @@ public class ReminderService {
 
     public List<ReminderBO> getMedReminders(){
         return getMedRemindersQuery.list();
+    }
+
+    public List<ReminderBO> getMedRemindersForCurrentThread(){
+        return getMedRemindersQuery.forCurrentThread().list();
     }
 
     public List<ReminderBO> getMedReminders(long medID){

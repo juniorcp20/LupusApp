@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 
 import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.activities.moodAlert.MoodPopUp;
@@ -18,14 +19,17 @@ import com.umb.cs682.projectlupus.util.Constants;
  * Created by Nithya Kiran on 4/30/2015.
  */
 public class MoodAlarmReceiver extends BroadcastReceiver{
+    private static final String TAG = "receiver.mood";
     private NotificationManager nm;
     private ReminderService reminderService = LupusMate.getReminderService();
 
     int reminderID;
+    int requestCode;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         reminderID = intent.getIntExtra(Constants.REMINDER_ID, -1);
+        requestCode = intent.getIntExtra(Constants.REQUEST_CODE, -1);
         reminderService.updateMoodReminderStatus(reminderID, Constants.REM_STATUS_PENDING);
         showNotification(context);//, intent);//reminderID);
     }
@@ -36,8 +40,8 @@ public class MoodAlarmReceiver extends BroadcastReceiver{
         Intent intent = new Intent(context, MoodPopUp.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(Constants.REMINDER_ID, reminderID);
-        //intent.putExtras(alarmIntent);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        int notifRequestCode = 6000 + requestCode; // to uniquely identify notification pending intents from normal pending intents
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, notifRequestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Notification.Builder notificationBuilder = new Notification.Builder(context)
                 .setContentIntent(pendingIntent)
@@ -53,6 +57,15 @@ public class MoodAlarmReceiver extends BroadcastReceiver{
         }
 
         Notification notification = notificationBuilder.build();
-        nm.notify(1, notification);
+        notification.deleteIntent = PendingIntent.getBroadcast(context, notifRequestCode, getDeleteIntent(context), 0); // change reminder status to skip if notification is deleted
+        Log.i(TAG, "Notified. reminder ID = "+reminderID);
+        nm.notify(notifRequestCode, notification);
+    }
+
+    private Intent getDeleteIntent(Context context){
+        Intent deleteIntent = new Intent(context, DeleteNotificationReceiver.class);
+        deleteIntent.putExtra(Constants.REMINDER_ID, reminderID);
+        deleteIntent.setAction("delete");
+        return deleteIntent;
     }
 }

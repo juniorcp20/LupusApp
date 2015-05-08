@@ -211,8 +211,10 @@ public class MedicineAlert extends Activity {
                 switch (selInterval){
                     case Constants.WEEKLY:
                         dayOfWeek = currRemBO.getReminderDayOrDate();
+                        break;
                     case Constants.MONTHLY:
                         dayOfMonth = currRemBO.getReminderDayOrDate();
+                        break;
                 }
                 int remID = id.intValue();
                 int requestCode = remID;

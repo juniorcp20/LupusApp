@@ -18,38 +18,27 @@ import java.util.TimeZone;
 public class AlarmUtil {
     private static final String TAG = "util.AlarmUtil";
     private static AlarmManager alarmManager;
-    //private static Calendar cal = Calendar.getInstance(TimeZone.getDefault());
-    //private static String alarmInterval = Constants.DAILY;
 
-    //public static void setAlarm(Context context, int requestCode, String alarmInterval, int hourOfDay, int min, String dayOfWeek, String dayOfMonth, int reminderType, int reminderID){ //reminderType -> Mood or medicine
-    public static void setAlarm(Context context, int requestCode, int reminderID, int reminderType, String alarmInterval, Calendar cal){ //reminderType -> Mood or medicine
+    public static void setAlarm(Context context, int requestCode, int reminderID, int reminderType, String alarmInterval, Calendar cal){
 
-        long startTime = getAlarmTimeMillis(alarmInterval, cal);//hourOfDay, min, dayOfWeek, dayOfMonth);
+        long startTime = getAlarmTimeMillis(alarmInterval, cal);
 
         if(alarmInterval.equals(Constants.DAILY)) {
             setDailyRepeatingAlarm(context, reminderType, reminderID, requestCode, cal);
         }else{
             setOneShotAlarm(context, reminderType, reminderID, requestCode, alarmInterval, startTime);
         }
-        Log.i(TAG, "Alarm set");
+        Log.i(TAG, "Alarm set, reminder ID = "+reminderID);
     }
 
-    //public static void cancelAlarm(Context context, int requestCode, String alarmInterval, int hourOfDay, int min, String dayOfWeek, String dayOfMonth, int reminderType, int reminderID){
     public static void cancelAlarm(Context context, int requestCode, int reminderID, int reminderType, String alarmInterval, Calendar cal){
-
-        //long startTime = getAlarmTimeMillis(alarmInterval, cal);//hourOfDay, min, dayOfWeek, dayOfMonth);
         if(alarmInterval.equals(Constants.DAILY)) {
             cancelDailyRepeatingAlarm(context, reminderType, reminderID, requestCode);
         }else{
             long startTime = getAlarmTimeMillis(alarmInterval, cal);
             cancelOneShotAlarm(context, reminderType, reminderID, requestCode, alarmInterval, startTime);
         }
-        Log.i(TAG, "Alarm cancelled");
-        /*alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = buildIntent(context, reminderType, reminderID, requestCode, alarmInterval, startTime);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        pendingIntent.cancel();
-        alarmManager.cancel(pendingIntent);*/
+        Log.i(TAG, "Alarm cancelled, reminder ID = "+reminderID);
     }
 
     public static void snooze(Context context, int requestCode, int reminderID, int reminderType, String alarmInterval, Calendar cal, long snoozeTime){
@@ -98,35 +87,19 @@ public class AlarmUtil {
 
     private static void setDailyRepeatingAlarm(Context context, int reminderType, int reminderID, int requestCode, Calendar cal) {
         alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        /*Intent intent = new Intent();
-        intent.putExtra(Constants.REMINDER_ID, reminderID);
-        if(reminderType == Constants.MOOD_REMINDER){
-            intent.setClass(context, MoodAlarmReceiver.class);
-        }else{
-            intent.setClass(context, MedicineAlarmReceiver.class);
-            intent.putExtra(Constants.ALARM_INTERVAL, Constants.DAILY);
-        }
-        intent.putExtra(Constants.REQUEST_CODE, requestCode);*/
         Intent intent = buildIntent(context, reminderType, reminderID, requestCode, Constants.DAILY, 0);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-        Log.i(TAG, "Set Repeating Alarm - Successful");
+        Log.i(TAG, "Set Repeating Alarm - Successful, reminder ID = "+reminderID);
     }
 
     private static void cancelDailyRepeatingAlarm(Context context, int reminderType, int reminderID, int requestCode){
         alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        /*Intent intent = new Intent();
-        intent.putExtra(Constants.REMINDER_ID, reminderID);
-        if(reminderType == Constants.MOOD_REMINDER){
-            intent.setClass(context, MoodAlarmReceiver.class);
-        }else{
-            intent.setClass(context, MedicineAlarmReceiver.class);
-        }*/
         Intent intent = buildIntent(context, reminderType, reminderID, requestCode, Constants.DAILY, 0);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         pendingIntent.cancel();
         alarmManager.cancel(pendingIntent);
-        Log.i(TAG, "Repeating Alarm - Cancelled");
+        Log.i(TAG, "Repeating Alarm - Cancelled, reminder ID = "+reminderID);
     }
 
     private static Intent buildIntent(Context context, int reminderType, int reminderID, int requestCode, String alarmInterval, long startTime){//int hourOfDay, int min, int dayOfWeek, int dayOfMonth){
@@ -149,24 +122,13 @@ public class AlarmUtil {
 
     private static long getAlarmTimeMillis(String alarmInterval, Calendar cal){//int hourOfDay, int min, String dayOfWeek, String dayOfMonth){
         long alarmTimeMillis = 0;
-        /*if(hourOfDay >= 0){
-            cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
-        }
-        if(min >= 0 ){
-            cal.set(Calendar.MINUTE, min);
-            alarmTimeMillis = cal.getTimeInMillis();
-        }*/
         if(alarmInterval.equals(Constants.WEEKLY)){
-            //alarmType = Constants.WEEKLY;
-            //cal.set(Calendar.DAY_OF_WEEK, getDayOfWeek(dayOfWeek));
             alarmTimeMillis = cal.getTimeInMillis();
             if(alarmTimeMillis - System.currentTimeMillis() < 0){
                 alarmTimeMillis = alarmTimeMillis + AlarmManager.INTERVAL_DAY*7;
             }
         }
         if(alarmInterval.equals(Constants.MONTHLY)){
-            //alarmType = Constants.MONTHLY;
-            //cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dayOfMonth));
             alarmTimeMillis = cal.getTimeInMillis();
             if(alarmTimeMillis - System.currentTimeMillis() < 0){
                 if(cal.get(Calendar.MONTH) == Calendar.DECEMBER){
@@ -180,34 +142,4 @@ public class AlarmUtil {
         }
         return alarmTimeMillis;
     }
-
-    /*private static int getDayOfWeek(String dayOfWeek) {
-        int retVal = 0;
-        switch(dayOfWeek.toLowerCase()){
-            case "sunday":
-                retVal = Calendar.SUNDAY;
-                break;
-            case "monday":
-                retVal = Calendar.MONDAY;
-                break;
-            case "tuesday":
-                retVal = Calendar.TUESDAY;
-                break;
-            case "wednesday":
-                retVal = Calendar.WEDNESDAY;
-                break;
-            case "thursday":
-                retVal = Calendar.THURSDAY;
-                break;
-            case "friday":
-                retVal = Calendar.FRIDAY;
-                break;
-            case "saturday":
-                retVal = Calendar.SATURDAY;
-                break;
-
-        }
-        return retVal;
-    }*/
-
 }

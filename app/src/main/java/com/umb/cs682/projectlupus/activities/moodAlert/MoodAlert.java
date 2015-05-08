@@ -16,6 +16,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -170,7 +171,7 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
 
                     adapter.notifyDataSetChanged();
                     alertsList.setVisibility(View.VISIBLE);
-                    displayToast();
+                    Utils.displayToast(getApplicationContext(), new StringBuilder().append("Alert set at ").append(selectedTime).toString());
                 }
             };
 
@@ -179,10 +180,6 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
         isNew = false;
         selID = remIDs.get(position);
         timePicker.show();
-    }
-
-    private void displayToast() {
-        Toast.makeText(this, new StringBuilder().append("Alert set at ").append(selectedTime), Toast.LENGTH_SHORT).show();
     }
 
     @Override

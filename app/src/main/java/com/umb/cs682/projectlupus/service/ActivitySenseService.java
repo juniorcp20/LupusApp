@@ -124,6 +124,10 @@ public class ActivitySenseService {
         return stepCount;
     }
 
+    public void resetCurrentStepCount(){
+        stepCount = 0;
+    }
+
     private ServiceConnection pedometerConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -152,8 +156,6 @@ public class ActivitySenseService {
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                //todo remove the toast
-                Toast.makeText(context, "Saving Data!", Toast.LENGTH_SHORT).show();
                 addActSenseData(new Date());
             }
         };
@@ -189,6 +191,7 @@ public class ActivitySenseService {
         if(!(query.count() == 0)) {
             bo = getActSenseDatabyDate(date);
             bo.setStepCount(bo.getStepCount() + getCurrentStepCount());
+            resetCurrentStepCount();
             activitySenseDao.update(bo);
         }else{
             bo = new ActivitySenseBO(null, getCurrentStepCount(), DateTimeUtil.toDate(date));

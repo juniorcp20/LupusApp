@@ -108,6 +108,7 @@
                 android:id="@+id/et_dosage"
                 android:textColor="@color/darkPurple"
                 android:textColorHint="@color/dullPurple"
+                android:backgroundTint="@color/darkPurple"
                 android:layout_weight="1"
                 android:hint="@string/a_add_medicine_dosage_hint" />
             <Space

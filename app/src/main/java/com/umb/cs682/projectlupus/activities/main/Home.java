@@ -34,6 +34,9 @@ import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -52,6 +55,7 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
     private LineChart moodChart = null;
     private LineChart activityChart = null;
     private BarChart medicineChart = null;
+    private TextView stepCountText;
 
 	/**
 	 * Fragment managing the behaviors, interactions and presentation of the
@@ -83,6 +87,7 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
 		mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
 		    (DrawerLayout) findViewById(R.id.drawer_layout));
 
+        stepCountText = (TextView) findViewById(R.id.tv_home_step_count);
         // Load dummy data for testing
         moodLevelService.loadDummyData();
         activitySenseService.loadDummyData();
@@ -183,6 +188,14 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
 
 	}
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Date now = new Date();
+        activitySenseService.addActSenseData(now);
+        String stepCount = String.valueOf(activitySenseService.getActSenseDatabyDate(now).getStepCount());
+        stepCountText.setText(stepCount);
+    }
 
     @Override
 	public void onNavigationDrawerItemSelected(int position) {

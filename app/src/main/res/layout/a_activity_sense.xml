@@ -27,10 +27,15 @@
             android:textSize="20dip"
             style="@style/PurpleFont">
         </TextView>
+
         <Spinner android:id="@+id/sp_sensitivity"
-            android:layout_width="fill_parent" android:layout_height="wrap_content"
-            android:prompt="@string/sensitivity" android:hint="@string/sensitivity_hint">
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:prompt="@string/sensitivity"
+            android:hint="@string/sensitivity_hint">
+
         </Spinner>
+
     </LinearLayout>
     <ToggleButton android:id="@+id/tb_start_stop"
         android:layout_width="fill_parent"	android:layout_height="wrap_content"

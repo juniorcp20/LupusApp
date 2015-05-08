@@ -11,6 +11,7 @@
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_below="@id/space25"
         android:id="@+id/linearLayout">
         <TextView android:id="@+id/tv_steps"
             android:layout_width="fill_parent" android:layout_height="wrap_content"
@@ -31,16 +32,16 @@
             android:prompt="@string/sensitivity" android:hint="@string/sensitivity_hint">
         </Spinner>
     </LinearLayout>
-        <ToggleButton android:id="@+id/tb_start_stop"
-            android:layout_width="fill_parent"	android:layout_height="wrap_content"
-            android:textOn="@string/a_activity_sense_toggle_on" android:textOff="@string/a_activity_sense_toggle_off"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/round_corner_button"
-            android:layout_below="@+id/space7"
-            android:layout_centerHorizontal="true"
-            android:textColor="#ffffffff"
-            android:textAppearance="?android:attr/textAppearanceLarge">
-        </ToggleButton>
+    <ToggleButton android:id="@+id/tb_start_stop"
+        android:layout_width="fill_parent"	android:layout_height="wrap_content"
+        android:textOn="@string/a_activity_sense_toggle_on" android:textOff="@string/a_activity_sense_toggle_off"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/round_corner_button"
+        android:layout_below="@+id/space7"
+        android:layout_centerHorizontal="true"
+        android:textColor="#ffffffff"
+        android:textAppearance="?android:attr/textAppearanceLarge">
+    </ToggleButton>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -73,48 +74,17 @@
     <Space
         android:layout_width="fill_parent"
         android:layout_height="20px"
+        android:layout_below="@+id/textView7"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/space25" />
+
+    <Space
+        android:layout_width="fill_parent"
+        android:layout_height="20px"
         android:layout_below="@+id/linearLayout"
         android:layout_centerHorizontal="true"
         android:id="@+id/space7" />
 
-    <!--<Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Save"
-        android:id="@+id/save"
-        android:layout_below="@+id/tb_start_stop"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Show"
-        android:id="@+id/show"
-        android:layout_alignBottom="@+id/save"
-        android:layout_toRightOf="@+id/save"
-        android:layout_toEndOf="@+id/save" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Delete"
-        android:id="@+id/delete"
-        android:layout_below="@+id/tb_start_stop"
-        android:layout_toRightOf="@+id/show"
-        android:layout_toEndOf="@+id/show" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/stepcount"
-        android:layout_below="@+id/save"
-        android:layout_toRightOf="@+id/save"
-        android:layout_toEndOf="@+id/save" /> -->
 
 </RelativeLayout>

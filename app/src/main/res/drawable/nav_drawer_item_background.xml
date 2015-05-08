@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/lightPurple" android:state_activated="true" />
-    <item android:drawable="@color/lightPurple" android:state_selected="true" />
-    <item android:drawable="@color/lightPurple" android:state_pressed="true" />
-    <item android:drawable="@color/white" />
-</selector>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:type="linear"
+        android:startColor="@color/lightPurple"
+        android:endColor="@color/white"
+        android:angle="180"/>
+</shape>

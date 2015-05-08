@@ -12,7 +12,6 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.ValueFormatter;
 import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.activities.common.About;
-import com.umb.cs682.projectlupus.activities.common.Help;
 import com.umb.cs682.projectlupus.activities.common.Profile;
 import com.umb.cs682.projectlupus.activities.common.Settings;
 import com.umb.cs682.projectlupus.activities.medicineAlert.MedicineAlert;
@@ -224,9 +223,6 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
                 intent = new Intent(this, Settings.class);
                 break;
             case 5:
-                intent = new Intent(this, Help.class);
-                break;
-            case 6:
                 intent = new Intent(this, About.class);
                 break;
         }
@@ -246,7 +242,7 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
 			// Only show items in the action bar relevant to this screen
 			// if the drawer is not showing. Otherwise, let the drawer
 			// decide what to show in the action bar.
-			getMenuInflater().inflate(R.menu.home, menu);
+			getMenuInflater().inflate(R.menu.m_action_empty, menu);
 			restoreActionBar();
 			return true;
 		}
@@ -255,13 +251,6 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
 		return super.onOptionsItemSelected(item);
 	}
 

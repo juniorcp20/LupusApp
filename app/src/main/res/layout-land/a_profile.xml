@@ -10,16 +10,24 @@
     android:id="@+id/profile">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Please fill the information below"
         android:id="@+id/textView5"
         style="@style/PurpleFont"/>
 
+    <Space
+        android:layout_width="fill_parent"
+        android:layout_height="30px"
+        android:layout_below="@+id/textView5"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/space26" />
+
 
     <TableLayout
         android:layout_width="fill_parent"
+        android:layout_below="@+id/space26"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:background="@drawable/panel_background"

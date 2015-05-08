@@ -201,8 +201,8 @@ public class ActivitySense extends Activity {
         }
 
 
-        modesAdapter = ArrayAdapter.createFromResource(this, R.array.arr_sensitivity, android.R.layout.simple_spinner_item);
-        modesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        modesAdapter = ArrayAdapter.createFromResource(this, R.array.arr_sensitivity, R.layout.li_spinner);
+        modesAdapter.setDropDownViewResource(R.layout.li_spinner);
         sensSpinner.setOnItemSelectedListener(sensListener);
         sensSpinner.setAdapter(modesAdapter);
         sensSpinner.setSelection(idx);

@@ -8,5 +8,6 @@
     <dimen name="main_layout_padding">20dp</dimen>
     <dimen name="panel_padding_compact">10dp</dimen>
     <dimen name="gradient_radius">300dp</dimen>
+    <dimen name="gradient_radius_about">400dp</dimen>
 
 </resources>

@@ -22,6 +22,7 @@ import com.umb.cs682.projectlupus.config.LupusMate;
 import com.umb.cs682.projectlupus.service.ActivitySenseService;
 import com.umb.cs682.projectlupus.service.MedicineService;
 import com.umb.cs682.projectlupus.service.MoodLevelService;
+import com.umb.cs682.projectlupus.service.ProfileService;
 import com.umb.cs682.projectlupus.util.Constants;
 import com.umb.cs682.projectlupus.util.SharedPreferenceManager;
 
@@ -71,6 +72,7 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
     private MoodLevelService moodLevelService = LupusMate.getMoodLevelService();
     private ActivitySenseService activitySenseService = LupusMate.getActivitySenseService();
     private MedicineService medicineService = LupusMate.getMedicineService();
+    private ProfileService profileService = LupusMate.getProfileService();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +83,7 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
         mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         mActionBar.setSelectedNavigationItem(-1);
 		mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.navigation_drawer);
-		mTitle = getTitle();
+		mTitle = "Hi "+ profileService.getProfileData().getUserName();
 
 		// Set up the drawer.
 		mNavigationDrawerFragment.setUp(R.id.navigation_drawer,

@@ -97,7 +97,7 @@
                         android:textSize="20dp"
                         android:gravity="center"
                         android:text="56256"
-                        android:id="@+id/textView16"
+                        android:id="@+id/tv_home_step_count"
                         style="@style/PurpleFont"/>
                 </LinearLayout>
 

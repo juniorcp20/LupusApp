@@ -19,8 +19,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 
-/*import static com.umb.cs682.projectlupus.config.LupusMate.configureServices;
-import static com.umb.cs682.projectlupus.config.LupusMate.setAppContext;*/
+import static com.umb.cs682.projectlupus.config.LupusMate.configureServices;
+import static com.umb.cs682.projectlupus.config.LupusMate.setAppContext;
 
 public class AlarmSetterService extends IntentService {
     private static final String TAG = "AlarmSetterService";
@@ -35,12 +35,12 @@ public class AlarmSetterService extends IntentService {
         super(TAG);
         matcher = new IntentFilter();
         matcher.addAction(CREATE);
-       /* try {
+       try {
             setAppContext(getApplicationContext());
             configureServices();
         }catch (Exception e){
             e.printStackTrace();
-        }*/
+        }
         context = LupusMate.getAppContext();
         reminderService = LupusMate.getReminderService();
         medicineService = LupusMate.getMedicineService();

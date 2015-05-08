@@ -149,6 +149,7 @@ public class PedometerService extends Service {
     }
 
     public void setSensitivity(int value){
+        sensitivity = value;
         StepDetector.setSensitivity(value);
     }
 

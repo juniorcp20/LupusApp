@@ -40,19 +40,14 @@ public class ActivitySense extends Activity {
     private String DEFAULT_SENSITIVITY = "1";
     private boolean isOn = false;
 
-    private static ToggleButton startStopButton = null;
-    private static TextView stepCountText = null;
+    private ToggleButton startStopButton = null;
+    private TextView stepCountText = null;
+    Spinner sensSpinner = null;
 
     private static ArrayList<String> sensArrayList = null;
     private static ArrayAdapter<CharSequence> modesAdapter = null;
 
     private ActivitySenseService service = LupusMate.getActivitySenseService();
-    private static Handler handler = null;
-
-    /*private TextView stepCountTextDup = null;
-    private Button save = null;
-    private Button show = null;
-    private Button delete = null;*/
 
     /**
      * {@inheritDoc}
@@ -63,62 +58,23 @@ public class ActivitySense extends Activity {
         setContentView(R.layout.a_activity_sense);
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        stepCountText = (TextView) this.findViewById(R.id.tv_steps);
+        sensSpinner = (Spinner) findViewById(R.id.sp_sensitivity);
+        startStopButton = (ToggleButton) this.findViewById(R.id.tb_start_stop);
+        startStopButton.setOnCheckedChangeListener(startStopListener);
+
+        initSensitivitySpinner();
+        setHandler();
+        service.setupAlarm();
+
+
         if(isInit){
             actionBar.setTitle(R.string.title_init_activity_sense);
         }else {
             actionBar.setTitle(R.string.title_activity_sense);
+            startStopButton.setChecked(SharedPreferenceManager.getBooleanPref(Constants.ACTIVITY_SENSE_SETTING));
         }
-        startStopButton = (ToggleButton) this.findViewById(R.id.tb_start_stop);
-        startStopButton.setOnCheckedChangeListener(startStopListener);
-
-        String sensStr = String.valueOf(DEFAULT_SENSITIVITY);
-        int idx = 0;
-
-        if (sensArrayList == null) {
-            String[] sensArray = getResources().getStringArray(R.array.arr_sensitivity);
-            sensArrayList = new ArrayList<String>(Arrays.asList(sensArray));
-        }
-        if (sensArrayList.contains(sensStr)) {
-            idx = sensArrayList.indexOf(sensStr);
-        }
-
-        Spinner sensSpinner = (Spinner) findViewById(R.id.sp_sensitivity);
-        modesAdapter = ArrayAdapter.createFromResource(this, R.array.arr_sensitivity, android.R.layout.simple_spinner_item);
-        modesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sensSpinner.setOnItemSelectedListener(sensListener);
-        sensSpinner.setAdapter(modesAdapter);
-        sensSpinner.setSelection(idx);
-
-        stepCountText = (TextView) this.findViewById(R.id.tv_steps);
-        setHandler();
-
-        /*stepCountTextDup = (TextView) findViewById(R.id.stepcount);
-        save = (Button) findViewById(R.id.save);
-        show = (Button) findViewById(R.id.show);
-        delete = (Button) findViewById(R.id.delete);
-
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveData();
-            }
-        });
-
-        show.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showData();
-            }
-        });
-
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deleteRows();
-            }
-        });*/
-
-        service.setupAlarm();
     }
 
     @Override
@@ -231,11 +187,24 @@ public class ActivitySense extends Activity {
         service.addActSenseData(new Date());
     }
 
-   /* public void showData(){
-        stepCountTextDup.setText(String.valueOf(service.getStoredStepCount(new Date())));
-    }*/
+    private void initSensitivitySpinner(){
+        String savedSensitivity = String.valueOf(SharedPreferenceManager.getIntPref(Constants.SENSITIVITY_VALUE));
+        String sensStr =  savedSensitivity.equals("-1") ? String.valueOf(DEFAULT_SENSITIVITY) : savedSensitivity;
+        int idx = 0;
 
-    public void deleteRows(){
-        service.deleteData(new Date());
+        if (sensArrayList == null) {
+            String[] sensArray = getResources().getStringArray(R.array.arr_sensitivity);
+            sensArrayList = new ArrayList<String>(Arrays.asList(sensArray));
+        }
+        if (sensArrayList.contains(sensStr)) {
+            idx = sensArrayList.indexOf(sensStr);
+        }
+
+
+        modesAdapter = ArrayAdapter.createFromResource(this, R.array.arr_sensitivity, android.R.layout.simple_spinner_item);
+        modesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sensSpinner.setOnItemSelectedListener(sensListener);
+        sensSpinner.setAdapter(modesAdapter);
+        sensSpinner.setSelection(idx);
     }
 }

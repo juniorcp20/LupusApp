@@ -15,13 +15,13 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageView"
         android:src="@drawable/splash_screen_logo"
-        android:layout_marginTop="75dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_above="@+id/about_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="53dp" />
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="30dp"
         android:layout_below="@+id/imageView"
         android:layout_alignLeft="@+id/imageView"
         android:layout_alignStart="@+id/imageView"
@@ -30,14 +30,14 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:id="@+id/about_text"
         android:text="@string/about_text"
         style="@style/PurpleFont"
         android:gravity="center"
-        android:layout_below="@+id/space"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 
 

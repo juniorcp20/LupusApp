@@ -12,7 +12,7 @@
     <string name="welcome_button">Go!</string>
 
     <!--About-->
-    <string name="about_text">This project was made as a part of capstone requirement for \n <b> Dr. Ramon Bonegio </b> \n \n By \n Nithya Konda, Lipsa Ray, Kun Mao and Quynh Vo \n \nUniversity of Massachusetts, Boston \n Class of 2015 </string>
+    <string name="about_text">This project was made as a part of capstone requirement for \n <b> Dr. Ramon Bonegio </b> \n \n In liason with \n <a href= "www.lupus.org">The lupus foundation of America</a> \n <a href = "www.lupusne.org">The lupus foundation of New England</a> \n \n By \n Nithya Konda, Lipsa Ray, Kun Mao and Quynh Vo \n \nUniversity of Massachusetts, Boston \n Class of 2015 </string>
 
 
 

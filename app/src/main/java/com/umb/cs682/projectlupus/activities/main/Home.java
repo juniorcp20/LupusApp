@@ -95,7 +95,8 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
         medicineService.loadDummyData();
 
         Iterator iterator;
-        Date date;
+        //Date date;
+        int xIndex;
         //Calendar calendar = Calendar.getInstance();
         //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("M yyyy");
 
@@ -112,24 +113,31 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
         for (int i = 0;i < Days.daysBetween(jodaStartDate,now).getDays();i ++) {
             moodXVals.add();
         }*/
+        xIndex = 0;
 
         while (iterator.hasNext()){
             Map.Entry pair = (Map.Entry) iterator.next();
             //calendar.setTime((Date)pair.getKey());
-            date = (Date) pair.getKey();
-            String[] splitStrings = date.toString().split(" ");
-            timeVsMoodAL.add(new Entry((Float) pair.getValue(),date.getDate() - 1));
+            //date = (Date) pair.getKey();
+            String[] splitStrings = ((Date) pair.getKey()).toString().split(" ");
+            timeVsMoodAL.add(new Entry((Float) pair.getValue(),xIndex ++));
             moodXVals.add(splitStrings[0] + " " + splitStrings[1] + " " + splitStrings[2] + " " + splitStrings[splitStrings.length - 1]);
         }
 
         LineDataSet timeVsMoodDataset = new LineDataSet(timeVsMoodAL,null);
+        timeVsMoodDataset.setColor(getResources().getColor(R.color.darkPurple));
+        timeVsMoodDataset.setCircleColor(getResources().getColor(R.color.lightPurple));
         LineData timeVsMoodData = new LineData(moodXVals,timeVsMoodDataset);
+        timeVsMoodData.setDrawValues(false);
         moodChart = (LineChart) findViewById(R.id.mood_chart);
         moodChart.setData(timeVsMoodData);
         moodChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         moodChart.setDescription(null);
         moodChart.getAxisRight().setEnabled(false);
         moodChart.getLegend().setEnabled(false);
+        moodChart.setGridBackgroundColor(getResources().getColor(android.R.color.transparent));
+        moodChart.getXAxis().setTextColor(getResources().getColor(R.color.darkPurple));
+        moodChart.getAxisLeft().setTextColor(getResources().getColor(R.color.darkPurple));
 
         //moodChart.setScaleEnabled(true);
         //moodChart.setDragEnabled(true);
@@ -150,42 +158,59 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
         ArrayList<Entry> timeVsStepCountAL = new ArrayList<>();
         TreeMap<Date,Integer> timeVsStepCountMap = activitySenseService.getTimeVsStepCount();
         iterator = timeVsStepCountMap.entrySet().iterator();
+
         ArrayList<String> stepXVals = new ArrayList<>();
+
+        xIndex = 0;
+
         while (iterator.hasNext()){
             Map.Entry pair = (Map.Entry) iterator.next();
-            date = (Date) pair.getKey();
-            String[] splitStrings = date.toString().split(" ");
-            timeVsStepCountAL.add(new Entry(((Integer)pair.getValue()).floatValue(), date.getDate() - 1));
+            //date = (Date) pair.getKey();
+            String[] splitStrings = ((Date) pair.getKey()).toString().split(" ");
+            timeVsStepCountAL.add(new Entry(((Integer)pair.getValue()).floatValue(),xIndex ++));
             stepXVals.add(splitStrings[0] + " " + splitStrings[1] + " " + splitStrings[2] + " " + splitStrings[splitStrings.length - 1]);
         }
+
         LineDataSet timeVsStepCountDataset = new LineDataSet(timeVsStepCountAL,null);
+        timeVsStepCountDataset.setColor(getResources().getColor(R.color.darkPurple));
+        timeVsStepCountDataset.setCircleColor(getResources().getColor(R.color.lightPurple));
         LineData timeVsStepCountData = new LineData(stepXVals,timeVsStepCountDataset);
+        timeVsStepCountData.setDrawValues(false);
         activityChart = (LineChart) findViewById(R.id.activity_chart);
         activityChart.setData(timeVsStepCountData);
         activityChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         activityChart.setDescription(null);
         activityChart.getAxisRight().setEnabled(false);
         activityChart.getLegend().setEnabled(false);
+        activityChart.setGridBackgroundColor(getResources().getColor(android.R.color.transparent));
+        activityChart.getXAxis().setTextColor(getResources().getColor(R.color.darkPurple));
+        activityChart.getAxisLeft().setTextColor(getResources().getColor(R.color.darkPurple));
 
         // Set up the medicine chart
         ArrayList<BarEntry> mednameVsTakenPercentageAL = new ArrayList<>();
         TreeMap<String,Float> mednameVsTakenPercentageMap = medicineService.getMednameVsTakenPercentage();
         iterator = mednameVsTakenPercentageMap.entrySet().iterator();
         ArrayList<String> medicineXVals = new ArrayList<>();
-        int i = 0;
+        //int i = 0;
+        xIndex = 0;
         while (iterator.hasNext()) {
             Map.Entry pair = (Map.Entry) iterator.next();
-            mednameVsTakenPercentageAL.add(new BarEntry((Float) pair.getValue(),i++));
+            mednameVsTakenPercentageAL.add(new BarEntry((Float) pair.getValue(),xIndex ++));
             medicineXVals.add(pair.getKey().toString());
         }
         BarDataSet mednameVsTakenPercentageDataset = new BarDataSet(mednameVsTakenPercentageAL,null);
+        mednameVsTakenPercentageDataset.setColor(getResources().getColor(R.color.lightPurple));
         BarData mednameVsTakenPercentageData = new BarData(medicineXVals,mednameVsTakenPercentageDataset);
+        mednameVsTakenPercentageData.setValueTextColor(getResources().getColor(R.color.darkPurple));
         medicineChart = (BarChart) findViewById(R.id.medicine_chart);
         medicineChart.setData(mednameVsTakenPercentageData);
         medicineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         medicineChart.setDescription(null);
         medicineChart.getAxisRight().setEnabled(false);
         medicineChart.getLegend().setEnabled(false);
+        medicineChart.setGridBackgroundColor(getResources().getColor(android.R.color.transparent));
+        medicineChart.getXAxis().setTextColor(getResources().getColor(R.color.darkPurple));
+        medicineChart.getAxisLeft().setTextColor(getResources().getColor(R.color.darkPurple));
 
 	}
 

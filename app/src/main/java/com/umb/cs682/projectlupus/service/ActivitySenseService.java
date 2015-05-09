@@ -172,7 +172,12 @@ public class ActivitySenseService {
         if(getCount() == 0) {
             Calendar cal = Calendar.getInstance();
             Random random = new Random();
-            for (int i = 1; i < 20; i++) {
+            for (int i = 1; i <= 31; i++) {
+                cal.set(2015, 3, i);
+                bo = new ActivitySenseBO(null, random.nextInt(2000), DateTimeUtil.toDate(new Date(cal.getTimeInMillis())));
+                activitySenseDao.insert(bo);
+            }
+            for (int i = 1; i <= 11; i++) {
                 cal.set(2015, 4, i);
                 bo = new ActivitySenseBO(null, random.nextInt(2000), DateTimeUtil.toDate(new Date(cal.getTimeInMillis())));
                 activitySenseDao.insert(bo);

@@ -48,17 +48,8 @@ public class ProfileService {
         }
     }
 
-    public void editDisplayName(String userName){
-        CountQuery query = profileDao.queryBuilder().buildCount();
-        if(query.count() == 1) {
-            bo = profileDao.queryBuilder().uniqueOrThrow();
-            bo.setUserName(userName);
-            profileDao.update(bo);
-        }
-    }
-
     public ProfileBO getProfileData(){
-        bo = profileDao.queryBuilder().unique();
+        bo = profileDao.queryBuilder().uniqueOrThrow();
         return bo;
     }
 }

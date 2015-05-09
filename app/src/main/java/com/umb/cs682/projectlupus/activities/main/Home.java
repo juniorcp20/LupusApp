@@ -47,9 +47,11 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
+import de.greenrobot.dao.DaoException;
+
 public class Home extends Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks{
     private static final String TAG = ".activities.main";
-
+    String username;
     private boolean firstRun = true;
 
     private LineChart moodChart = null;
@@ -82,7 +84,6 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
         mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         mActionBar.setSelectedNavigationItem(-1);
 		mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.navigation_drawer);
-		mTitle = "Hi "+ profileService.getProfileData().getUserName();
 
 		// Set up the drawer.
 		mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
@@ -95,10 +96,7 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
         medicineService.loadDummyData();
 
         Iterator iterator;
-        //Date date;
         int xIndex;
-        //Calendar calendar = Calendar.getInstance();
-        //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("M yyyy");
 
         // Set up the mood chart
         ArrayList<Entry> timeVsMoodAL = new ArrayList<>();
@@ -106,19 +104,10 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
         iterator = timeVsMoodMap.entrySet().iterator();
 
         ArrayList<String> moodXVals = new ArrayList<>();
-        /*Date javaStartDate = timeVsMoodMap.firstKey();
-        MutableDateTime jodaStartDate = new MutableDateTime();
-        jodaStartDate.setDate(javaStartDate.getYear(), javaStartDate.getMonth(), javaStartDate.getDate());
-        DateTime now = DateTime.now();
-        for (int i = 0;i < Days.daysBetween(jodaStartDate,now).getDays();i ++) {
-            moodXVals.add();
-        }*/
         xIndex = 0;
 
         while (iterator.hasNext()){
             Map.Entry pair = (Map.Entry) iterator.next();
-            //calendar.setTime((Date)pair.getKey());
-            //date = (Date) pair.getKey();
             String[] splitStrings = ((Date) pair.getKey()).toString().split(" ");
             timeVsMoodAL.add(new Entry((Float) pair.getValue(),xIndex ++));
             moodXVals.add(splitStrings[0] + " " + splitStrings[1] + " " + splitStrings[2] + " " + splitStrings[splitStrings.length - 1]);
@@ -139,20 +128,6 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
         moodChart.getXAxis().setTextColor(getResources().getColor(R.color.darkPurple));
         moodChart.getAxisLeft().setTextColor(getResources().getColor(R.color.darkPurple));
 
-        //moodChart.setScaleEnabled(true);
-        //moodChart.setDragEnabled(true);
-
-        //testing
-        /*ArrayList<Entry> timeVsMoodAL = new ArrayList<>();
-        ArrayList<String> xVals = new ArrayList<>();
-        for (int i = 0;i < 5; i ++){
-            timeVsMoodAL.add(new Entry(i*i,i));
-            xVals.add(i + "");
-        }
-        LineDataSet timeVsMoodDataset = new LineDataSet(timeVsMoodAL,"what does this do?");
-        LineData timeVsMoodData = new LineData(xVals,timeVsMoodDataset);
-        moodChart = (LineChart) findViewById(R.id.mood_chart);
-        moodChart.setData(timeVsMoodData);*/
 
         // Set up the activity chart
         ArrayList<Entry> timeVsStepCountAL = new ArrayList<>();
@@ -165,7 +140,6 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
 
         while (iterator.hasNext()){
             Map.Entry pair = (Map.Entry) iterator.next();
-            //date = (Date) pair.getKey();
             String[] splitStrings = ((Date) pair.getKey()).toString().split(" ");
             timeVsStepCountAL.add(new Entry(((Integer)pair.getValue()).floatValue(),xIndex ++));
             stepXVals.add(splitStrings[0] + " " + splitStrings[1] + " " + splitStrings[2] + " " + splitStrings[splitStrings.length - 1]);
@@ -191,7 +165,6 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
         TreeMap<String,Float> mednameVsTakenPercentageMap = medicineService.getMednameVsTakenPercentage();
         iterator = mednameVsTakenPercentageMap.entrySet().iterator();
         ArrayList<String> medicineXVals = new ArrayList<>();
-        //int i = 0;
         xIndex = 0;
         while (iterator.hasNext()) {
             Map.Entry pair = (Map.Entry) iterator.next();
@@ -221,6 +194,7 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
         activitySenseService.addActSenseData(now);
         String stepCount = String.valueOf(activitySenseService.getActSenseDatabyDate(now).getStepCount());
         stepCountText.setText(stepCount);
+        restoreActionBar();
     }
 
     @Override
@@ -258,6 +232,12 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
 		ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 		actionBar.setDisplayShowTitleEnabled(true);
+        try {
+            username = profileService.getProfileData().getUserName();
+        }catch(DaoException e){
+            username = "";
+        }
+        mTitle = "Hi "+ username;
 		actionBar.setTitle(mTitle);
 	}
 

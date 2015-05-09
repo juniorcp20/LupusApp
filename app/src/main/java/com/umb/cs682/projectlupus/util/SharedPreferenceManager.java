@@ -2,17 +2,11 @@ package com.umb.cs682.projectlupus.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.config.LupusMate;
 
-/**
- * Created by Nithya Kiran on 3/24/2015.
- */
 public class SharedPreferenceManager {
-    //Shared Preferences file name
     private static String PREFS_FILE = "App_Prefs";
     private static SharedPreferences prefs;
     private static Context context = LupusMate.getAppContext();

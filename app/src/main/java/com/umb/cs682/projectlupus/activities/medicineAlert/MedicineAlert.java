@@ -36,7 +36,6 @@ import java.util.Date;
 
 public class MedicineAlert extends Activity {
     private static final String TAG = "activities.medAlert";
-    //private boolean isInit = SharedPreferenceManager.getBooleanPref(Constants.IS_FIRST_RUN);
     private boolean isInit = SharedPreferenceManager.isFirstRun();
 
     Button addMed;
@@ -76,7 +75,6 @@ public class MedicineAlert extends Activity {
             actionBar.setTitle(R.string.title_init_medicine_alert);
             medService.initMedicineDB();
 
-            //isInit = true;**
         } else {
             actionBar.setTitle(R.string.title_medicine_alert);
         }
@@ -84,7 +82,6 @@ public class MedicineAlert extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         if(isInit) {
             getMenuInflater().inflate(R.menu.m_action_finish, menu);
         }
@@ -93,9 +90,6 @@ public class MedicineAlert extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a medName activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_finish) {
             next();
@@ -103,7 +97,6 @@ public class MedicineAlert extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    //To identify the medName activity at run-time and provide up navigation accordingly
     @Override
     public Intent getParentActivityIntent(){
         Intent newIntent = null;
@@ -152,13 +145,10 @@ public class MedicineAlert extends Activity {
         if (medName != null){
             isNew = getIntent().getBooleanExtra(Constants.IS_NEW_MED, true);
             if(isNew) {
-               /* medNames.add(medName);
-                adapter.notifyDataSetChanged();
-                medNamesListView.setVisibility(View.VISIBLE);*/
+
                 Utils.displayToast(this, "Added "+medName);
             }else{
-               /* medNames.set(currMed, medName);
-                adapter.notifyDataSetChanged();*/
+
                 if(medNames.size()>0)
                 Utils.displayToast(this, "Updated "+medName);
             }

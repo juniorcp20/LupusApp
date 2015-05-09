@@ -29,7 +29,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,8 +37,6 @@ import de.greenrobot.dao.DaoException;
 
 public class MoodAlert extends Activity implements AdapterView.OnItemClickListener{
     private static final String TAG = "activities.moodAlert";
-    //private String parent = null;
-    //private boolean isInit = SharedPreferenceManager.getBooleanPref(Constants.IS_FIRST_RUN);
     private boolean isInit = SharedPreferenceManager.isFirstRun();
     private boolean isNew = false;
 
@@ -49,7 +46,6 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
     
     private StringBuilder selectedTime;
     private ArrayList<Long> remIDs;
-    //private int selTimePos;
 
     private Button addAlertbtn;
     private ListView alertsList;
@@ -66,11 +62,9 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.a_mood_alert);
-        /*parent = getIntent().getStringExtra(Constants.PARENT_ACTIVITY_NAME);
-        Log.i(Constants.MOOD_ALERT, parent);*/
+
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        //if(parent.equals(Constants.PROFILE)){
         if(isInit){
             actionBar.setTitle(R.string.title_init_mood_alert);
         }else {
@@ -106,8 +100,6 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //if(parent.equals(Constants.PROFILE)) {
         if(isInit){
             getMenuInflater().inflate(R.menu.m_action_next, menu);
         }
@@ -116,9 +108,6 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_next) {
             next();
@@ -137,10 +126,10 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
                     selMin = minute;
                     String am_pm = null;
                     if(!DateTimeUtil.is24hrFormat) {
-                        if (hourOfDay > 12)         //hourofDay =13
+                        if (hourOfDay > 12)
                         {
-                            selHour = hourOfDay - 12;     //hour=1
-                            am_pm = "PM";                   //PM
+                            selHour = hourOfDay - 12;
+                            am_pm = "PM";
                         } else {
                             selHour = hourOfDay;
                             am_pm = "AM";
@@ -188,7 +177,6 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
     }
 
 
-    //To identify the parent activity at run-time and provide up navigation accordingly
     @Override
     public Intent getParentActivityIntent(){
         Intent newIntent = null;
@@ -226,7 +214,6 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
                 public void onClick(View v) {
                     int currRemID = remIDs.get(position).intValue();
                     int requestCode = currRemID;
-                    //AlarmUtil.cancelDailyRepeatingAlarm(getApplicationContext(), Constants.MOOD_REMINDER, remIDs.get(position).intValue(), remIDs.get(position).intValue());
                     AlarmUtil.cancelAlarm(getApplicationContext(),requestCode, currRemID, Constants.MOOD_REMINDER, Constants.DAILY, null);
                     service.deleteMoodReminder(remIDs.get(position));
                     remIDs.remove(position);

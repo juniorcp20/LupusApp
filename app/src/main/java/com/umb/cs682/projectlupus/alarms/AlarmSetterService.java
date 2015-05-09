@@ -95,7 +95,6 @@ public class AlarmSetterService extends IntentService {
             min = cal.get(Calendar.MINUTE);
             switch(alarmInterval){
                 case Constants.DAILY:
-                   // AlarmUtil.setDailyRepeatingAlarm(context, Constants.MED_REMINDER, remID, requestCode, cal);
                     break;
                 case Constants.WEEKLY:
                     dayOfWeek = reminderBO.getReminderDayOrDate();

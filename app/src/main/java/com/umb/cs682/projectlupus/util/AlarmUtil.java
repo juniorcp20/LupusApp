@@ -10,11 +10,8 @@ import com.umb.cs682.projectlupus.alarms.MedicineAlarmReceiver;
 import com.umb.cs682.projectlupus.alarms.MoodAlarmReceiver;
 
 import java.util.Calendar;
-import java.util.TimeZone;
 
-/**
- * Created by Nithya Kiran on 4/27/2015.
- */
+
 public class AlarmUtil {
     private static final String TAG = "util.AlarmUtil";
     private static AlarmManager alarmManager;

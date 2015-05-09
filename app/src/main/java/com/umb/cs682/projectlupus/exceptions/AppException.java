@@ -1,8 +1,6 @@
 package com.umb.cs682.projectlupus.exceptions;
 
-/**
- * Created by Nithya Kiran on 5/2/2015.
- */
+
 public class AppException extends Exception{
     private String message = null;
 

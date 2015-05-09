@@ -53,7 +53,7 @@ public class MedicineAlarmReceiver extends BroadcastReceiver {
         Intent intent = new Intent(context, MedicinePopUp.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(Constants.REMINDER_ID, reminderID);
-        int notifRequestCode = 6000 + requestCode; // to uniquely identify notification pending intents from normal pending intents
+        int notifRequestCode = 6000 + requestCode;
         PendingIntent pendingIntent = PendingIntent.getActivity(context, notifRequestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Notification.Builder notificationBuilder = new Notification.Builder(context)
@@ -83,7 +83,6 @@ public class MedicineAlarmReceiver extends BroadcastReceiver {
 
     private void reScheduleAlarm(Context context, Intent intent) throws AppException {
         long currentStartTime = intent.getLongExtra(Constants.START_TIME, -1);
-        //long nextStartTime = 0;
         Calendar futureCal = Calendar.getInstance(TimeZone.getDefault());
         Calendar currentCal = Calendar.getInstance(TimeZone.getDefault());
         currentCal.setTimeInMillis(currentStartTime);
@@ -106,7 +105,6 @@ public class MedicineAlarmReceiver extends BroadcastReceiver {
                 break;
         }
         if(reminderID != -1 && requestCode != -1) {
-           // AlarmUtil.setOneShotAlarm(context, Constants.MED_REMINDER, reminderID, requestCode, alarmInterval, nextStartTime);
             AlarmUtil.setAlarm(context, requestCode, reminderID, Constants.MED_REMINDER, alarmInterval, futureCal);
             Log.i(TAG, "Rescheduled alarm, reminder ID = "+reminderID);
         }else{
@@ -114,28 +112,18 @@ public class MedicineAlarmReceiver extends BroadcastReceiver {
         }
     }
 
-    //private long getNextMonthStartTime(Calendar cal) {
     private Calendar getNextMonthStartTime(Calendar cal) {
-        //cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         int currentMonth = cal.get(Calendar.MONTH);
         currentMonth++;
         if(currentMonth > Calendar.DECEMBER){
-            // alright, reset month to jan and forward year by 1 e.g fro 2013 to 2014
             currentMonth = Calendar.JANUARY;
-            // Move year ahead as well
             cal.set(Calendar.YEAR, cal.get(Calendar.YEAR)+1);
         }
         cal.set(Calendar.MONTH, currentMonth);
-        // get the maximum possible days in this month
-        //int maximumDays = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-        //return cal.getTimeInMillis();// + AlarmManager.INTERVAL_DAY*maximumDays;
         return cal;
     }
 
-    //private long getNextWeekStartTime(Calendar cal) {
     private Calendar getNextWeekStartTime(Calendar cal) {
-        //cal.set(Calendar.DAY_OF_WEEK, dayOfWeek);
-        //return cal.getTimeInMillis()+ AlarmManager.INTERVAL_DAY*7;
         long timeInMillis = cal.getTimeInMillis()+ AlarmManager.INTERVAL_DAY*7;
         cal.setTimeInMillis(timeInMillis);
         return cal;

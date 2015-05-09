@@ -61,9 +61,4 @@
         android:layout_alignParentEnd="true"
         android:background="@drawable/panel_background"/>
 
-
-
-
-
-
 </RelativeLayout>

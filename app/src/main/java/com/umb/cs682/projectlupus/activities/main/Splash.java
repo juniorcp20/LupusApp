@@ -1,9 +1,5 @@
 package com.umb.cs682.projectlupus.activities.main;
 
-/**
- * Created by mark on 4/27/15.
- */
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,9 +12,6 @@ import com.umb.cs682.projectlupus.activities.common.Welcome;
 import com.umb.cs682.projectlupus.config.LupusMate;
 import com.umb.cs682.projectlupus.util.SharedPreferenceManager;
 
-/**
- * Created by mark on 4/27/15.
- */
 public class Splash extends Activity {
 
     @Override
@@ -44,8 +37,7 @@ public class Splash extends Activity {
                 configApp();
                 SharedPreferenceManager.initPrefs();//todo delete before distribution
                 openApp();
-                /*Intent i = new Intent(getBaseContext(),Welcome.class);
-                startActivity(i);*/
+
 
             }
 

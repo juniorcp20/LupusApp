@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
@@ -35,7 +34,6 @@ import java.util.Date;
 public class ActivitySense extends Activity {
     private static final String TAG = "activities.actSense";
 
-    //private boolean isInit = SharedPreferenceManager.getBooleanPref(Constants.IS_FIRST_RUN);
     private boolean isInit = SharedPreferenceManager.isFirstRun();
     private String DEFAULT_SENSITIVITY = "1";
     private boolean isOn = false;
@@ -179,7 +177,6 @@ public class ActivitySense extends Activity {
 
     public void next(){
         Intent intent = new Intent();
-        //intent.putExtra(Constants.PARENT_ACTIVITY_NAME, Constants.ACTIVITY_SENSE);
         startActivity(intent.setClass(this, MedicineAlert.class));
     }
 

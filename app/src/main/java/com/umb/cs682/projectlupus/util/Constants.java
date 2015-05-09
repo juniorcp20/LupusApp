@@ -1,8 +1,5 @@
 package com.umb.cs682.projectlupus.util;
 
-/**
- * Created by Nithya Konda on 2/25/2015.
- */
 public final class Constants {
     private Constants(){}
     //Keys
@@ -28,12 +25,12 @@ public final class Constants {
     public static final int MOOD_REMINDER = 2;
 
     //Reminder Status
-    public static final String REM_STATUS_CREATED = "Created"; //reminder data is saved but the alarm is not yet saved
-    public static final String REM_STATUS_ACTIVE = "Active";   //alarm is on and will fire in future
-    public static final String REM_STATUS_PENDING = "Pending"; // alarm has fired and waiting for user input
-    public static final String REM_STATUS_DONE = "Done";       // user selected done on notification
-    public static final String REM_STATUS_SKIP = "Skip";       // user selected skip on notification
-    public static final String REM_STATUS_SNOOZE= "Snooze";    // user selected snooze on notification
+    public static final String REM_STATUS_CREATED = "Created";
+    public static final String REM_STATUS_ACTIVE = "Active";
+    public static final String REM_STATUS_PENDING = "Pending";
+    public static final String REM_STATUS_DONE = "Done";
+    public static final String REM_STATUS_SKIP = "Skip";
+    public static final String REM_STATUS_SNOOZE= "Snooze";
 
     //Medicine Reminder Intervals
     public static final String DAILY = "Daily";

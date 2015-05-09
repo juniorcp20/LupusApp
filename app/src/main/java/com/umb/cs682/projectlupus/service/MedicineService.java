@@ -7,9 +7,6 @@ import com.umb.cs682.projectlupus.domain.MedicineBO;
 import com.umb.cs682.projectlupus.util.Constants;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.TreeMap;

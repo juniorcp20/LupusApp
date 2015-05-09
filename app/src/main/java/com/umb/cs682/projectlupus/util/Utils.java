@@ -4,9 +4,7 @@ import android.content.Context;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-/**
- * Created by Nithya Kiran on 4/17/2015.
- */
+
 public class Utils {
     public static void displayToast(Context context, String message){
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();

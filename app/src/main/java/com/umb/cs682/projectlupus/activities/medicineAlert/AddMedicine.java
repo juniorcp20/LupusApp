@@ -179,7 +179,7 @@ public class AddMedicine extends Activity {
 
         final EditText newMedNameText = (EditText) dialogView.findViewById(R.id.et_new_med);
 
-        alertDialogBuilder//.setTitle("Add New Medicine")
+        alertDialogBuilder
                             .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     String newMedName = newMedNameText.getText().toString();
@@ -332,10 +332,10 @@ public class AddMedicine extends Activity {
                     selMin = minute;
                     String am_pm = null;
                     if(!DateTimeUtil.is24hrFormat) {
-                        if (hourOfDay > 12)         //hourofDay =13
+                        if (hourOfDay > 12)
                         {
-                            selHour = hourOfDay - 12;     //hour=1
-                            am_pm = "PM";                   //PM
+                            selHour = hourOfDay - 12;
+                            am_pm = "PM";
                         } else {
                             selHour = hourOfDay;
                             am_pm = "AM";
@@ -359,7 +359,6 @@ public class AddMedicine extends Activity {
                     }
                     medRemAdapter.notifyDataSetChanged();
                     reminderListView.setVisibility(View.VISIBLE);
-                    //Utils.displayToast(getApplicationContext(), "Alert set at "+selectedTime);
          }
                };
     /*  End Widget Setup    */

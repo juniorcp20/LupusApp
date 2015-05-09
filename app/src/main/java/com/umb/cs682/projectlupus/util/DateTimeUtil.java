@@ -61,7 +61,7 @@ public class DateTimeUtil {
     public static Calendar actSenseDBSchedulerTime(){
         Calendar calendar = Calendar.getInstance();
 
-        calendar.set(Calendar.HOUR_OF_DAY, 23); // For 11 PM
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         return calendar;

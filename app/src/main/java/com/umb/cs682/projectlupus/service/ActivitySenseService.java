@@ -12,7 +12,6 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.util.Log;
-import android.widget.Toast;
 
 
 import com.umb.cs682.projectlupus.db.dao.ActivitySenseDao;
@@ -22,7 +21,6 @@ import com.umb.cs682.projectlupus.service.PedometerService.ActivitySenseBinder;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.TreeMap;
@@ -149,7 +147,6 @@ public class ActivitySenseService {
 
     public void stopAlarm(){
         alarmManager.cancel(pendingIntent);
-        //context.unregisterReceiver(receiver);
     }
 
     public void setupAlarm(){

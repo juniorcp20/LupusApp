@@ -30,22 +30,9 @@ public class Welcome extends Activity {
                 next();
             }
         });
-        /*try {
-            setAppContext(getApplicationContext());
-            configureServices();
-            SharedPreferenceManager.initPrefs();
-            Log.i(TAG, "Contains IS_FIRST_RUN key :"+Boolean.toString(SharedPreferenceManager.contains(Constants.IS_FIRST_RUN)));
-            if(!SharedPreferenceManager.contains(Constants.IS_FIRST_RUN)) {
-                SharedPreferenceManager.setBooleanPref(TAG, Constants.IS_FIRST_RUN, true);
-                AppConfig.clearTables();
-            }
-        }catch (Exception e){
-            Log.e("Welcome", e.getMessage());
-        }*/
 	}
 
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.m_action_skip, menu);
         return true;
     }

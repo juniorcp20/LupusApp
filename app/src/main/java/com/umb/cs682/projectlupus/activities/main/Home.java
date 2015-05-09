@@ -9,7 +9,6 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.utils.ValueFormatter;
 import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.activities.common.About;
 import com.umb.cs682.projectlupus.activities.common.Profile;
@@ -30,19 +29,14 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
@@ -59,16 +53,9 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
     private BarChart medicineChart = null;
     private TextView stepCountText;
 
-	/**
-	 * Fragment managing the behaviors, interactions and presentation of the
-	 * navigation drawer.
-	 */
+
 	private NavigationDrawerFragment mNavigationDrawerFragment;
 
-	/**
-	 * Used to store the last screen title. For use in
-	 * {@link #restoreActionBar()}.
-	 */
 	private CharSequence mTitle;
     private MoodLevelService moodLevelService = LupusMate.getMoodLevelService();
     private ActivitySenseService activitySenseService = LupusMate.getActivitySenseService();

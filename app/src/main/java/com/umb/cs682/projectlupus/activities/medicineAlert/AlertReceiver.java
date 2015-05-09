@@ -8,9 +8,7 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
 import com.umb.cs682.projectlupus.R;
-/**
- * Created by mark on 4/8/15.
- */
+
 public class AlertReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {

@@ -1,18 +1,13 @@
 package com.umb.cs682.projectlupus.service;
 
 import android.content.Context;
-import android.database.Cursor;
 
-import com.umb.cs682.projectlupus.config.LupusMate;
 import com.umb.cs682.projectlupus.db.dao.MoodLevelDao;
-import com.umb.cs682.projectlupus.db.helpers.DaoSession;
 import com.umb.cs682.projectlupus.domain.MoodLevelBO;
 import com.umb.cs682.projectlupus.util.DateTimeUtil;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.TreeMap;
@@ -71,14 +66,8 @@ public class MoodLevelService {
     }
 
     public TreeMap<Date, Float> getTimeVsMoodLevel(){
-        // Calculates the avg moodlevel for each day, because there might be multiple reminders each day.
         TreeMap<Date, Float> timeVsMoodLevelMap = new TreeMap<>();
         Float avg;
-        // Old Averaging method, not working
-        /*for(Date date : getDistinctDates()){
-            avg = calculateAvgMoodLevel(date);
-            timeVsMoodLevelMap.put(date, avg);
-        }*/
 
         List<MoodLevelBO> allData = getAllData();
         for (int i = 0;i < allData.size() - 1;i ++) {
@@ -99,46 +88,12 @@ public class MoodLevelService {
             timeVsMoodLevelMap.put(allData.get(i).getDate(),avg);
         }
 
-        //testing
-        /*for (MoodLevelBO currBO:getAllData()) {
-            avg = (float) currBO.getMoodLevel();
-            timeVsMoodLevelMap.put(currBO.getDate(),avg);
-        }*/
         return timeVsMoodLevelMap;
     }
 
-    // Not working
-    /*private List<MoodLevelBO> getDataByDate(Date date){
-        Query query = queryBuilder.where(MoodLevelDao.Properties.Date.eq(DateTimeUtil.toDate(date))).build();
-        return query.list();
-    }*/
-
-    /*public static List<Date> getDistinctDates() {
-        DaoSession session = LupusMate.getDaoSession();
-        ArrayList<Date> result = new ArrayList<>();
-        Cursor c = session.getDatabase().rawQuery(SQL_DISTINCT_DATES, null);
-        if (c.moveToFirst()) {
-            do {
-                result.add(new Date(Long.parseLong(c.getString(0))));
-            } while (c.moveToNext());
-        }
-        c.close();
-        return result;
-    }*/
 
     private long getCount(){
         CountQuery query = moodLevelDao.queryBuilder().buildCount();
         return query.count();
     }
-
-    /*private Float calculateAvgMoodLevel(Date date) {
-        List<MoodLevelBO> data = new ArrayList<>();
-        data = getDataByDate(date);
-        int sum = 0;
-        for(MoodLevelBO bo : data){
-            sum = sum + bo.getMoodLevel();
-        }
-        float avg = (float) sum / data.size();
-        return avg;
-    }*/
 }

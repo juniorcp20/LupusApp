@@ -27,8 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Profile extends Activity {
-    //private String parent = null;
-    //private boolean isInit = SharedPreferenceManager.getBooleanPref(Constants.IS_FIRST_RUN);
+
     private boolean isInit = SharedPreferenceManager.isFirstRun();
 
     private ProfileService service = LupusMate.getProfileService();
@@ -64,8 +63,7 @@ public class Profile extends Activity {
 
     @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-       // if(parent.equals(Constants.WELCOME)) {
+
         if(isInit){
             getMenuInflater().inflate(R.menu.m_action_next, menu);
         }else{
@@ -76,21 +74,13 @@ public class Profile extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
+
 		int id = item.getItemId();
 		if (id == R.id.action_next) {
-            /*if(!etUsername.getText().toString().isEmpty()){
-
-                //save();
-            }*/
             validateAndSave();
-			//next();
 		}
         if(id == R.id.action_save){
             validateAndSave();
-           // save();
         }
 		return super.onOptionsItemSelected(item);
 	}

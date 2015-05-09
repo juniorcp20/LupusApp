@@ -140,7 +140,7 @@ public class MoodPopUp extends Activity {
         selSnoozeInterval = Utils.getSnoozeInterval(spSnoozeInterval.getSelectedItem().toString());
         cal.add(Calendar.MINUTE, selSnoozeInterval);
         long snoozeTime = cal.getTimeInMillis();
-        snoozeRequestCode = 5000 + reminderID; // to uniquely identify snooze alarms from normal alarms
+        snoozeRequestCode = 5000 + reminderID;
         AlarmUtil.snooze(this, snoozeRequestCode, reminderID, Constants.MOOD_REMINDER, Constants.DAILY, null, snoozeTime);
         reminderService.updateMoodReminderStatus(reminderID, Constants.REM_STATUS_SNOOZE);
         snoozed = true;

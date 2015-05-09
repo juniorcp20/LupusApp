@@ -62,12 +62,7 @@ public class PedometerService extends Service {
             stepServiceIntent = new Intent(this, StepService.class);//doubtful about "this"
             stepServiceIntent.putExtras(extras);
         }
-        /* Bind without starting the service
-        try {
-            bindStepService();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
+
     }
 
     public void onPause(){
@@ -190,7 +185,7 @@ public class PedometerService extends Service {
             Log.i(TAG, "onServiceConnected()");
             mService = IStepService.Stub.asInterface(service);
             try {
-                mService.registerCallback(mCallback);// should be called only when resume or restart.
+                mService.registerCallback(mCallback);
                 mService.setSensitivity(sensitivity);
                 isBound = mService.isRunning();
             } catch (RemoteException e) {

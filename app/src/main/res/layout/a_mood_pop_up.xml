@@ -31,7 +31,7 @@
         android:numStars="5"
         android:stepSize="1"
         android:layout_gravity="center_horizontal"
-        style="@style/foodRatingBar"
+        style="@style/MoodRatingBar"
         android:progressDrawable="@drawable/mood_rating_bar"
         />
     <Space

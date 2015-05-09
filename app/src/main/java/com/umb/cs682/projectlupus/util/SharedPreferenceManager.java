@@ -9,7 +9,11 @@ import com.umb.cs682.projectlupus.config.LupusMate;
 public class SharedPreferenceManager {
     private static String PREFS_FILE = "App_Prefs";
     private static SharedPreferences prefs;
-    private static Context context = LupusMate.getAppContext();
+    private static Context context;// = LupusMate.getAppContext();
+
+    public static void setContext(Context newContext){
+        context = newContext;
+    }
 
     //todo remove when done
     public static void initPrefs(){

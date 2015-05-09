@@ -34,7 +34,7 @@ public class Splash extends Activity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 finish();
-                configApp();
+                //configApp();
                 SharedPreferenceManager.initPrefs();//todo delete before distribution
                 openApp();
 
@@ -50,14 +50,14 @@ public class Splash extends Activity {
 
     }
 
-    private void configApp(){
+   /* private void configApp(){
         LupusMate.setAppContext(getApplicationContext());
         try {
             LupusMate.configureServices();
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     private void openApp() {
         boolean isInit = SharedPreferenceManager.isFirstRun();

@@ -247,6 +247,10 @@ public class StepService extends Service implements StepListener {
             StepDetector.setSensitivity(sens);
         }
 
+        public void resetStepCount() throws RemoteException{
+            mSteps = 0;
+        }
+
         /**
          * {@inheritDoc}
          */

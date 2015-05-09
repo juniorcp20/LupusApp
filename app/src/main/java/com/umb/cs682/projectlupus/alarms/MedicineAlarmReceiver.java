@@ -26,14 +26,19 @@ public class MedicineAlarmReceiver extends BroadcastReceiver {
     private static final String TAG = "receiver.medicine";
     private NotificationManager nm;
 
-    private ReminderService reminderService = LupusMate.getReminderService();
-    private MedicineService medicineService = LupusMate.getMedicineService();
+    private ReminderService reminderService;
+    private MedicineService medicineService;
 
     int reminderID;
     int requestCode;
     @Override
     public void onReceive(Context context, Intent intent) {
         boolean snoozed = intent.getBooleanExtra(Constants.SNOOZED, false);
+
+        final LupusMate lupusMate = (LupusMate) context.getApplicationContext();
+        reminderService = lupusMate.getReminderService();
+        medicineService = lupusMate.getMedicineService();
+
         requestCode = intent.getIntExtra(Constants.REQUEST_CODE, -1);
         reminderID = intent.getIntExtra(Constants.REMINDER_ID, -1);
         showNotification(context);

@@ -16,7 +16,7 @@ import com.umb.cs682.projectlupus.activities.common.Settings;
 import com.umb.cs682.projectlupus.activities.medicineAlert.MedicineAlert;
 import com.umb.cs682.projectlupus.activities.moodAlert.MoodAlert;
 import com.umb.cs682.projectlupus.activities.activitySense.ActivitySense;
-import com.umb.cs682.projectlupus.config.LupusMate;
+import com.umb.cs682.projectlupus.config.LupusMate;;
 import com.umb.cs682.projectlupus.service.ActivitySenseService;
 import com.umb.cs682.projectlupus.service.MedicineService;
 import com.umb.cs682.projectlupus.service.MoodLevelService;
@@ -57,10 +57,11 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
 	private NavigationDrawerFragment mNavigationDrawerFragment;
 
 	private CharSequence mTitle;
-    private MoodLevelService moodLevelService = LupusMate.getMoodLevelService();
-    private ActivitySenseService activitySenseService = LupusMate.getActivitySenseService();
-    private MedicineService medicineService = LupusMate.getMedicineService();
-    private ProfileService profileService = LupusMate.getProfileService();
+
+    private MoodLevelService moodLevelService;
+    private ActivitySenseService activitySenseService;
+    private MedicineService medicineService;
+    private ProfileService profileService;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,13 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
 		setContentView(R.layout.a_home);
         SharedPreferenceManager.setBooleanPref(TAG, Constants.IS_FIRST_RUN, false);
         ActionBar mActionBar = getActionBar();
+
+        final LupusMate lupusMate = (LupusMate) getApplicationContext();
+        moodLevelService = lupusMate.getMoodLevelService();
+        activitySenseService = lupusMate.getActivitySenseService();
+        medicineService = lupusMate.getMedicineService();
+        profileService = lupusMate.getProfileService();
+
         mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         mActionBar.setSelectedNavigationItem(-1);
 		mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -179,7 +187,7 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
         super.onStart();
         Date now = new Date();
         activitySenseService.addActSenseData(now);
-        String stepCount = String.valueOf(activitySenseService.getActSenseDatabyDate(now).getStepCount());
+        String stepCount = String.valueOf(activitySenseService.getStoredStepCount(now));
         stepCountText.setText(stepCount);
         restoreActionBar();
     }

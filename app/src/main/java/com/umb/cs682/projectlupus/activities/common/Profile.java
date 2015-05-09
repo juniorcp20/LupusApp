@@ -30,7 +30,7 @@ public class Profile extends Activity {
 
     private boolean isInit = SharedPreferenceManager.isFirstRun();
 
-    private ProfileService service = LupusMate.getProfileService();
+    private ProfileService service;
 
     private EditText etUsername;
     private Spinner spAge;
@@ -44,6 +44,9 @@ public class Profile extends Activity {
 
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        final LupusMate lupusMate = (LupusMate) getApplicationContext();
+        service = lupusMate.getProfileService();
 
         etUsername = (EditText) findViewById(R.id.et_username);
         spAge = (Spinner) findViewById(R.id.sp_age);

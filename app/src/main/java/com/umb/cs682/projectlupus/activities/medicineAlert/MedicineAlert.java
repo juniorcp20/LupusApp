@@ -48,8 +48,8 @@ public class MedicineAlert extends Activity {
 
     private AddMedicineNameAdapter adapter;
 
-    private MedicineService medService = LupusMate.getMedicineService();
-    private ReminderService reminderService = LupusMate.getReminderService();
+    private MedicineService medService;
+    private ReminderService reminderService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +57,10 @@ public class MedicineAlert extends Activity {
         setContentView(R.layout.a_medicine_alert);
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        final LupusMate lupusMate = (LupusMate) getApplicationContext();
+        medService = lupusMate.getMedicineService();
+        reminderService = lupusMate.getReminderService();
 
         addMed = (Button) findViewById(R.id.med_alert_button);
         medNamesListView = (ListView)findViewById(R.id.add_medname_listview);

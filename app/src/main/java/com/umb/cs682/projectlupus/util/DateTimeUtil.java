@@ -1,5 +1,6 @@
 package com.umb.cs682.projectlupus.util;
 
+import android.content.Context;
 import android.text.format.DateFormat;
 
 import com.umb.cs682.projectlupus.config.LupusMate;
@@ -16,11 +17,11 @@ public class DateTimeUtil {
     private static final String TIME_FORMAT_24 = "HH:mm";
     private static final String TIME_FORMAT_12 = "hh:mm a";
 
-    public static boolean is24hrFormat = is24HourFormat();
+    private static boolean is24hrFormat;// = is24HourFormat();
 
 
-    private static boolean is24HourFormat(){
-        if(DateFormat.is24HourFormat(LupusMate.getAppContext())){
+    public static boolean is24HourFormat(Context context){
+        if(DateFormat.is24HourFormat(context)){
             is24hrFormat = true;
         }else{
             is24hrFormat = false;

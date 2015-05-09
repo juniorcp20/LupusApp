@@ -1,5 +1,6 @@
 package com.umb.cs682.projectlupus.config;
 
+import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -17,9 +18,10 @@ import com.umb.cs682.projectlupus.service.MedicineService;
 import com.umb.cs682.projectlupus.service.MoodLevelService;
 import com.umb.cs682.projectlupus.service.ProfileService;
 import com.umb.cs682.projectlupus.service.ReminderService;
+import com.umb.cs682.projectlupus.util.SharedPreferenceManager;
 
 
-public class LupusMate{
+public class LupusMate extends Application{
     //DB
     private static SQLiteDatabase db;
     private static DaoMaster daoMaster;
@@ -43,11 +45,27 @@ public class LupusMate{
     //Application Context
     private static Context appContext;
 
-    public static void setAppContext(Context context){
-            appContext = context;
+   @Override
+    public void onCreate() {
+        super.onCreate();
+        setAppContext();
+        try {
+            configureServices();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+       SharedPreferenceManager.setContext(this);
+    }
 
-   public static void configureServices() throws Exception{
+    /*public static void setAppContext(Context context){
+            appContext = context;
+        }*/
+    public void setAppContext(){
+        appContext = getApplicationContext();
+    }
+
+  // public static void configureServices() throws Exception{
+   public void configureServices() throws Exception{
         try {
             //Initialize DAOs
             DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(appContext, null);
@@ -74,19 +92,18 @@ public class LupusMate{
         }
     }
 
-    public static Context getAppContext(){
+    /*public Context getAppContext(){
         return appContext;
-    }
-    public static ProfileService getProfileService(){
+    }*/
+    public ProfileService getProfileService(){
         return profileService;
     }
-    public static MoodLevelService getMoodLevelService(){ return moodLevelService;}
-    public static ActivitySenseService getActivitySenseService(){
+    public MoodLevelService getMoodLevelService(){ return moodLevelService;}
+    public ActivitySenseService getActivitySenseService(){
         return activitySenseService;
     }
-    public static MedicineService getMedicineService(){return medicineService;}
-    public static ReminderService getReminderService(){return reminderService;}
-    public static DaoSession getDaoSession(){return daoSession;}
+    public MedicineService getMedicineService(){return medicineService;}
+    public ReminderService getReminderService(){return reminderService;}
     public static void clearTables(){
         profileDao.deleteAll();
         moodLevelDao.deleteAll();

@@ -18,13 +18,15 @@ import com.umb.cs682.projectlupus.util.Constants;
 public class MoodAlarmReceiver extends BroadcastReceiver{
     private static final String TAG = "receiver.mood";
     private NotificationManager nm;
-    private ReminderService reminderService = LupusMate.getReminderService();
+    private ReminderService reminderService;
 
     int reminderID;
     int requestCode;
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        final LupusMate lupusMate = (LupusMate) context.getApplicationContext();
+        reminderService = lupusMate.getReminderService();
         reminderID = intent.getIntExtra(Constants.REMINDER_ID, -1);
         requestCode = intent.getIntExtra(Constants.REQUEST_CODE, -1);
         reminderService.updateMoodReminderStatus(reminderID, Constants.REM_STATUS_PENDING);

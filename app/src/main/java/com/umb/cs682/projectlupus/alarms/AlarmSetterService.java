@@ -19,31 +19,33 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 
-import static com.umb.cs682.projectlupus.config.LupusMate.configureServices;
-import static com.umb.cs682.projectlupus.config.LupusMate.setAppContext;
+/*import static com.umb.cs682.projectlupus.config.LupusMate.configureServices;
+import static com.umb.cs682.projectlupus.config.LupusMate.setAppContext;*/
 
 public class AlarmSetterService extends IntentService {
     private static final String TAG = "AlarmSetterService";
     public static final String CREATE = "CREATE";
 
     private IntentFilter matcher;
-    private Context context;
-    private ReminderService reminderService;
+    //private Context context;
+
+        private ReminderService reminderService;
     private MedicineService medicineService;
 
     public AlarmSetterService() {
         super(TAG);
         matcher = new IntentFilter();
         matcher.addAction(CREATE);
-       try {
+       /*try {
             setAppContext(getApplicationContext());
             configureServices();
         }catch (Exception e){
             e.printStackTrace();
         }
-        context = LupusMate.getAppContext();
-        reminderService = LupusMate.getReminderService();
-        medicineService = LupusMate.getMedicineService();
+        context = LupusMate.getAppContext();*/
+        final LupusMate lupusMate = (LupusMate) getApplicationContext();
+        reminderService = lupusMate.getReminderService();
+        medicineService = lupusMate.getMedicineService();
     }
 
     @Override
@@ -67,7 +69,7 @@ public class AlarmSetterService extends IntentService {
             requestCode = remID;
             cal.setTimeInMillis(bo.getReminderTime().getTime());
             //AlarmUtil.setDailyRepeatingAlarm(context, Constants.MOOD_REMINDER, remID, requestCode, cal);
-            AlarmUtil.setAlarm(context, requestCode, remID, Constants.MOOD_REMINDER, Constants.DAILY, cal);
+            AlarmUtil.setAlarm(getApplicationContext(), requestCode, remID, Constants.MOOD_REMINDER, Constants.DAILY, cal);
         }
         Log.i(TAG, "Mood Alarms Set");
     }
@@ -102,7 +104,7 @@ public class AlarmSetterService extends IntentService {
                 case Constants.MONTHLY:
                     dayOfMonth = reminderBO.getReminderDayOrDate();
             }
-            AlarmUtil.setAlarm(context, requestCode, remID, Constants.MED_REMINDER, alarmInterval, DateTimeUtil.getCalendar(hourOfDay, min, dayOfWeek, dayOfMonth));
+            AlarmUtil.setAlarm(getApplicationContext(), requestCode, remID, Constants.MED_REMINDER, alarmInterval, DateTimeUtil.getCalendar(hourOfDay, min, dayOfWeek, dayOfMonth));
         }
         Log.i(TAG, "Medicine Alarms Set");
     }

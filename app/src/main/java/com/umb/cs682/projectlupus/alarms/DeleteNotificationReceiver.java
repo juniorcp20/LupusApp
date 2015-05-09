@@ -13,13 +13,15 @@ public class DeleteNotificationReceiver extends BroadcastReceiver {
     private static final String TAG = "receiver.deleteNotif";
 
     private int reminderID;
-    private ReminderService reminderService = LupusMate.getReminderService();
+    private ReminderService reminderService;
 
     public DeleteNotificationReceiver() {
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        final LupusMate lupusMate = (LupusMate) context.getApplicationContext();
+        reminderService = lupusMate.getReminderService();
         reminderID = intent.getIntExtra(Constants.REMINDER_ID, -1);
         reminderService.updateReminderStatus(reminderID, Constants.REM_STATUS_SKIP);
         Log.i(TAG, "Notification cleared, setting status SKIP to reminder ID = "+reminderID);

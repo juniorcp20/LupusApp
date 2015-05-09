@@ -42,14 +42,18 @@ public class MoodPopUp extends Activity {
     int snoozeRequestCode;
     boolean snoozed = false;
 
-    MoodLevelService moodLevelService = LupusMate.getMoodLevelService();
-    ReminderService reminderService = LupusMate.getReminderService();
+    MoodLevelService moodLevelService;
+    ReminderService reminderService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.a_mood_pop_up);
         setFinishOnTouchOutside(false);
+
+        final LupusMate lupusMate = (LupusMate) getApplicationContext();
+        moodLevelService = lupusMate.getMoodLevelService();
+        reminderService = lupusMate.getReminderService();
 
         rbMoodLevel =(RatingBar)findViewById(R.id.ratingBar);
         spSnoozeInterval = (Spinner) findViewById(R.id.sp_mood_snooze_interval);

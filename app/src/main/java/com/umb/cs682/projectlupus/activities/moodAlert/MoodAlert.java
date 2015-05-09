@@ -54,17 +54,19 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
 
     private MoodAlertAdapter adapter;
 
-    private ReminderService service = LupusMate.getReminderService();
+    private ReminderService service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.a_mood_alert);
 
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        final LupusMate lupusMate = (LupusMate) getApplicationContext();
+        service = lupusMate.getReminderService();
+
         if(isInit){
             actionBar.setTitle(R.string.title_init_mood_alert);
         }else {
@@ -95,7 +97,7 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
 
     private void setupTimePicker() {
         Calendar cal = Calendar.getInstance();
-        timePicker = new TimePickerDialog(this, mTimeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), DateTimeUtil.is24hrFormat);
+        timePicker = new TimePickerDialog(this, mTimeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), DateTimeUtil.is24HourFormat(getApplicationContext()));
     }
 
     @Override
@@ -125,8 +127,8 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
                     cal.set(Calendar.MINUTE, minute);
                     selMin = minute;
                     String am_pm = null;
-                    if(!DateTimeUtil.is24hrFormat) {
-                        if (hourOfDay > 12)
+                    if(!DateTimeUtil.is24HourFormat(getApplicationContext())) {
+                        if (hourOfDay > 12)         //hourofDay =13
                         {
                             selHour = hourOfDay - 12;
                             am_pm = "PM";

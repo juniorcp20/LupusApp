@@ -14,10 +14,10 @@ import android.os.SystemClock;
 import android.util.Log;
 
 
+import com.umb.cs682.projectlupus.activities.activitySense.ActivitySense;
 import com.umb.cs682.projectlupus.db.dao.ActivitySenseDao;
 import com.umb.cs682.projectlupus.domain.ActivitySenseBO;
 import com.umb.cs682.projectlupus.util.DateTimeUtil;
-import com.umb.cs682.projectlupus.service.PedometerService.ActivitySenseBinder;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -38,7 +38,6 @@ public class ActivitySenseService {
     private Context context;
     private ActivitySenseDao activitySenseDao;
 
-    private PedometerService pedometerService;
     private BroadcastReceiver receiver;
     private PendingIntent pendingIntent;
     private AlarmManager alarmManager;
@@ -46,99 +45,7 @@ public class ActivitySenseService {
     public ActivitySenseService(Context context, ActivitySenseDao activitySenseDao){
         this.activitySenseDao = activitySenseDao;
         this.context = context;
-        Intent intent = new Intent(context, PedometerService.class);
-        context.bindService(intent, pedometerConnection, Context.BIND_AUTO_CREATE);
     }
-
-    /* Pedometer Service Operations */
-
-    private void bindPedometerService(){
-        Intent intent = new Intent(context, PedometerService.class);
-        context.bindService(intent, pedometerConnection, Context.BIND_AUTO_CREATE);
-        context.startService(intent);
-    }
-
-    private void unbindPedometerService(){
-        Intent intent = new Intent(context, PedometerService.class);
-        context.stopService(intent);
-        context.unbindService(pedometerConnection);
-        isBound = false;
-    }
-
-    public void startStopPedometer(boolean startStop){
-        if(!isBound){
-            bindPedometerService();
-        }
-        pedometerService.startStopPedometer(startStop);
-    }
-
-    public void onStartPedometer(){
-        if(!isBound){
-            bindPedometerService();
-        }
-        pedometerService.onStart();
-    }
-
-    public void onPausePedometer(){
-        if(!isBound){
-            bindPedometerService();
-        }
-        pedometerService.onPause();
-        if(isBound){
-            unbindPedometerService();
-        }
-    }
-    public void setSensitivity(int sensitivity){
-        if(!isBound){
-            bindPedometerService();
-        }
-        pedometerService.setSensitivity(sensitivity*10);
-    }
-
-    public int getSensitivity(){
-        if(!isBound){
-            bindPedometerService();
-        }
-        return (pedometerService.getSensitivity())/10;
-    }
-
-    public void setHandler(Handler handler) {
-        if(!isBound){
-            bindPedometerService();
-        }
-        pedometerService.setHandler(handler);
-    }
-
-    public void unsetHandler(){
-        pedometerService.unsetHandler();
-    }
-
-    public int getCurrentStepCount(){
-        try {
-            stepCount = pedometerService.getStepCount();
-        }catch(Exception e){
-            stepCount = 0;
-        }
-        return stepCount;
-    }
-
-    public void resetCurrentStepCount(){
-        stepCount = 0;
-    }
-
-    private ServiceConnection pedometerConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            ActivitySenseBinder binder = (ActivitySenseBinder) service;
-            pedometerService = binder.getService();
-            isBound = true;
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            isBound = false;
-        }
-    };
 
     /*Alarm Manager Setup*/
     public void startAlarm(){
@@ -183,6 +90,7 @@ public class ActivitySenseService {
     }
 
     public int getStoredStepCount(Date date){
+        updateActSenseData(date);
         return getActSenseDatabyDate(date).getStepCount();
     }
 
@@ -191,14 +99,19 @@ public class ActivitySenseService {
         Log.i(TAG, "Saved to DB");
         CountQuery query = activitySenseDao.queryBuilder().where(ActivitySenseDao.Properties.Date.eq(DateTimeUtil.toDate(date))).buildCount();
         if(!(query.count() == 0)) {
-            bo = getActSenseDatabyDate(date);
-            bo.setStepCount(bo.getStepCount() + getCurrentStepCount());
-            resetCurrentStepCount();
-            activitySenseDao.update(bo);
+            updateActSenseData(date);
         }else{
-            bo = new ActivitySenseBO(null, getCurrentStepCount(), DateTimeUtil.toDate(date));
+            ActivitySense.resetStepCount();
+            bo = new ActivitySenseBO(null, 0, DateTimeUtil.toDate(date));
             activitySenseDao.insert(bo);
         }
+    }
+
+    public void updateActSenseData(Date date){
+        ActivitySenseBO bo;
+        bo = getActSenseDatabyDate(date);
+        bo.setStepCount(ActivitySense.getStepCount());
+        activitySenseDao.update(bo);
     }
 
     public ActivitySenseBO getActSenseDatabyDate(Date date){

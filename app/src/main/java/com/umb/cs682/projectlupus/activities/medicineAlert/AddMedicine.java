@@ -83,8 +83,8 @@ public class AddMedicine extends Activity {
     private AddMedReminderAdapter medRemAdapter;
     private ArrayAdapter<String> medNameAdapter;
 
-    private ReminderService reminderService = LupusMate.getReminderService();
-    private MedicineService medService = LupusMate.getMedicineService();
+    private ReminderService reminderService;
+    private MedicineService medService;
 
     //local use
     private int selHour;
@@ -101,6 +101,10 @@ public class AddMedicine extends Activity {
 		setContentView(R.layout.a_add_medicine);
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        final LupusMate lupusMate = (LupusMate) getApplicationContext();
+        reminderService = lupusMate.getReminderService();
+        medService = lupusMate.getMedicineService();
 
         //Build dialogs
         buildNewMedDialog(this);
@@ -331,8 +335,8 @@ public class AddMedicine extends Activity {
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                     selMin = minute;
                     String am_pm = null;
-                    if(!DateTimeUtil.is24hrFormat) {
-                        if (hourOfDay > 12)
+                    if(!DateTimeUtil.is24HourFormat(getApplicationContext())) {
+                        if (hourOfDay > 12)         
                         {
                             selHour = hourOfDay - 12;
                             am_pm = "PM";

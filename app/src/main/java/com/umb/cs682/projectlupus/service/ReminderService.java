@@ -32,13 +32,18 @@ public class ReminderService {
     private Query getMoodRemindersQuery;
     private Query getMedRemindersQuery;
 
-    private MedicineService medicineService = LupusMate.getMedicineService();
+
+    private MedicineService medicineService;
 
     public ReminderService(Context context, ReminderDao reminderDao){
         this.context = context;
         this.reminderDao = reminderDao;
         getMoodRemindersQuery = reminderDao.queryBuilder().where(ReminderDao.Properties.TypeId.eq(MOOD_REMINDER)).orderAsc(ReminderDao.Properties.ReminderTime).build();
         getMedRemindersQuery = reminderDao.queryBuilder().where(ReminderDao.Properties.TypeId.eq(MED_REMINDER)).orderAsc(ReminderDao.Properties.ReminderTime).build();
+
+        final LupusMate lupusMate = (LupusMate) context.getApplicationContext();
+        medicineService = lupusMate.getMedicineService();
+
     }
     /*Functions common for both Mood and Medicine Alerts */
 

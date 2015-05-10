@@ -16,12 +16,14 @@
     </string-array>
 
     <string-array name="arr_ethnicity">
-        <item>I do not wish to answer</item>
-        <item>Black</item>
-        <item>Latino</item>
-        <item>Asian</item>
-        <item>Middle Eastern</item>
-        <item>Mixed</item>
+        <item>Please select one</item>
+        <item>Hispanic</item>
+        <item>White (not of Hispanic origin)</item>
+        <item>Black (not of Hispanic origin)</item>
+        <item>Asian or Pacific Islander</item>
+        <item>American Indian or Alaskan native</item>
+        <item>I choose not to provide this information</item>
+
     </string-array>
 
     <string-array name="arr_sensitivity">

@@ -123,6 +123,11 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
         moodChart.getXAxis().setTextColor(getResources().getColor(R.color.darkPurple));
         moodChart.getAxisLeft().setTextColor(getResources().getColor(R.color.darkPurple));
 
+        moodChart.getXAxis().setAvoidFirstLastClipping(true);
+        moodChart.animateX(2000);
+        moodChart.getAxisLeft().setAxisMaxValue(5);
+        moodChart.getAxisLeft().setAxisMinValue(1);
+
 
         // Set up the activity chart
         ArrayList<Entry> timeVsStepCountAL = new ArrayList<>();
@@ -155,6 +160,9 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
         activityChart.getXAxis().setTextColor(getResources().getColor(R.color.darkPurple));
         activityChart.getAxisLeft().setTextColor(getResources().getColor(R.color.darkPurple));
 
+        activityChart.getXAxis().setAvoidFirstLastClipping(true);
+        activityChart.animateX(2000);
+
         // Set up the medicine chart
         ArrayList<BarEntry> mednameVsTakenPercentageAL = new ArrayList<>();
         TreeMap<String,Float> mednameVsTakenPercentageMap = medicineService.getMednameVsTakenPercentage();
@@ -179,6 +187,7 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
         medicineChart.setGridBackgroundColor(getResources().getColor(android.R.color.transparent));
         medicineChart.getXAxis().setTextColor(getResources().getColor(R.color.darkPurple));
         medicineChart.getAxisLeft().setTextColor(getResources().getColor(R.color.darkPurple));
+        medicineChart.animateY(2000);
 
 	}
 

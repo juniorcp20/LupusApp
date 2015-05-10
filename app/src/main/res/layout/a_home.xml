@@ -23,11 +23,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1">
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_mood"
+                    android:text="Moodlevel Overview"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:gravity="center"
+                    style="@style/PurpleFont"/>
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/mood_chart"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    ></com.github.mikephil.charting.charts.LineChart>
+                    android:layout_below="@+id/tv_mood"></com.github.mikephil.charting.charts.LineChart>
             </RelativeLayout>
 
             <RelativeLayout
@@ -37,10 +45,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1">
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_activity"
+                    android:text="Activity Overview"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:gravity="center"
+                    style="@style/PurpleFont"/>
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/activity_chart"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"></com.github.mikephil.charting.charts.LineChart>
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/tv_activity"></com.github.mikephil.charting.charts.LineChart>
             </RelativeLayout>
 
             <LinearLayout
@@ -65,7 +82,6 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="Step Count"
                         android:gravity="center"
-                        android:paddingTop="10dp"
                         android:id="@+id/textView15"
                         android:textColor="@color/darkPurple"/>
 
@@ -82,14 +98,23 @@
                 <RelativeLayout
                     android:background="@drawable/panel_background"
                     android:layout_margin="10dp"
-                    android:padding="5dp"
+                    android:padding="10dp"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="3">
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_med"
+                        android:text="Medicine Intake"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:gravity="center"
+                        style="@style/PurpleFont"/>
                     <com.github.mikephil.charting.charts.BarChart
                         android:id="@+id/medicine_chart"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"></com.github.mikephil.charting.charts.BarChart>
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/tv_med"></com.github.mikephil.charting.charts.BarChart>
                 </RelativeLayout>
 
             </LinearLayout>

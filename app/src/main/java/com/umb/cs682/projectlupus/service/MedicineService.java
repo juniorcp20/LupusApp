@@ -3,6 +3,7 @@ package com.umb.cs682.projectlupus.service;
 import android.content.Context;
 import android.util.Log;
 
+import com.umb.cs682.projectlupus.config.LupusMate;
 import com.umb.cs682.projectlupus.db.dao.MedicineDao;
 import com.umb.cs682.projectlupus.domain.MedicineBO;
 import com.umb.cs682.projectlupus.util.Constants;
@@ -36,13 +37,13 @@ public class MedicineService {
 
     public void initMedicineDB(){
         if(medicineDao.count() == 0) {
-            medicineDao.insert(new MedicineBO(null, "Prednisone/Prednisolone", -1, DAILY, null,0,0));
+            medicineDao.insert(new MedicineBO(null, "Prednisone", -1, DAILY, null,0,0));
             medicineDao.insert(new MedicineBO(null, "Mycophenolate", -1, DAILY, null,0,0));
             medicineDao.insert(new MedicineBO(null, "Methotrexate", -1, WEEKLY, null,0,0));
             medicineDao.insert(new MedicineBO(null, "Cyclophosphamide", -1, DAILY, null,0,0));
             medicineDao.insert(new MedicineBO(null, "Belimumab", -1, MONTHLY, null,0,0));
             medicineDao.insert(new MedicineBO(null, "Tacrolimus", -1, DAILY, null,0,0));
-            medicineDao.insert(new MedicineBO(null, "Rituximab", -1, MONTHLY, null,0,0));
+            medicineDao.insert(new MedicineBO(null, "Rituximab", -1, MONTHLY, null, 0, 0));
         }
     }
 
@@ -134,10 +135,16 @@ public class MedicineService {
     }
 
     public TreeMap<String,Float> getMednameVsTakenPercentage() {
+        final LupusMate lupusMate = (LupusMate) context.getApplicationContext();
+        ReminderService reminderService = lupusMate.getReminderService();
         TreeMap<String,Float> mednameVsTakenPercentageMap = new TreeMap<>();
-        for (MedicineBO currBO : getAllData()) {
-            mednameVsTakenPercentageMap.put(currBO.getMedName(),currBO.getMedTakenCount().floatValue() / currBO.getMedReminderCount() * 100);
+        for(String currMed : reminderService.getMedicinesWithReminders()){
+            MedicineBO currBO = getMedicine(currMed);
+            mednameVsTakenPercentageMap.put(currBO.getMedName(),(currBO.getMedTakenCount().floatValue() / currBO.getMedReminderCount()) * 100);
         }
+        /*for (MedicineBO currBO : getAllData()) {
+            mednameVsTakenPercentageMap.put(currBO.getMedName(),currBO.getMedTakenCount().floatValue() / currBO.getMedReminderCount() * 100);
+        }*/
         return mednameVsTakenPercentageMap;
     }
 

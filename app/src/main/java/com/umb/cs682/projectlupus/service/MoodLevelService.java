@@ -1,6 +1,7 @@
 package com.umb.cs682.projectlupus.service;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.umb.cs682.projectlupus.db.dao.MoodLevelDao;
 import com.umb.cs682.projectlupus.domain.MoodLevelBO;
@@ -17,7 +18,7 @@ import de.greenrobot.dao.query.Query;
 import de.greenrobot.dao.query.QueryBuilder;
 
 public class MoodLevelService {
-    public static final String TAG = "service.moodLevel";
+    public static final String TAG = "projectlupus.service";
     private static final String SQL_DISTINCT_DATES= "SELECT DISTINCT "+MoodLevelDao.Properties.Date.columnName+" FROM "+MoodLevelDao.TABLENAME;
 
     private Context context;
@@ -58,6 +59,7 @@ public class MoodLevelService {
     public void addMoodLevel(int reminderID, int moodLevel){
         bo = new MoodLevelBO(null, reminderID, DateTimeUtil.toDateTime(new Date()), moodLevel);
         moodLevelDao.insert(bo);
+        Log.i(TAG, "Added mood level for reminder ID: "+bo.getReminderId()+" mood level :"+bo.getMoodLevel()+" date :"+DateTimeUtil.toDateTime(bo.getDate()));
     }
 
     public List<MoodLevelBO> getAllData(){

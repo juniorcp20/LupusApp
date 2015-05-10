@@ -1,6 +1,7 @@
 package com.umb.cs682.projectlupus.service;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.umb.cs682.projectlupus.db.dao.MedicineDao;
 import com.umb.cs682.projectlupus.domain.MedicineBO;
@@ -13,9 +14,11 @@ import java.util.TreeMap;
 
 import de.greenrobot.dao.DaoException;
 import de.greenrobot.dao.query.CountQuery;
+import de.greenrobot.dao.query.DeleteQuery;
 import de.greenrobot.dao.query.Query;
 
 public class MedicineService {
+    private static final String TAG = "projectlupus.service";
     public static final String DAILY = Constants.DAILY;
     public static final String WEEKLY = Constants.WEEKLY;
     public static final String MONTHLY = Constants.MONTHLY;
@@ -54,6 +57,7 @@ public class MedicineService {
         }
         if(getRowCount() > countBeforeAdd){
             newMed = getMedicine(name).getMedName();
+            Log.i(TAG, "Added new medicine: "+newMed);
         }
         return newMed;
     }
@@ -63,20 +67,25 @@ public class MedicineService {
         bo.setDosage(dosage);
         bo.setInterval(interval);
         bo.update();
+        Log.i(TAG, "Updated dosage: "+dosage+" interval: "+interval);
     }
 
     public void incrementTotalRemindedCount(long id){
         bo = getMedicine(id);
         int currentCount = bo.getMedReminderCount();
-        bo.setMedReminderCount(currentCount++);
+        int newCount = ++currentCount;
+        bo.setMedReminderCount(newCount);
         bo.update();
+        Log.i(TAG, "Update medicine reminded count: " + newCount);
     }
 
     public void incrementMedTakenCount(long id){
         bo = getMedicine(id);
         int currentCount = bo.getMedTakenCount();
-        bo.setMedTakenCount(currentCount++);
+        int newCount = ++currentCount;
+        bo.setMedTakenCount(newCount);
         bo.update();
+        Log.i(TAG, "Update medicine taken count: "+newCount);
     }
 
     public List<MedicineBO> getMedicines(){
@@ -134,12 +143,12 @@ public class MedicineService {
 
     /* Database Operations*/
     public void loadDummyData(){
-        MedicineBO bo;
         if(getCount() == 0) {
             Random random = new Random();
-            for (int i = 1; i < 5; i++) {
-                bo = new MedicineBO(null,"Drug " + i,i,Constants.DAILY,null,100,random.nextInt(51) + 50);
-                medicineDao.insert(bo);
+            for(MedicineBO bo : getAllData()){
+                bo.setMedReminderCount(100);
+                bo.setMedTakenCount(random.nextInt(51) + 50);
+                medicineDao.update(bo);
             }
         }
     }

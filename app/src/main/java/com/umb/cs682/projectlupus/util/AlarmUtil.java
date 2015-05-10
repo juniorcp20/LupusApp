@@ -13,7 +13,7 @@ import java.util.Calendar;
 
 
 public class AlarmUtil {
-    private static final String TAG = "util.AlarmUtil";
+    private static final String TAG = "projectlupus.service";
     private static AlarmManager alarmManager;
 
     public static void setAlarm(Context context, int requestCode, int reminderID, int reminderType, String alarmInterval, Calendar cal){
@@ -50,6 +50,7 @@ public class AlarmUtil {
         intent.putExtra(Constants.SNOOZED, true);
         PendingIntent pendingIntent =  PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         alarmManager.set(AlarmManager.RTC_WAKEUP, snoozeTime, pendingIntent);
+        Log.i(TAG, "Alarm snoozed, reminder ID = " + reminderID +" snooze time: "+ snoozeTime/3600);
     }
 
     public static void cancelSnooze(Context context, int requestCode, int reminderID, int reminderType, String alarmInterval, Calendar cal){
@@ -65,6 +66,7 @@ public class AlarmUtil {
         PendingIntent pendingIntent =  PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         pendingIntent.cancel();
         alarmManager.cancel(pendingIntent);
+        Log.i(TAG, "Snooze cancelled. reminder ID: "+reminderID);
     }
 
     private static void setOneShotAlarm(Context context, int reminderType, int reminderID, int requestCode, String alarmInterval, long startTime){

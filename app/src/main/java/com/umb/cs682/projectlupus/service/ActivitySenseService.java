@@ -30,7 +30,7 @@ import de.greenrobot.dao.query.DeleteQuery;
 import de.greenrobot.dao.query.Query;
 
 public class ActivitySenseService {
-    private static final String TAG = "service.activitySense";
+    private static final String TAG = "projectlupus.service";
     private static final String INTENT_FILTER = "com.umb.cs682.projectlupus.service.ActivitySense";
     private static int stepCount;
     private boolean isBound = false;
@@ -104,6 +104,8 @@ public class ActivitySenseService {
             ActivitySense.resetStepCount();
             bo = new ActivitySenseBO(null, 0, DateTimeUtil.toDate(date));
             activitySenseDao.insert(bo);
+            bo = getActSenseDatabyDate(date);
+            Log.i(TAG, "Added activity sense date. Step count: "+bo.getStepCount()+" Date: "+DateTimeUtil.toDateTime(bo.getDate()));
         }
     }
 
@@ -112,6 +114,7 @@ public class ActivitySenseService {
         bo = getActSenseDatabyDate(date);
         bo.setStepCount(ActivitySense.getStepCount());
         activitySenseDao.update(bo);
+        Log.i(TAG, "Updated activity sense date. Step count: " + ActivitySense.getStepCount() + " Date: " + DateTimeUtil.toDateTime(bo.getDate()));
     }
 
     public ActivitySenseBO getActSenseDatabyDate(Date date){

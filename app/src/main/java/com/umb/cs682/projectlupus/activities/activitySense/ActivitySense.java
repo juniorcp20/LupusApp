@@ -51,7 +51,7 @@ public class ActivitySense extends Activity {
     private boolean isOn = false;
     private static boolean serviceIsRunning = false;
 
-    private static int sensitivity;
+    private static int sensitivity = 1;
     private static int stepCount;
     private static ToggleButton startStopButton = null;
     private static TextView stepCountText = null;
@@ -182,6 +182,7 @@ public class ActivitySense extends Activity {
             if (sensString != null) {
                 sensitivity = Integer.parseInt(sensString)*10;
                 StepDetector.setSensitivity(sensitivity);
+                Log.i(TAG, "Changed sensitivity to: "+sensitivity/10);
                 //service.setSensitivity(Integer.parseInt(sensString));
             }
         }
@@ -325,7 +326,7 @@ public class ActivitySense extends Activity {
             mService = IStepService.Stub.asInterface(service);
             try {
                 mService.registerCallback(mCallback);
-                mService.setSensitivity(sensitivity);
+                mService.setSensitivity(sensitivity*10);
                 startStopButton.setChecked(mService.isRunning());
             } catch (RemoteException e) {
                 e.printStackTrace();

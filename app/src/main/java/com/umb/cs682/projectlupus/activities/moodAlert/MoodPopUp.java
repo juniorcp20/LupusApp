@@ -129,14 +129,12 @@ public class MoodPopUp extends Activity {
         if (reminderID > 0) {
             moodLevelService.addMoodLevel(reminderID, selMoodLevel);
             reminderService.updateMoodReminderStatus(reminderID, Constants.REM_STATUS_DONE);
-            Log.i(TAG, "Reminder status - Done");
         }
     }
 
     private void skip(){
         reminderService.updateMoodReminderStatus(reminderID, Constants.REM_STATUS_SKIP);
         finish();
-        Log.i(TAG, "Reminder status - Skip");
     }
 
     private void snooze(){
@@ -148,13 +146,11 @@ public class MoodPopUp extends Activity {
         AlarmUtil.snooze(this, snoozeRequestCode, reminderID, Constants.MOOD_REMINDER, Constants.DAILY, null, snoozeTime);
         reminderService.updateMoodReminderStatus(reminderID, Constants.REM_STATUS_SNOOZE);
         snoozed = true;
-        Log.i(TAG, "Reminder status - Snooze");
     }
 
     private void cancelSnooze(){
         if(snoozed){
             AlarmUtil.cancelSnooze(this, snoozeRequestCode, reminderID, Constants.MOOD_REMINDER, Constants.DAILY, null);
-            Log.i(TAG, "Snooze cancelled");
         }
     }
 

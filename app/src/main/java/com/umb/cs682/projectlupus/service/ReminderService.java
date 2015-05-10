@@ -1,6 +1,7 @@
 package com.umb.cs682.projectlupus.service;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.umb.cs682.projectlupus.config.LupusMate;
 import com.umb.cs682.projectlupus.db.dao.ReminderDao;
@@ -18,7 +19,7 @@ import de.greenrobot.dao.query.DeleteQuery;
 import de.greenrobot.dao.query.Query;
 
 public class ReminderService {
-    public static final String TAG = "service.reminder";
+    public static final String TAG = "projectlupus.service";
     public static final int MOOD_REMINDER = Constants.MOOD_REMINDER;
     public static final int MED_REMINDER = Constants.MED_REMINDER;
 
@@ -59,6 +60,7 @@ public class ReminderService {
         bo = getReminder(id);
         bo.setStatus(status);
         reminderDao.update(bo);
+        Log.i(TAG, "Reminder status: " + status);
     }
 
     /* Mood Reminders */
@@ -74,8 +76,10 @@ public class ReminderService {
             throw new DaoException("Reminder already set for this time!");
         }
         if(getRowCount(MOOD_REMINDER) > countBeforeAdd){
-            id = getMoodReminder(time).getId();
+            bo = getMoodReminder(time);
+            id = bo.getId();
         }
+        Log.i(TAG, "Mood reminder saved. Reminder ID: "+id+" Time: "+bo.getReminderTime());
         return id;
     }
 
@@ -83,17 +87,21 @@ public class ReminderService {
         bo = getMoodReminder(id);
         bo.setReminderTime(DateTimeUtil.toTime(updatedTime));
         reminderDao.update(bo);
+        Log.i(TAG, "Updated mood reminder time to: " + updatedTime);
     }
 
     public void updateMoodReminderStatus(long id, String status){
         bo = getMoodReminder(id);
         bo.setStatus(status);
         reminderDao.update(bo);
+        bo = getMoodReminder(id);
+        Log.i(TAG, "Reminder status: "+bo.getStatus());
     }
 
     public void deleteMoodReminder(long id){
         DeleteQuery query = reminderDao.queryBuilder().where(ReminderDao.Properties.Id.eq(id)).buildDelete();
         query.executeDeleteWithoutDetachingEntities();
+        Log.i(TAG, "Deleted from database. reminder ID: "+id);
     }
 
     public ReminderBO getMoodReminder(String time){
@@ -135,6 +143,7 @@ public class ReminderService {
         if(getRowCount(MED_REMINDER) > countBeforeAdd){
             id = getMedReminder(medID, time).getId();
         }
+        Log.i(TAG, "Medicine reminder saved. Reminder ID: "+id+" Time: "+bo.getReminderTime());
         return id;
     }
 
@@ -142,6 +151,7 @@ public class ReminderService {
         bo = getMedReminder(id);
         bo.setReminderTime(DateTimeUtil.toTime(updatedTime));
         reminderDao.update(bo);
+        Log.i(TAG, "Updated medicine reminder time to: "+updatedTime);
     }
 
     public void editMedReminder(long id, long medID, String dayOrDate){
@@ -149,22 +159,26 @@ public class ReminderService {
         bo.setMedId(medID);
         bo.setReminderDayOrDate(dayOrDate);
         reminderDao.update(bo);
+        Log.i(TAG, "Updated medicine reminder interval instant: "+dayOrDate);
     }
 
     public void updateMedReminderStatus(long id, String status){
         bo = getMedReminder(id);
         bo.setStatus(status);
         reminderDao.update(bo);
+        Log.i(TAG, "Reminder status: " + bo.getStatus());
     }
 
     public void deleteMedReminder(long id){
         DeleteQuery query = reminderDao.queryBuilder().where(ReminderDao.Properties.Id.eq(id)).buildDelete();
         query.executeDeleteWithoutDetachingEntities();
+        Log.i(TAG, "Deleted from database. reminder ID: " + id);
     }
 
     public void deleteMedReminderByMedId(long medID){
         DeleteQuery query = reminderDao.queryBuilder().where(ReminderDao.Properties.MedId.eq(medID)).buildDelete();
         query.executeDeleteWithoutDetachingEntities();
+        Log.i(TAG, "Deleted reminder from database. medicine ID: " + medID);
     }
 
     public ReminderBO getMedReminder(long medID, String time){

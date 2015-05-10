@@ -326,7 +326,7 @@ public class ActivitySense extends Activity {
             mService = IStepService.Stub.asInterface(service);
             try {
                 mService.registerCallback(mCallback);
-                mService.setSensitivity(sensitivity*10);
+                mService.setSensitivity(sensitivity);
                 startStopButton.setChecked(mService.isRunning());
             } catch (RemoteException e) {
                 e.printStackTrace();

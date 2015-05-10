@@ -32,6 +32,7 @@ import android.widget.TimePicker;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.TimeZone;
 
 import de.greenrobot.dao.DaoException;
 
@@ -42,7 +43,7 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
 
     private int selHour;
     private int selMin;
-    private long selID;
+    private Long selID;
     
     private StringBuilder selectedTime;
     private ArrayList<Long> remIDs;
@@ -122,9 +123,10 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
     private TimePickerDialog.OnTimeSetListener mTimeSetListener =
             new TimePickerDialog.OnTimeSetListener() {
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                    Calendar cal = Calendar.getInstance();
+                    Calendar cal = Calendar.getInstance(TimeZone.getDefault());
                     cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
                     cal.set(Calendar.MINUTE, minute);
+                    int requestCode;
                     selMin = minute;
                     String am_pm = null;
                     if(!DateTimeUtil.is24HourFormat(getApplicationContext())) {
@@ -148,7 +150,7 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
                         try {
                             Long newID = service.addMoodReminder(selectedTime.toString());
                             int remID = newID.intValue();
-                            int requestCode = remID;
+                            requestCode = remID;
                             //AlarmUtil.setDailyRepeatingAlarm(getApplicationContext(), Constants.MOOD_REMINDER, remID, requestCode, cal);
                             AlarmUtil.setAlarm(getApplicationContext(), requestCode, remID, Constants.MOOD_REMINDER, Constants.DAILY, cal);
                             service.updateMoodReminderStatus(newID, Constants.REM_STATUS_ACTIVE);
@@ -157,6 +159,13 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
                             Utils.displayToast(getApplicationContext(), e.getMessage());
                         }
                     }else{
+                       /* Calendar oldCal = Calendar.getInstance(TimeZone.getDefault());
+                        Calendar tempCal = Calendar.getInstance(TimeZone.getDefault());
+                        tempCal.setTimeInMillis(service.getMoodReminder(selID).getReminderTime().getTime());
+                        oldCal.set(Calendar.HOUR_OF_DAY, tempCal.get(Calendar.HOUR_OF_DAY));
+                        oldCal.set(Calendar.MINUTE, tempCal.get(Calendar.MINUTE));*/
+                        requestCode = selID.intValue();
+                        AlarmUtil.updateAlarm(getApplicationContext(), requestCode, selID.intValue(), Constants.MOOD_REMINDER, Constants.DAILY, null, cal);
                         service.editMoodReminder(selID,selectedTime.toString());
                     }
 

@@ -90,7 +90,7 @@ public class ActivitySenseService {
     }
 
     public int getStoredStepCount(Date date){
-        updateActSenseData(date);
+        //updateActSenseData(date);
         return getActSenseDatabyDate(date).getStepCount();
     }
 
@@ -112,7 +112,13 @@ public class ActivitySenseService {
     public void updateActSenseData(Date date){
         ActivitySenseBO bo;
         bo = getActSenseDatabyDate(date);
-        bo.setStepCount(ActivitySense.getStepCount());
+        int currentCount = ActivitySense.getStepCount();
+        int savedCount = bo.getStepCount();
+        if( currentCount < savedCount){
+            bo.setStepCount(savedCount+currentCount);
+        }else {
+            bo.setStepCount(currentCount);
+        }
         activitySenseDao.update(bo);
         Log.i(TAG, "Updated activity sense date. Step count: " + ActivitySense.getStepCount() + " Date: " + DateTimeUtil.toDateTime(bo.getDate()));
     }

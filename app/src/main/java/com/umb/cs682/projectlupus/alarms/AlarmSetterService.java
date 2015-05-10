@@ -103,6 +103,7 @@ public class AlarmSetterService extends IntentService {
                     break;
                 case Constants.MONTHLY:
                     dayOfMonth = reminderBO.getReminderDayOrDate();
+                    break;
             }
             AlarmUtil.setAlarm(getApplicationContext(), requestCode, remID, Constants.MED_REMINDER, alarmInterval, DateTimeUtil.getCalendar(hourOfDay, min, dayOfWeek, dayOfMonth));
         }

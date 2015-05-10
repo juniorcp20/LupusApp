@@ -21,7 +21,7 @@ public class AlarmUtil {
         long startTime = getAlarmTimeMillis(alarmInterval, cal);
 
         if(alarmInterval.equals(Constants.DAILY)) {
-            setDailyRepeatingAlarm(context, reminderType, reminderID, requestCode, cal);
+            setDailyRepeatingAlarm(context, reminderType, reminderID, requestCode, startTime);
         }else{
             setOneShotAlarm(context, reminderType, reminderID, requestCode, alarmInterval, startTime);
         }
@@ -36,6 +36,11 @@ public class AlarmUtil {
             cancelOneShotAlarm(context, reminderType, reminderID, requestCode, alarmInterval, startTime);
         }
         Log.i(TAG, "Alarm cancelled, reminder ID = "+reminderID);
+    }
+
+    public static void updateAlarm(Context context, int requestCode, int reminderID, int reminderType, String alarmInterval, Calendar oldCal, Calendar newCal){
+        cancelAlarm(context, requestCode, reminderID, reminderType, alarmInterval, oldCal);
+        setAlarm(context, requestCode, reminderID, reminderType, alarmInterval, newCal);
     }
 
     public static void snooze(Context context, int requestCode, int reminderID, int reminderType, String alarmInterval, Calendar cal, long snoozeTime){
@@ -84,11 +89,11 @@ public class AlarmUtil {
         alarmManager.cancel(pendingIntent);
     }
 
-    private static void setDailyRepeatingAlarm(Context context, int reminderType, int reminderID, int requestCode, Calendar cal) {
+    private static void setDailyRepeatingAlarm(Context context, int reminderType, int reminderID, int requestCode, long startTime) {
         alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = buildIntent(context, reminderType, reminderID, requestCode, Constants.DAILY, 0);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, startTime, AlarmManager.INTERVAL_DAY, pendingIntent);
         Log.i(TAG, "Set Repeating Alarm - Successful, reminder ID = "+reminderID);
     }
 
@@ -121,6 +126,12 @@ public class AlarmUtil {
 
     private static long getAlarmTimeMillis(String alarmInterval, Calendar cal){//int hourOfDay, int min, String dayOfWeek, String dayOfMonth){
         long alarmTimeMillis = 0;
+        if(alarmInterval.equals(Constants.DAILY)){
+            alarmTimeMillis = cal.getTimeInMillis();
+            if(alarmTimeMillis - System.currentTimeMillis() < 0){
+                alarmTimeMillis = alarmTimeMillis + AlarmManager.INTERVAL_DAY;
+            }
+        }
         if(alarmInterval.equals(Constants.WEEKLY)){
             alarmTimeMillis = cal.getTimeInMillis();
             if(alarmTimeMillis - System.currentTimeMillis() < 0){

@@ -3,6 +3,7 @@ package com.umb.cs682.projectlupus.activities.medicineAlert;
 import com.umb.cs682.projectlupus.R;
 import com.umb.cs682.projectlupus.config.LupusMate;
 import com.umb.cs682.projectlupus.domain.MedicineBO;
+import com.umb.cs682.projectlupus.domain.ReminderBO;
 import com.umb.cs682.projectlupus.service.MedicineService;
 import com.umb.cs682.projectlupus.service.ReminderService;
 import com.umb.cs682.projectlupus.util.AlarmUtil;
@@ -154,8 +155,12 @@ public class AddMedicine extends Activity {
         if (id == R.id.action_save) {
             validate();
             if(isValid) {
+                if(isNewMed) {
+                    setAlarms();
+                }else{
+                    updateAlarms();
+                }
                 updateDatabase();
-                setAlarms();
                 Intent intent = new Intent();
                 intent.putExtra(Constants.IS_NEW_MED, isNewMed);
                 intent.putExtra(Constants.MED_NAME, medNames.get(medNameSpinner.getSelectedItemPosition()));
@@ -213,7 +218,7 @@ public class AddMedicine extends Activity {
                   }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                         selDayOrDate = selDayOfWeek;
-                        Utils.displayToast(getApplicationContext(), "Reminder will be set at "+ selDayOfWeek +" of every week.");
+                        Utils.displayToast(getApplicationContext(), "Reminder will be set on "+ selDayOfWeek +" of every week.");
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -252,7 +257,7 @@ public class AddMedicine extends Activity {
                             }else{
                                 suffix = "th";
                             }
-                            Utils.displayToast(context, "Reminder will be set at "+ selDayOfMonth +suffix+" of every month.");
+                            Utils.displayToast(context, "Reminder will be set on "+ selDayOfMonth +suffix+" of every month.");
                         }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -316,6 +321,9 @@ public class AddMedicine extends Activity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId){
+                    case R.id.rb_daily:
+                        selInterval = DAILY;
+                        break;
                     case R.id.rb_weekly:
                         selInterval = WEEKLY;
                         pickDayDialog.show();
@@ -476,8 +484,10 @@ public class AddMedicine extends Activity {
             switch (selInterval){
                 case WEEKLY:
                     dayOfWeek = selDayOfWeek;
+                    break;
                 case MONTHLY:
                     dayOfMonth = selDayOfMonth;
+                    break;
             }
             int currRemID = id.intValue();
             int requestCode = currRemID;
@@ -485,6 +495,35 @@ public class AddMedicine extends Activity {
             Log.i(TAG, "Setting Alarm");
             reminderService.updateMedReminderStatus(id, Constants.REM_STATUS_ACTIVE);
         }
+    }
+
+    private void updateAlarms(){
+        //cancel all alarms first
+        for(Long id: remIDs) {
+            ReminderBO currRemBO = reminderService.getMedReminder(id);
+            String status = currRemBO.getStatus();
+            if (status != Constants.REM_STATUS_CREATED) {
+                Date reminderTime = reminderService.getMedReminder(id).getReminderTime();
+                int hourOfDay = DateTimeUtil.getHour(reminderTime);
+                int min = DateTimeUtil.getMin(reminderTime);
+                String dayOfWeek = null;
+                String dayOfMonth = null;
+                String selInterval = medService.getMedicineInterval(selMedID);
+                switch (selInterval) {
+                    case Constants.WEEKLY:
+                        dayOfWeek = currRemBO.getReminderDayOrDate();
+                        break;
+                    case Constants.MONTHLY:
+                        dayOfMonth = currRemBO.getReminderDayOrDate();
+                        break;
+                }
+                int remID = id.intValue();
+                int requestCode = remID;
+                AlarmUtil.cancelAlarm(this, requestCode, remID, Constants.MED_REMINDER, selInterval, DateTimeUtil.getCalendar(hourOfDay, min, dayOfWeek, dayOfMonth));
+                Log.i(TAG, "Cancelling Alarm");
+            }
+        }
+        setAlarms();
     }
 
     private void cancelAlarm(Long id){
@@ -498,8 +537,10 @@ public class AddMedicine extends Activity {
             switch (selInterval){
                 case WEEKLY:
                     dayOfWeek = selDayOfWeek;
+                    break;
                 case MONTHLY:
                     dayOfMonth = selDayOfMonth;
+                    break;
             }
             int remID = id.intValue();
             int requestCode = remID;

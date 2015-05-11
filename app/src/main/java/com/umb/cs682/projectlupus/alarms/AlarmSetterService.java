@@ -4,9 +4,14 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.umb.cs682.projectlupus.config.LupusMate;
+import com.umb.cs682.projectlupus.db.dao.MedicineDao;
+import com.umb.cs682.projectlupus.db.dao.ReminderDao;
+import com.umb.cs682.projectlupus.db.helpers.DaoMaster;
+import com.umb.cs682.projectlupus.db.helpers.DaoSession;
 import com.umb.cs682.projectlupus.domain.MedicineBO;
 import com.umb.cs682.projectlupus.domain.ReminderBO;
 import com.umb.cs682.projectlupus.service.MedicineService;
@@ -27,23 +32,21 @@ public class AlarmSetterService extends IntentService {
     public static final String CREATE = "CREATE";
 
     private IntentFilter matcher;
-    //private Context context;
 
-        private ReminderService reminderService;
+    private ReminderService reminderService;
     private MedicineService medicineService;
 
     public AlarmSetterService() {
         super(TAG);
         matcher = new IntentFilter();
         matcher.addAction(CREATE);
-       /*try {
-            setAppContext(getApplicationContext());
-            configureServices();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        context = LupusMate.getAppContext();*/
-        final LupusMate lupusMate = (LupusMate) getApplicationContext();
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        final LupusMate lupusMate = (LupusMate) this.getApplication();
         reminderService = lupusMate.getReminderService();
         medicineService = lupusMate.getMedicineService();
     }

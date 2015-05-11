@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.umb.cs682.projectlupus.alarms.MedicineAlarmReceiver;
 import com.umb.cs682.projectlupus.alarms.MoodAlarmReceiver;
+import com.umb.cs682.projectlupus.config.LupusMate;
+import com.umb.cs682.projectlupus.service.ReminderService;
 
 import java.util.Calendar;
 
@@ -35,7 +37,7 @@ public class AlarmUtil {
             long startTime = getAlarmTimeMillis(alarmInterval, cal);
             cancelOneShotAlarm(context, reminderType, reminderID, requestCode, alarmInterval, startTime);
         }
-        Log.i(TAG, "Alarm cancelled, reminder ID = "+reminderID);
+        Log.i(TAG, "Alarm cancelled, reminder ID = " + reminderID);
     }
 
     public static void updateAlarm(Context context, int requestCode, int reminderID, int reminderType, String alarmInterval, Calendar oldCal, Calendar newCal){
@@ -71,7 +73,7 @@ public class AlarmUtil {
         PendingIntent pendingIntent =  PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         pendingIntent.cancel();
         alarmManager.cancel(pendingIntent);
-        Log.i(TAG, "Snooze cancelled. reminder ID: "+reminderID);
+        Log.i(TAG, "Snooze cancelled. reminder ID: " + reminderID);
     }
 
     private static void setOneShotAlarm(Context context, int reminderType, int reminderID, int requestCode, String alarmInterval, long startTime){
@@ -107,6 +109,9 @@ public class AlarmUtil {
     }
 
     private static Intent buildIntent(Context context, int reminderType, int reminderID, int requestCode, String alarmInterval, long startTime){//int hourOfDay, int min, int dayOfWeek, int dayOfMonth){
+        final LupusMate lupusMate = (LupusMate) context.getApplicationContext();
+        ReminderService reminderService = lupusMate.getReminderService();
+
         Intent intent = new Intent();
 
         if(reminderType == Constants.MOOD_REMINDER){
@@ -119,7 +124,13 @@ public class AlarmUtil {
         intent.putExtra(Constants.REMINDER_ID, reminderID);
         intent.putExtra(Constants.ALARM_INTERVAL, alarmInterval);
         if(!alarmInterval.equals(Constants.DAILY)) {
+            String dayOrDate = reminderService.getMedReminder(reminderID).getReminderDayOrDate();
             intent.putExtra(Constants.START_TIME, startTime);
+            if(alarmInterval.equals(Constants.WEEKLY)){
+                intent.putExtra(Constants.DAY_OF_WEEK, DateTimeUtil.getDayOfWeek(dayOrDate));
+            }else if(alarmInterval.equals(Constants.MONTHLY)){
+                intent.putExtra(Constants.DAY_OF_MONTH, Integer.parseInt(dayOrDate));
+            }
         }
         return intent;
     }

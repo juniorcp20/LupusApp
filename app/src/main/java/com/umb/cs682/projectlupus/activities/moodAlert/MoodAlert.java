@@ -130,11 +130,15 @@ public class MoodAlert extends Activity implements AdapterView.OnItemClickListen
                     selMin = minute;
                     String am_pm = null;
                     if(!DateTimeUtil.is24HourFormat(getApplicationContext())) {
-                        if (hourOfDay > 12)         //hourofDay =13
+                        if (hourOfDay >= 12)
                         {
-                            selHour = hourOfDay - 12;
+                            if(hourOfDay == 12){
+                                selHour = hourOfDay;
+                            }else {
+                                selHour = hourOfDay - 12;
+                            }
                             am_pm = "PM";
-                        } else {
+                        }  else {
                             selHour = hourOfDay;
                             am_pm = "AM";
                         }

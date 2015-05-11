@@ -344,9 +344,13 @@ public class AddMedicine extends Activity {
                     selMin = minute;
                     String am_pm = null;
                     if(!DateTimeUtil.is24HourFormat(getApplicationContext())) {
-                        if (hourOfDay > 12)         
+                        if (hourOfDay >= 12)
                         {
-                            selHour = hourOfDay - 12;
+                            if(hourOfDay == 12){
+                                selHour = hourOfDay;
+                            }else {
+                                selHour = hourOfDay - 12;
+                            }
                             am_pm = "PM";
                         } else {
                             selHour = hourOfDay;
@@ -441,6 +445,7 @@ public class AddMedicine extends Activity {
             dosageText.setText(String.valueOf(currMed.getDosage()));
             selInterval = currMed.getInterval();
             remIDs = reminderService.getAllMedReminderIDs(selMedID);
+            selDayOrDate = reminderService.getMedReminder(remIDs.get(0)).getReminderDayOrDate();
         }
     }
 
@@ -483,10 +488,18 @@ public class AddMedicine extends Activity {
             String dayOfMonth = null;
             switch (selInterval){
                 case WEEKLY:
-                    dayOfWeek = selDayOfWeek;
+                    if(isNewMed) {
+                        dayOfWeek = selDayOfWeek;
+                    }else{
+                        dayOfWeek = selDayOrDate;
+                    }
                     break;
                 case MONTHLY:
-                    dayOfMonth = selDayOfMonth;
+                    if(isNewMed) {
+                        dayOfMonth = selDayOfMonth;
+                    }else {
+                        dayOfMonth = selDayOrDate;
+                    }
                     break;
             }
             int currRemID = id.intValue();

@@ -195,8 +195,11 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
     protected void onStart() {
         super.onStart();
         Date now = new Date();
-        activitySenseService.addActSenseData(now);
-        String stepCount = String.valueOf(activitySenseService.getStoredStepCount(now));
+        String stepCount = "0";
+        if(SharedPreferenceManager.getBooleanPref(Constants.ACTIVITY_SENSE_SETTING)) {
+            activitySenseService.addActSenseData(now);
+            stepCount = String.valueOf(activitySenseService.getStoredStepCount(now));
+        }
         stepCountText.setText(stepCount);
         restoreActionBar();
     }

@@ -121,7 +121,7 @@ public class DateTimeUtil {
         return cal;
     }
 
-    private static int getDayOfWeek(String dayOfWeek) {
+    public static int getDayOfWeek(String dayOfWeek) {
         int retVal = 0;
         switch(dayOfWeek.toLowerCase()){
             case "sunday":

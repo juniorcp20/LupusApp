@@ -15,13 +15,14 @@
         android:id="@+id/linearLayout">
         <TextView android:id="@+id/tv_steps"
             android:layout_width="fill_parent" android:layout_height="wrap_content"
-            android:paddingTop="2dip" android:paddingBottom="15dip"
-            android:paddingLeft="2dip" android:paddingRight="2dip"
             android:text="@string/default_text"
             android:textSize="20dip"
-            style="@style/PurpleFont">
+            style="@style/PurpleFont"
+            android:gravity="center">
+        <!--android:paddingTop="2dip" android:paddingBottom="15dip"
+        android:paddingLeft="2dip" android:paddingRight="2dip"-->
         </TextView>
-        <TextView android:id="@+id/tv_sensitivity_text"
+        <!--<TextView android:id="@+id/tv_sensitivity_text"
             android:layout_width="fill_parent" android:layout_height="wrap_content"
             android:text="@string/sensitivity_text"
             android:textSize="20dip"
@@ -34,7 +35,7 @@
             android:prompt="@string/sensitivity"
             android:hint="@string/sensitivity_hint">
 
-        </Spinner>
+        </Spinner>-->
 
     </LinearLayout>
     <ToggleButton android:id="@+id/tb_start_stop"
@@ -54,7 +55,7 @@
         android:text="@string/a_activity_sense_desc"
         android:id="@+id/a_activity_sense_desc"
         style="@style/PurpleFont"/>
-    <TextView
+    <!--<TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -74,12 +75,12 @@
         style="@style/PurpleFont"
         android:layout_below="@+id/textView6"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true" />-->
 
     <Space
         android:layout_width="fill_parent"
         android:layout_height="20px"
-        android:layout_below="@+id/textView7"
+        android:layout_below="@+id/a_activity_sense_desc"
         android:layout_centerHorizontal="true"
         android:id="@+id/space25" />
 

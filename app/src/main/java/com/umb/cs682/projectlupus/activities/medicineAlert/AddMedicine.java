@@ -280,7 +280,7 @@ public class AddMedicine extends Activity {
     /*  Begin Widget Setup   */
     private void initMedNameSpinner() {
         medNameAdapter = new MedNameSpinnerAdapter(this, medNames);
-        medNameAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        medNameAdapter.setDropDownViewResource(R.layout.li_spinner);
         medNameSpinner.setAdapter(medNameAdapter);
         medNameSpinner.setSelection(Utils.getSpinnerIndex(medNameSpinner,selMedName));
         medNameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

@@ -93,11 +93,11 @@ public class ActivitySense extends Activity {
         }
 
         stepCountText = (TextView) this.findViewById(R.id.tv_steps);
-        sensSpinner = (Spinner) findViewById(R.id.sp_sensitivity);
+        //sensSpinner = (Spinner) findViewById(R.id.sp_sensitivity);
         startStopButton = (ToggleButton) this.findViewById(R.id.tb_start_stop);
         startStopButton.setOnCheckedChangeListener(startStopListener);
 
-        initSensitivitySpinner();
+        //initSensitivitySpinner();
         service.setupAlarm();
 
 
@@ -181,7 +181,7 @@ public class ActivitySense extends Activity {
             String sensString = String.valueOf(seq);
             if (sensString != null) {
                 sensitivity = Integer.parseInt(sensString)*10;
-                StepDetector.setSensitivity(sensitivity);
+                StepDetector.setSensitivity(20);
                 SharedPreferenceManager.setIntPref(TAG, Constants.SENSITIVITY_VALUE, sensitivity);
                 Log.i(TAG, "Changed sensitivity to: "+sensitivity/10);
                 //service.setSensitivity(Integer.parseInt(sensString));
@@ -327,7 +327,7 @@ public class ActivitySense extends Activity {
             mService = IStepService.Stub.asInterface(service);
             try {
                 mService.registerCallback(mCallback);
-                mService.setSensitivity(sensitivity);
+                mService.setSensitivity(20);
                 startStopButton.setChecked(mService.isRunning());
             } catch (RemoteException e) {
                 e.printStackTrace();

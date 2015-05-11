@@ -162,8 +162,8 @@ public class ActivitySense extends Activity {
             String[] sensArray = getResources().getStringArray(R.array.arr_sensitivity);
             sensArrayList = new ArrayList<String>(Arrays.asList(sensArray));
         }
-        if (sensArrayList.contains(String.valueOf(sensitivity))) {
-            idx = sensArrayList.indexOf(String.valueOf(sensitivity));
+        if (sensArrayList.contains(String.valueOf(sensitivity/10))) {
+            idx = sensArrayList.indexOf(String.valueOf(sensitivity/10));
         }
 
 
@@ -182,6 +182,7 @@ public class ActivitySense extends Activity {
             if (sensString != null) {
                 sensitivity = Integer.parseInt(sensString)*10;
                 StepDetector.setSensitivity(sensitivity);
+                SharedPreferenceManager.setIntPref(TAG, Constants.SENSITIVITY_VALUE, sensitivity);
                 Log.i(TAG, "Changed sensitivity to: "+sensitivity/10);
                 //service.setSensitivity(Integer.parseInt(sensString));
             }

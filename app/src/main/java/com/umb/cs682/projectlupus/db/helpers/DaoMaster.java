@@ -61,6 +61,18 @@ public class DaoMaster extends AbstractDaoMaster {
         }
     }
 
+    public static class DBOpenHelper extends OpenHelper {
+        public DBOpenHelper(Context context, CursorFactory factory) {
+            super(context, factory);
+        }
+
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+            Log.i("greenDAO", "Upgrading schema from version " + oldVersion + " to " + newVersion);
+            onCreate(db);
+        }
+    }
+
     public DaoMaster(SQLiteDatabase db) {
         super(db, SCHEMA_VERSION);
         registerDaoClass(ActivitySenseDao.class);

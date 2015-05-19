@@ -68,7 +68,7 @@ public class LupusMate extends Application{
    public void configureServices() throws Exception{
         try {
             //Initialize DAOs
-            DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(appContext, null);
+            DaoMaster.DBOpenHelper helper = new DaoMaster.DBOpenHelper(appContext, null);
             db = helper.getWritableDatabase();
             daoMaster = new DaoMaster(db);
             daoSession = daoMaster.newSession();

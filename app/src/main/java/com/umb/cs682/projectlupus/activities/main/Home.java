@@ -86,9 +86,9 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
 
         stepCountText = (TextView) findViewById(R.id.tv_home_step_count);
         // Load dummy data for testing
-        moodLevelService.loadDummyData();
-        activitySenseService.loadDummyData();
-        medicineService.loadDummyData();
+        //moodLevelService.loadDummyData();
+        //activitySenseService.loadDummyData();
+        //medicineService.loadDummyData();
 
         Iterator iterator;
         int xIndex;

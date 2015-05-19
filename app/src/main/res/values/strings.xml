@@ -23,13 +23,13 @@
 
     <!-- MOOD ALERT -->
     <string name="title_init_mood_alert">Step 2 of 4</string>
-    <string name="title_mood_alert">Mood Alerts</string>
-    <string name="a_mood_alert_desc">LupusMate keeps track of how you feel everyday. Setup the frequency and time when you wish to be asked for your feedback.</string>
+    <string name="title_mood_alert">Health Alert</string>
+    <string name="a_mood_alert_desc">LupusMate keeps track of how healthy you feel everyday. Setup the frequency and time when you wish to be asked for your feedback.</string>
     <string name="a_mood_alert_note">Note: Recommended to set up two reminders, one after getting up in the morning and another before going to bed.</string>
-    <string name="title_activity_mood_pop_up">Mood Reminder</string>
+    <string name="title_activity_mood_pop_up">Health Reminder</string>
     <string name="a_mood_alert_pop_up_text1">Hey!</string>
-    <string name="a_mood_alert_pop_up_text2">How are you feeling?</string>
-    <string name="popup_mood_text">Hey! How are you feeling?</string>
+    <string name="a_mood_alert_pop_up_text2">How healthy are you feeling now?</string>
+    <string name="popup_mood_text">Hey! How healthy are you feeling?</string>
 
     <!-- ACTIVITY SENSING -->
     <string name="title_init_activity_sense">Step 3 of 4</string>

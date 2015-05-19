@@ -45,7 +45,7 @@
     </string-array>
 
     <string-array name="nav_drawer_list">
-        <item>Mood Alerts</item>
+        <item>Health Alerts</item>
         <item>Activity Sensing</item>
         <item>Medication Reminder</item>
         <item>Edit Profile</item>

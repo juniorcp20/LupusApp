@@ -73,9 +73,9 @@ public class MoodLevelService {
         Float avg;
 
         List<MoodLevelBO> allData = getAllData();
-        for (int i = 0;i < allData.size() - 1;i ++) {
-            if(allData.size() > 1 && i+1 <= allData.size() && DateTimeUtil.toDate(allData.get(i).getDate()).equals(DateTimeUtil.toDate(allData.get(i + 1).getDate()))) {
-                Date tempForComparison = DateTimeUtil.toDate(allData.get(i).getDate());
+        for (int i = 0;i <= allData.size()-1;i ++) {
+            Date tempForComparison = DateTimeUtil.toDate(allData.get(i).getDate());
+            if(allData.size() > 1 && i+1 < allData.size() && DateTimeUtil.toDate(allData.get(i).getDate()).equals(DateTimeUtil.toDate(allData.get(i + 1).getDate()))) {
                 int j = i + 1;
                 avg = (float) allData.get(i).getMoodLevel();
                 do {
@@ -86,6 +86,9 @@ public class MoodLevelService {
                 i = j - 1;
             }
             else {
+                avg = (float) allData.get(i).getMoodLevel();
+            }
+            if(i == allData.size() && !timeVsMoodLevelMap.containsKey(tempForComparison)){
                 avg = (float) allData.get(i).getMoodLevel();
             }
             timeVsMoodLevelMap.put(allData.get(i).getDate(),avg);

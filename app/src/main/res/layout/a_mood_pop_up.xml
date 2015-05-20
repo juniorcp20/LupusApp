@@ -19,6 +19,7 @@
         android:text="@string/a_mood_alert_pop_up_text2"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_gravity="center_horizontal"
+        android:gravity="center"
         style="@style/PurpleFont"/>
     <Space
         android:layout_width="fill_parent"

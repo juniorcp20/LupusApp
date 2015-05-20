@@ -15,6 +15,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -26,8 +27,10 @@ import android.widget.Spinner;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Profile extends Activity {
+import de.greenrobot.dao.DaoException;
 
+public class Profile extends Activity {
+    private static final String TAG = ".activities.common";
     private boolean isInit = SharedPreferenceManager.isFirstRun();
 
     private ProfileService service;
@@ -109,14 +112,18 @@ public class Profile extends Activity {
     }
 
     private void populateData() {
-        ProfileBO data = service.getProfileData();
-        if(data != null) {
-            etUsername.setText(data.getUserName());
-            spAge.setSelection(Utils.getSpinnerIndex(spAge, data.getAge()));
-            if (data.getGender() != "Male") {
-                rgGender.check(R.id.rb_female);
+        try {
+            ProfileBO data = service.getProfileData();
+            if (data != null) {
+                etUsername.setText(data.getUserName());
+                spAge.setSelection(Utils.getSpinnerIndex(spAge, data.getAge()));
+                if (data.getGender() != "Male") {
+                    rgGender.check(R.id.rb_female);
+                }
+                spEthnicity.setSelection(Utils.getSpinnerIndex(spEthnicity, data.getEthnicity()));
             }
-            spEthnicity.setSelection(Utils.getSpinnerIndex(spEthnicity, data.getEthnicity()));
+        }catch (DaoException e){
+            Log.e(TAG, "Table empty");
         }
     }
 

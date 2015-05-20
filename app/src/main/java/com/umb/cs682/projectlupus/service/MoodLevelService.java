@@ -10,6 +10,7 @@ import com.umb.cs682.projectlupus.util.DateTimeUtil;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
 
@@ -73,7 +74,7 @@ public class MoodLevelService {
 
         List<MoodLevelBO> allData = getAllData();
         for (int i = 0;i < allData.size() - 1;i ++) {
-            if(DateTimeUtil.toDate(allData.get(i).getDate()).equals(DateTimeUtil.toDate(allData.get(i + 1).getDate()))) {
+            if(allData.size() > 1 && i+1 <= allData.size() && DateTimeUtil.toDate(allData.get(i).getDate()).equals(DateTimeUtil.toDate(allData.get(i + 1).getDate()))) {
                 Date tempForComparison = DateTimeUtil.toDate(allData.get(i).getDate());
                 int j = i + 1;
                 avg = (float) allData.get(i).getMoodLevel();

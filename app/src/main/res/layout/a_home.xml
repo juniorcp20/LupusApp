@@ -27,7 +27,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/tv_mood"
-                    android:text="Moodlevel Overview"
+                    android:text="Health Overview"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:gravity="center"
                     style="@style/PurpleFont"/>

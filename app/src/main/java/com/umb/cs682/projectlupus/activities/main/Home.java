@@ -113,6 +113,8 @@ public class Home extends Activity implements NavigationDrawerFragment.Navigatio
         if(SharedPreferenceManager.getBooleanPref(Constants.ACTIVITY_SENSE_SETTING)) {
             activitySenseService.addActSenseData(now);
             stepCount = String.valueOf(activitySenseService.getStoredStepCount(now));
+        }else if(activitySenseService.getStoredStepCount(now) > 0){
+            stepCount = String.valueOf(activitySenseService.getStoredStepCount(now));
         }
         stepCountText.setText(stepCount);
         restoreActionBar();

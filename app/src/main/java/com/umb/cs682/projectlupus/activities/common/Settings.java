@@ -18,10 +18,13 @@ import android.preference.RingtonePreference;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
+import android.view.View;
+import android.widget.Button;
 
 import java.util.List;
 
 import com.umb.cs682.projectlupus.R;
+import com.umb.cs682.projectlupus.mongodb.MongoService;
 
 public class Settings extends PreferenceActivity {
 
@@ -59,10 +62,23 @@ public class Settings extends PreferenceActivity {
 		fakeHeader = new PreferenceCategory(this);
 		getPreferenceScreen().addPreference(fakeHeader);
 
+		Button syncButton = new Button(this);
+		syncButton.setText("Sync with the Cloud");
+		setListFooter(syncButton);
+		syncButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				MongoService mongo = new MongoService();
+				mongo.connectToMongo();
+			}
+		});
+
 		bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean onIsMultiPane() {
 		return isXLargeTablet(this) && !isSimplePreferences(this);
@@ -78,7 +94,9 @@ public class Settings extends PreferenceActivity {
 				|| !isXLargeTablet(context);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public void onBuildHeaders(List<Header> target) {

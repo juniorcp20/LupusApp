@@ -83,95 +83,95 @@ public final class R {
     }
     public static final class id {
         public static final int StartStopButtonAP=0x7f0c0056;
-        public static final int a_activity_sense_desc=0x7f0c000a;
-        public static final int a_mood_alert_desc1=0x7f0c0036;
-        public static final int a_mood_alert_desc2=0x7f0c0037;
+        public static final int a_activity_sense_desc=0x7f0c0008;
+        public static final int a_mood_alert_desc1=0x7f0c0035;
+        public static final int a_mood_alert_desc2=0x7f0c0036;
         public static final int about_text=0x7f0c0001;
         public static final int action_finish=0x7f0c0057;
         public static final int action_next=0x7f0c0058;
         public static final int action_save=0x7f0c0059;
         public static final int action_skip=0x7f0c005a;
-        public static final int activity_chart=0x7f0c0023;
-        public static final int add_medname_listview=0x7f0c002c;
+        public static final int activity_chart=0x7f0c0021;
+        public static final int add_medname_listview=0x7f0c002b;
         public static final int b_welcome_go=0x7f0c004e;
-        public static final int bt_set_rem=0x7f0c001d;
+        public static final int bt_set_rem=0x7f0c0019;
         public static final int buttonsAP=0x7f0c0052;
-        public static final int container=0x7f0c0021;
+        public static final int container=0x7f0c001d;
         public static final int delete_icon=0x7f0c0051;
         public static final int display_time=0x7f0c0050;
-        public static final int drawer_layout=0x7f0c0020;
-        public static final int et_dosage=0x7f0c0016;
+        public static final int drawer_layout=0x7f0c001c;
+        public static final int et_dosage=0x7f0c0012;
         public static final int et_new_med=0x7f0c004f;
-        public static final int et_username=0x7f0c0045;
+        public static final int et_username=0x7f0c0044;
         public static final int ethnicity=0x7f0c004b;
-        public static final int ib_add_new_med=0x7f0c0011;
+        public static final int ib_add_new_med=0x7f0c000d;
         public static final int imageView=0x7f0c0000;
         public static final int input_sensitivity_spinnerAP=0x7f0c0055;
         public static final int input_sensitivity_textAP=0x7f0c0054;
-        public static final int iv_med_accept=0x7f0c0030;
-        public static final int iv_med_skip=0x7f0c0034;
-        public static final int iv_med_snooze=0x7f0c0032;
-        public static final int iv_mood_accept=0x7f0c003e;
-        public static final int iv_mood_skip=0x7f0c0040;
-        public static final int iv_mood_snooze=0x7f0c003f;
+        public static final int iv_med_accept=0x7f0c002f;
+        public static final int iv_med_skip=0x7f0c0033;
+        public static final int iv_med_snooze=0x7f0c0031;
+        public static final int iv_mood_accept=0x7f0c003d;
+        public static final int iv_mood_skip=0x7f0c003f;
+        public static final int iv_mood_snooze=0x7f0c003e;
         public static final int linearLayout=0x7f0c0004;
-        public static final int linearLayout2=0x7f0c0015;
-        public static final int linearlayout1=0x7f0c000f;
-        public static final int lv_med_rems=0x7f0c001f;
-        public static final int med_alert_button=0x7f0c002a;
-        public static final int medicine_chart=0x7f0c0026;
-        public static final int mood_alert_button=0x7f0c0039;
-        public static final int mood_alert_listview=0x7f0c003a;
-        public static final int mood_chart=0x7f0c0022;
-        public static final int navigation_drawer=0x7f0c0027;
-        public static final int personal_info=0x7f0c0044;
-        public static final int profile=0x7f0c0041;
-        public static final int ratingBar=0x7f0c003c;
-        public static final int rb_daily=0x7f0c0019;
+        public static final int linearLayout2=0x7f0c0011;
+        public static final int linearlayout1=0x7f0c000b;
+        public static final int lv_med_rems=0x7f0c001b;
+        public static final int med_alert_button=0x7f0c0029;
+        public static final int medicine_chart=0x7f0c0025;
+        public static final int mood_alert_button=0x7f0c0038;
+        public static final int mood_alert_listview=0x7f0c0039;
+        public static final int mood_chart=0x7f0c001f;
+        public static final int navigation_drawer=0x7f0c0026;
+        public static final int personal_info=0x7f0c0043;
+        public static final int profile=0x7f0c0040;
+        public static final int ratingBar=0x7f0c003b;
+        public static final int rb_daily=0x7f0c0015;
         public static final int rb_female=0x7f0c004a;
         public static final int rb_male=0x7f0c0049;
-        public static final int rb_monthly=0x7f0c001b;
-        public static final int rb_weekly=0x7f0c001a;
+        public static final int rb_monthly=0x7f0c0017;
+        public static final int rb_weekly=0x7f0c0016;
         public static final int rg_gender=0x7f0c0048;
-        public static final int rg_interval=0x7f0c0018;
-        public static final int sp_age=0x7f0c0047;
+        public static final int rg_interval=0x7f0c0014;
+        public static final int sp_age=0x7f0c0046;
         public static final int sp_ethnicity=0x7f0c004c;
-        public static final int sp_med_name=0x7f0c0010;
-        public static final int sp_med_snooze_interval=0x7f0c002f;
-        public static final int sp_mood_snooze_interval=0x7f0c003d;
-        public static final int sp_sensitivity=0x7f0c0007;
+        public static final int sp_med_name=0x7f0c000c;
+        public static final int sp_med_snooze_interval=0x7f0c002e;
+        public static final int sp_mood_snooze_interval=0x7f0c003c;
         public static final int space=0x7f0c0002;
-        public static final int space11=0x7f0c000e;
-        public static final int space12=0x7f0c0012;
-        public static final int space13=0x7f0c0014;
-        public static final int space14=0x7f0c001c;
-        public static final int space15=0x7f0c001e;
-        public static final int space23=0x7f0c0029;
-        public static final int space24=0x7f0c002b;
+        public static final int space11=0x7f0c000a;
+        public static final int space12=0x7f0c000e;
+        public static final int space13=0x7f0c0010;
+        public static final int space14=0x7f0c0018;
+        public static final int space15=0x7f0c001a;
+        public static final int space23=0x7f0c0028;
+        public static final int space24=0x7f0c002a;
         public static final int space25=0x7f0c0003;
         public static final int space26=0x7f0c004d;
-        public static final int space6=0x7f0c0038;
-        public static final int space7=0x7f0c0009;
-        public static final int space8=0x7f0c003b;
-        public static final int tableLayout=0x7f0c0043;
-        public static final int tb_start_stop=0x7f0c0008;
+        public static final int space6=0x7f0c0037;
+        public static final int space7=0x7f0c0007;
+        public static final int space8=0x7f0c003a;
+        public static final int tableLayout=0x7f0c0042;
+        public static final int tb_start_stop=0x7f0c0006;
         public static final int textAP=0x7f0c0053;
-        public static final int textView=0x7f0c0028;
-        public static final int textView10=0x7f0c0017;
-        public static final int textView12=0x7f0c0033;
-        public static final int textView13=0x7f0c0031;
-        public static final int textView14=0x7f0c002e;
-        public static final int textView15=0x7f0c0024;
-        public static final int textView18=0x7f0c0035;
-        public static final int textView2=0x7f0c0046;
-        public static final int textView5=0x7f0c0042;
-        public static final int textView6=0x7f0c000b;
-        public static final int textView7=0x7f0c000c;
-        public static final int textView8=0x7f0c000d;
-        public static final int textView9=0x7f0c0013;
-        public static final int tv_home_step_count=0x7f0c0025;
-        public static final int tv_med_popup_name=0x7f0c002d;
-        public static final int tv_sensitivity_text=0x7f0c0006;
+        public static final int textView=0x7f0c0027;
+        public static final int textView10=0x7f0c0013;
+        public static final int textView12=0x7f0c0032;
+        public static final int textView13=0x7f0c0030;
+        public static final int textView14=0x7f0c002d;
+        public static final int textView15=0x7f0c0022;
+        public static final int textView18=0x7f0c0034;
+        public static final int textView2=0x7f0c0045;
+        public static final int textView5=0x7f0c0041;
+        public static final int textView6=0x7f0c0047;
+        public static final int textView8=0x7f0c0009;
+        public static final int textView9=0x7f0c000f;
+        public static final int tv_activity=0x7f0c0020;
+        public static final int tv_home_step_count=0x7f0c0023;
+        public static final int tv_med=0x7f0c0024;
+        public static final int tv_med_popup_name=0x7f0c002c;
+        public static final int tv_mood=0x7f0c001e;
         public static final int tv_steps=0x7f0c0005;
     }
     public static final class layout {
@@ -284,12 +284,7 @@ public final class R {
     }
     public static final class style {
         public static final int ActionBarAppTheme=0x7f0a0000;
-        /** 
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        
- API 11 theme customizations can go here. 
+        /**  API 11 theme customizations can go here. 
  API 14 theme customizations can go here. 
          */
         public static final int AppBaseTheme=0x7f0a0001;

@@ -24,7 +24,6 @@ import android.widget.Button;
 import java.util.List;
 
 import com.umb.cs682.projectlupus.R;
-import com.umb.cs682.projectlupus.mongodb.MongoService;
 
 public class Settings extends PreferenceActivity {
 
@@ -65,13 +64,6 @@ public class Settings extends PreferenceActivity {
 		Button syncButton = new Button(this);
 		syncButton.setText("Sync with the Cloud");
 		setListFooter(syncButton);
-		syncButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				MongoService mongo = new MongoService();
-				mongo.connectToMongo();
-			}
-		});
 
 		bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
 	}

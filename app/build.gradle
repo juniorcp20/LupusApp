@@ -24,4 +24,5 @@ dependencies {
     compile project(':androidPedometer')
     compile files('libs/mpandroidchartlibrary-2-0-9.jar')
     compile files('libs/joda-time-2.7.jar')
+    compile files('libs/org.eclipse.paho.client.mqttv3.jar')
 }

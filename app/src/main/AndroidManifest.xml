@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.andorid.alarm.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.INTERNET"
 
     <application
         android:icon="@drawable/logo"
@@ -128,6 +129,9 @@
         <service
             android:name=".alarms.AlarmSetterService"
             android:exported="false" >
+        </service>
+        <!--MQTT Service-->
+        <service android:name="org.eclipse.paho.android.service.MqttService">
         </service>
 
         <receiver

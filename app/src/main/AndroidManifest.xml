@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.andorid.alarm.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.INTERNET"
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:icon="@drawable/logo"
@@ -124,6 +124,11 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+        <receiver android:name="com.umb.cs682.projectlupus.alarms.BootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
 
         <!-- SERVICES -->
         <service
@@ -131,7 +136,7 @@
             android:exported="false" >
         </service>
         <!--MQTT Service-->
-        <service android:name="org.eclipse.paho.android.service.MqttService">
+        <service android:name=".service.MQTTService">
         </service>
 
         <receiver

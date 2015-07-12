@@ -15,10 +15,7 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.Notification.Builder;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,31 +26,27 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.util.Log;
 
-public class MQTTService extends Service
-{
+public class MQTTService extends Service {
     private static boolean serviceRunning = false;
     private static int mid = 0;
     private static MQTTConnection connection = null;
     private final Messenger clientMessenger = new Messenger(new ClientHandler());
 
     @Override
-    public void onCreate()
-    {
+    public void onCreate() {
         super.onCreate();
         connection = new MQTTConnection();
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId)
-    {
-        if (isRunning())
-        {
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        if (isRunning()) {
             return START_STICKY;
         }
 
         super.onStartCommand(intent, flags, startId);
-		/*
-		 * Start the MQTT Thread.
+        /*
+         * Start the MQTT Thread.
 		 */
         connection.start();
 
@@ -61,32 +54,26 @@ public class MQTTService extends Service
     }
 
     @Override
-    public void onDestroy()
-    {
+    public void onDestroy() {
         connection.end();
     }
 
     @Override
-    public IBinder onBind(Intent intent)
-    {
-		/*
+    public IBinder onBind(Intent intent) {
+        /*
 		 * Return a reference to our client handler.
 		 */
         return clientMessenger.getBinder();
     }
 
-    private synchronized static boolean isRunning()
-    {
+    private synchronized static boolean isRunning() {
 		 /*
 		  * Only run one instance of the service.
 		  */
-        if (serviceRunning == false)
-        {
+        if (serviceRunning == false) {
             serviceRunning = true;
             return false;
-        }
-        else
-        {
+        } else {
             return true;
         }
     }
@@ -103,6 +90,25 @@ public class MQTTService extends Service
      */
     public static final String TOPIC = "topic";
     public static final String MESSAGE = "message";
+    public static final String ACTIVITYSENSEID = "activitysenseid";
+    public static final String STEPCOUNT = "stepcount";
+    public static final String STEPCOUNTDATES = "stepcountdates";
+    public static final String STEPCOUNTID = "stepcountid";
+    public static final String MEDICINEID = "medicineid";
+    public static final String MEDICINE = "medicine";
+    public static final String MEDICINEDOSAGE = "medicinedosage";
+    public static final String MEDICINEINTERVAL = "medicineinterval";
+    public static final String MEDICINEREMINDERCOUNT = "medicineremindercount";
+    public static final String MOODLEVELID = "moodlevelid";
+    public static final String MOODLEVEL = "moodlevel";
+    public static final String MOODLEVELDATE = "moodleveldate";
+    public static final String MOODLEVELREMINDERID = "moodlevelreminderid";
+    public static final String REMINDERID = "reminderid";
+    public static final String REMINDERMEDID = "remindermedid";
+    public static final String REMINDERDAYDATE = "reminderdaydate";
+    public static final String REMINDERTYPEID = "remindertypeid";
+    public static final String REMINDERTIME = "remindertime";
+    public static final String REMINDERSTATUS = "reminderstatus";
     public static final String STATUS = "status";
     public static final String CLASSNAME = "classname";
     public static final String INTENTNAME = "intentname";
@@ -111,15 +117,12 @@ public class MQTTService extends Service
      * This class handles messages sent to the service by
      * bound clients.
      */
-    class ClientHandler extends Handler
-    {
+    class ClientHandler extends Handler {
         @Override
-        public void handleMessage(Message msg)
-        {
+        public void handleMessage(Message msg) {
             boolean status = false;
 
-            switch (msg.what)
-            {
+            switch (msg.what) {
                 case SUBSCRIBE:
                 case PUBLISH:
            		 	/*
@@ -128,14 +131,11 @@ public class MQTTService extends Service
            		 	 */
                     connection.makeRequest(msg);
                     break;
-                case REGISTER:
-                {
+                case REGISTER: {
                     Bundle b = msg.getData();
-                    if (b != null)
-                    {
+                    if (b != null) {
                         Object target = b.getSerializable(CLASSNAME);
-                        if (target != null)
-                        {
+                        if (target != null) {
         				 /*
         				  * This request can be handled in-line
         				  * call the API
@@ -144,11 +144,9 @@ public class MQTTService extends Service
                             status = true;
                         }
                         CharSequence cs = b.getCharSequence(INTENTNAME);
-                        if (cs != null)
-                        {
+                        if (cs != null) {
                             String name = cs.toString().trim();
-                            if (name.isEmpty() == false)
-                            {
+                            if (name.isEmpty() == false) {
             				 /*
             				  * This request can be handled in-line
             				  * call the API
@@ -165,15 +163,13 @@ public class MQTTService extends Service
         }
     }
 
-    private void ReplytoClient(Messenger responseMessenger, int type, boolean status)
-    {
+    private void ReplytoClient(Messenger responseMessenger, int type, boolean status) {
 		 /*
 		  * A response can be sent back to a requester when
 		  * the replyTo field is set in a Message, passed to this
 		  * method as the first parameter.
 		  */
-        if (responseMessenger != null)
-        {
+        if (responseMessenger != null) {
             Bundle data = new Bundle();
             data.putBoolean(STATUS, status);
             Message reply = Message.obtain(null, type);
@@ -188,15 +184,13 @@ public class MQTTService extends Service
         }
     }
 
-    enum CONNECT_STATE
-    {
+    enum CONNECT_STATE {
         DISCONNECTED,
         CONNECTING,
         CONNECTED
     }
 
-    private class MQTTConnection extends Thread
-    {
+    private class MQTTConnection extends Thread {
         private Class<?> launchActivity = null;
         private String intentName = null;
         private MsgHandler msgHandler = null;
@@ -205,19 +199,16 @@ public class MQTTService extends Service
         private static final int RESETTIMER = PUBLISH + 3;
         private CONNECT_STATE connState = CONNECT_STATE.DISCONNECTED;
 
-        MQTTConnection()
-        {
+        MQTTConnection() {
             msgHandler = new MsgHandler();
             msgHandler.sendMessage(Message.obtain(null, CONNECT));
         }
 
-        public void end()
-        {
+        public void end() {
             msgHandler.sendMessage(Message.obtain(null, STOP));
         }
 
-        public void makeRequest(Message msg)
-        {
+        public void makeRequest(Message msg) {
 			/*
 			 * It is expected that the caller only invokes
 			 * this method with valid msg.what.
@@ -225,18 +216,15 @@ public class MQTTService extends Service
             msgHandler.sendMessage(Message.obtain(msg));
         }
 
-        public void setPushCallback(Class<?> activityClass)
-        {
+        public void setPushCallback(Class<?> activityClass) {
             launchActivity = activityClass;
         }
 
-        public void setIntentName(String name)
-        {
+        public void setIntentName(String name) {
             intentName = name;
         }
 
-        private class MsgHandler extends Handler implements MqttCallback
-        {
+        private class MsgHandler extends Handler implements MqttCallback {
             private final String HOST = "ec2-54-84-83-116.compute-1.amazonaws.com";
             private final int PORT = 1883;
             private final String uri = "tcp://" + HOST + ":" + PORT;
@@ -248,34 +236,26 @@ public class MQTTService extends Service
             private Vector<String> topics = new Vector<String>();
 
 
-            MsgHandler()
-            {
+            MsgHandler() {
                 options.setCleanSession(true);
-                try
-                {
+                try {
                     client = new MqttClient(uri, MqttClient.generateClientId(), null);
                     client.setCallback(this);
-                }
-                catch (MqttException e1)
-                {
+                } catch (MqttException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
 
             @Override
-            public void handleMessage(Message msg)
-            {
-                switch (msg.what)
-                {
-                    case STOP:
-                    {
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case STOP: {
 					/*
 					 * Clean up, and terminate.
 					 */
                         client.setCallback(null);
-                        if (client.isConnected())
-                        {
+                        if (client.isConnected()) {
                             try {
                                 client.disconnect();
                                 client.close();
@@ -287,22 +267,16 @@ public class MQTTService extends Service
                         getLooper().quit();
                         break;
                     }
-                    case CONNECT:
-                    {
-                        if (connState != CONNECT_STATE.CONNECTED)
-                        {
-                            try
-                            {
+                    case CONNECT: {
+                        if (connState != CONNECT_STATE.CONNECTED) {
+                            try {
                                 client.connect(options);
                                 connState = CONNECT_STATE.CONNECTED;
                                 Log.d(getClass().getCanonicalName(), "Connected");
                                 timeout = MINTIMEOUT;
-                            }
-                            catch (MqttException e)
-                            {
+                            } catch (MqttException e) {
                                 Log.d(getClass().getCanonicalName(), "Connection attemp failed with reason code = " + e.getReasonCode() + e.getCause());
-                                if (timeout < MAXTIMEOUT)
-                                {
+                                if (timeout < MAXTIMEOUT) {
                                     timeout *= 2;
                                 }
                                 this.sendMessageDelayed(Message.obtain(null, CONNECT), timeout);
@@ -313,36 +287,29 @@ public class MQTTService extends Service
 					     * Re-subscribe to previously subscribed topics
 					     */
                             Iterator<String> i = topics.iterator();
-                            while (i.hasNext())
-                            {
+                            while (i.hasNext()) {
                                 subscribe(i.next());
                             }
                         }
                         break;
                     }
-                    case RESETTIMER:
-                    {
+                    case RESETTIMER: {
                         timeout = MINTIMEOUT;
                         break;
                     }
-                    case SUBSCRIBE:
-                    {
+                    case SUBSCRIBE: {
                         boolean status = false;
                         Bundle b = msg.getData();
-                        if (b != null)
-                        {
+                        if (b != null) {
                             CharSequence cs = b.getCharSequence(TOPIC);
-                            if (cs != null)
-                            {
+                            if (cs != null) {
                                 String topic = cs.toString().trim();
-                                if (topic.isEmpty() == false)
-                                {
+                                if (topic.isEmpty() == false) {
                                     status = subscribe(topic);
 	        					/*
 	        					 * Save this topic for re-subscription if needed.
 	        					 */
-                                    if (status)
-                                    {
+                                    if (status) {
                                         topics.add(topic);
                                     }
                                 }
@@ -351,24 +318,18 @@ public class MQTTService extends Service
                         ReplytoClient(msg.replyTo, msg.what, status);
                         break;
                     }
-                    case PUBLISH:
-                    {
+                    case PUBLISH: {
                         boolean status = false;
                         Bundle b = msg.getData();
-                        if (b != null)
-                        {
+                        if (b != null) {
                             CharSequence cs = b.getCharSequence(TOPIC);
-                            if (cs != null)
-                            {
+                            if (cs != null) {
                                 String topic = cs.toString().trim();
-                                if (topic.isEmpty() == false)
-                                {
+                                if (topic.isEmpty() == false) {
                                     cs = b.getCharSequence(MESSAGE);
-                                    if (cs != null)
-                                    {
+                                    if (cs != null) {
                                         String message = cs.toString().trim();
-                                        if (message.isEmpty() == false)
-                                        {
+                                        if (message.isEmpty() == false) {
                                             status = publish(topic, message);
                                         }
                                     }
@@ -381,30 +342,22 @@ public class MQTTService extends Service
                 }
             }
 
-            private boolean subscribe(String topic)
-            {
-                try
-                {
+            private boolean subscribe(String topic) {
+                try {
                     client.subscribe(topic);
-                }
-                catch (MqttException e)
-                {
+                } catch (MqttException e) {
                     Log.d(getClass().getCanonicalName(), "Subscribe failed with reason code = " + e.getReasonCode());
                     return false;
                 }
                 return true;
             }
 
-            private boolean publish(String topic, String msg)
-            {
-                try
-                {
+            private boolean publish(String topic, String msg) {
+                try {
                     MqttMessage message = new MqttMessage();
                     message.setPayload(msg.getBytes());
                     client.publish(topic, message);
-                }
-                catch (MqttException e)
-                {
+                } catch (MqttException e) {
                     Log.d(getClass().getCanonicalName(), "Publish failed with reason code = " + e.getReasonCode());
                     return false;
                 }
@@ -412,25 +365,21 @@ public class MQTTService extends Service
             }
 
             @Override
-            public void connectionLost(Throwable arg0)
-            {
+            public void connectionLost(Throwable arg0) {
                 Log.d(getClass().getCanonicalName(), "connectionLost");
                 connState = CONNECT_STATE.DISCONNECTED;
                 sendMessageDelayed(Message.obtain(null, CONNECT), timeout);
             }
 
             @Override
-            public void deliveryComplete(IMqttDeliveryToken arg0)
-            {
+            public void deliveryComplete(IMqttDeliveryToken arg0) {
             }
 
             @Override
-            public void messageArrived(String topic, MqttMessage message) throws Exception
-            {
+            public void messageArrived(String topic, MqttMessage message) throws Exception {
                 Log.d(getClass().getCanonicalName(), topic + ":" + message.toString());
 
-                if (intentName != null)
-                {
+                if (intentName != null) {
                     Intent intent = new Intent();
                     intent.setAction(intentName);
                     intent.putExtra(TOPIC, topic);
@@ -442,8 +391,7 @@ public class MQTTService extends Service
                 Context context = getBaseContext();
                 PendingIntent pendingIntent = null;
 
-                if (launchActivity != null)
-                {
+                if (launchActivity != null) {
                     Intent intent = new Intent(context, launchActivity);
                     intent.setAction(Intent.ACTION_MAIN);
                     intent.addCategory(Intent.CATEGORY_LAUNCHER);
